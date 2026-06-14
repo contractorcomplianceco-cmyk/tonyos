@@ -3,13 +3,35 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Executive Strategy Cockpit API for Rose OS / Command Center
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: executive
+    description: Executive home summary and briefing
+  - name: strategy
+    description: Company strategy overview
+  - name: decisions
+    description: Major decision queue
+  - name: financial
+    description: Financial visibility
+  - name: risk
+    description: Risk and platform strategy
+  - name: roadmap
+    description: AI / platform roadmap
+  - name: partnerships
+    description: Strategic partnerships
+  - name: milestones
+    description: Founder involvement and milestones
+  - name: reviews
+    description: Monthly founder review
+  - name: sources
+    description: Company brain source records
+  - name: guardrails
+    description: CLP separation and authority guardrails
 paths:
   /healthz:
     get:
@@ -24,6 +46,333 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /executive-summary:
+    get:
+      operationId: getExecutiveSummary
+      tags: [executive]
+      summary: Executive home headline metrics
+      responses:
+        "200":
+          description: Executive summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutiveSummary"
+
+  /briefing-items:
+    get:
+      operationId: getBriefingItems
+      tags: [executive]
+      summary: Top things Tony should know
+      responses:
+        "200":
+          description: Briefing items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BriefingItem"
+
+  /strategy-objectives:
+    get:
+      operationId: getStrategyObjectives
+      tags: [strategy]
+      summary: Company strategy objectives
+      responses:
+        "200":
+          description: Strategy objectives
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StrategyObjective"
+
+  /decisions:
+    get:
+      operationId: getDecisions
+      tags: [decisions]
+      summary: Major decision queue
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [pending, approved, declined, deferred]
+      responses:
+        "200":
+          description: Decisions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Decision"
+
+  /decisions/summary:
+    get:
+      operationId: getDecisionSummary
+      tags: [decisions]
+      summary: Decision queue aggregates
+      responses:
+        "200":
+          description: Decision summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionSummary"
+
+  /decisions/{id}:
+    get:
+      operationId: getDecision
+      tags: [decisions]
+      summary: Single decision detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Decision
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Decision"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /decisions/{id}/notes:
+    get:
+      operationId: getDecisionNotes
+      tags: [decisions]
+      summary: Founder participation notes on a decision
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Decision notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DecisionNote"
+    post:
+      operationId: createDecisionNote
+      tags: [decisions]
+      summary: Add a founder participation note (recommend-only, not an approval)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DecisionNoteInput"
+      responses:
+        "201":
+          description: Created note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionNote"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /financial-overview:
+    get:
+      operationId: getFinancialOverview
+      tags: [financial]
+      summary: Financial visibility overview (visibility only)
+      responses:
+        "200":
+          description: Financial overview
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FinancialOverview"
+
+  /financial-monthly:
+    get:
+      operationId: getFinancialMonthly
+      tags: [financial]
+      summary: Monthly financial series for charts
+      responses:
+        "200":
+          description: Monthly financial points
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MonthlyFinancialPoint"
+
+  /financial-commitments:
+    get:
+      operationId: getFinancialCommitments
+      tags: [financial]
+      summary: Major upcoming financial commitments
+      responses:
+        "200":
+          description: Financial commitments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FinancialCommitment"
+
+  /risk-items:
+    get:
+      operationId: getRiskItems
+      tags: [risk]
+      summary: Risk and platform strategy items
+      responses:
+        "200":
+          description: Risk items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RiskItem"
+
+  /roadmap-phases:
+    get:
+      operationId: getRoadmapPhases
+      tags: [roadmap]
+      summary: AI / platform roadmap phases
+      responses:
+        "200":
+          description: Roadmap phases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RoadmapPhase"
+
+  /partnerships:
+    get:
+      operationId: getPartnerships
+      tags: [partnerships]
+      summary: Strategic partnerships
+      responses:
+        "200":
+          description: Partnerships
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Partnership"
+
+  /milestones:
+    get:
+      operationId: getMilestones
+      tags: [milestones]
+      summary: Founder involvement and milestones
+      responses:
+        "200":
+          description: Milestones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Milestone"
+
+  /monthly-reviews:
+    get:
+      operationId: getMonthlyReviews
+      tags: [reviews]
+      summary: Monthly founder reviews
+      responses:
+        "200":
+          description: Monthly reviews
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MonthlyReview"
+
+  /monthly-reviews/{id}:
+    get:
+      operationId: getMonthlyReview
+      tags: [reviews]
+      summary: Single monthly review
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Monthly review
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MonthlyReview"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /source-records:
+    get:
+      operationId: getSourceRecords
+      tags: [sources]
+      summary: Company brain source records
+      responses:
+        "200":
+          description: Source records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SourceRecord"
+
+  /guardrails:
+    get:
+      operationId: getGuardrails
+      tags: [guardrails]
+      summary: Authority and CLP separation guardrails
+      responses:
+        "200":
+          description: Guardrails
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Guardrail"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +383,362 @@ components:
       required:
         - status
 
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    Metric:
+      type: object
+      required: [label, value]
+      properties:
+        label:
+          type: string
+        value:
+          type: string
+        unit:
+          type: ["string", "null"]
+        change:
+          type: ["string", "null"]
+        trend:
+          type: ["string", "null"]
+          description: up, down, or flat
+        helper:
+          type: ["string", "null"]
+
+    ExecutiveSummary:
+      type: object
+      required:
+        - companyPulse
+        - collectedRetainedRevenue
+        - operatingReserve
+        - majorDecisionsPending
+        - pulseTrend
+      properties:
+        companyPulse:
+          $ref: "#/components/schemas/Metric"
+        collectedRetainedRevenue:
+          $ref: "#/components/schemas/Metric"
+        operatingReserve:
+          $ref: "#/components/schemas/Metric"
+        majorDecisionsPending:
+          $ref: "#/components/schemas/Metric"
+        pulseTrend:
+          type: array
+          items:
+            type: number
+
+    BriefingItem:
+      type: object
+      required: [id, title, status]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        detail:
+          type: ["string", "null"]
+        status:
+          type: string
+          description: on_track, watch, action_needed, in_progress
+        category:
+          type: ["string", "null"]
+        sourceRecord:
+          type: ["string", "null"]
+
+    StrategyObjective:
+      type: object
+      required: [id, title, status, progress]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: ["string", "null"]
+        owner:
+          type: ["string", "null"]
+        horizon:
+          type: ["string", "null"]
+        status:
+          type: string
+        progress:
+          type: integer
+        pillar:
+          type: ["string", "null"]
+
+    Decision:
+      type: object
+      required: [id, title, category, status, approvalType, dueDate, founderApprovalRequired]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: ["string", "null"]
+        category:
+          type: string
+          description: The guardrail category the decision falls under
+        approvalType:
+          type: string
+          description: needs_written_approval, budget_threshold, ip_platform_rights, financial_commitment, strategic
+        estimatedImpact:
+          type: ["string", "null"]
+        dueDate:
+          type: string
+        status:
+          type: string
+          description: pending, approved, declined, deferred
+        founderApprovalRequired:
+          type: boolean
+        recommendation:
+          type: ["string", "null"]
+        sourceRecord:
+          type: ["string", "null"]
+
+    DecisionSummary:
+      type: object
+      required: [total, pendingApproval, totalImpact, byApprovalType]
+      properties:
+        total:
+          type: integer
+        pendingApproval:
+          type: integer
+        totalImpact:
+          type: string
+        byApprovalType:
+          type: array
+          items:
+            $ref: "#/components/schemas/CountByLabel"
+
+    CountByLabel:
+      type: object
+      required: [label, count]
+      properties:
+        label:
+          type: string
+        count:
+          type: integer
+
+    DecisionNote:
+      type: object
+      required: [id, decisionId, author, body, createdAt]
+      properties:
+        id:
+          type: integer
+        decisionId:
+          type: integer
+        author:
+          type: string
+        body:
+          type: string
+        createdAt:
+          type: string
+
+    DecisionNoteInput:
+      type: object
+      required: [body]
+      properties:
+        author:
+          type: string
+        body:
+          type: string
+          minLength: 1
+
+    FinancialOverview:
+      type: object
+      required: [metrics, reserveMonths, reserveTarget, revenueTriggerProgress]
+      properties:
+        metrics:
+          type: array
+          items:
+            $ref: "#/components/schemas/Metric"
+        reserveMonths:
+          type: number
+        reserveTarget:
+          type: number
+        revenueTriggerProgress:
+          type: integer
+        bankSummaries:
+          type: array
+          items:
+            $ref: "#/components/schemas/BankSummary"
+
+    BankSummary:
+      type: object
+      required: [name, balance, note]
+      properties:
+        name:
+          type: string
+        balance:
+          type: string
+        note:
+          type: string
+
+    MonthlyFinancialPoint:
+      type: object
+      required: [month, actual, plan]
+      properties:
+        month:
+          type: string
+        actual:
+          type: number
+        plan:
+          type: number
+
+    FinancialCommitment:
+      type: object
+      required: [id, label, amount, dueDate, status]
+      properties:
+        id:
+          type: integer
+        label:
+          type: string
+        amount:
+          type: string
+        dueDate:
+          type: string
+        status:
+          type: string
+        approvalRequired:
+          type: boolean
+
+    RiskItem:
+      type: object
+      required: [id, name, category, severity, status]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        category:
+          type: string
+        severity:
+          type: string
+          description: low, medium, high
+        status:
+          type: string
+        openFindings:
+          type: integer
+        summary:
+          type: ["string", "null"]
+
+    RoadmapPhase:
+      type: object
+      required: [id, phase, title, status, progress]
+      properties:
+        id:
+          type: integer
+        phase:
+          type: string
+        title:
+          type: string
+        description:
+          type: ["string", "null"]
+        status:
+          type: string
+        progress:
+          type: integer
+        vendor:
+          type: ["string", "null"]
+        timeline:
+          type: ["string", "null"]
+
+    Partnership:
+      type: object
+      required: [id, name, type, stage]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+        stage:
+          type: string
+        value:
+          type: ["string", "null"]
+        description:
+          type: ["string", "null"]
+
+    Milestone:
+      type: object
+      required: [id, title, date, status]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        date:
+          type: string
+        status:
+          type: string
+          description: completed, in_progress, upcoming
+        category:
+          type: ["string", "null"]
+        description:
+          type: ["string", "null"]
+
+    MonthlyReview:
+      type: object
+      required: [id, period, status, summary]
+      properties:
+        id:
+          type: integer
+        period:
+          type: string
+        status:
+          type: string
+        summary:
+          type: string
+        highlights:
+          type: array
+          items:
+            type: string
+        watchItems:
+          type: array
+          items:
+            type: string
+        metrics:
+          type: array
+          items:
+            $ref: "#/components/schemas/Metric"
+
+    SourceRecord:
+      type: object
+      required: [id, title, type, source, status, clpCleared, lastUpdated]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+        source:
+          type: string
+        status:
+          type: string
+        clpCleared:
+          type: boolean
+        lastUpdated:
+          type: string
+
+    Guardrail:
+      type: object
+      required: [id, title, description, status, category]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          description: enforced, advisory
+        category:
+          type: string

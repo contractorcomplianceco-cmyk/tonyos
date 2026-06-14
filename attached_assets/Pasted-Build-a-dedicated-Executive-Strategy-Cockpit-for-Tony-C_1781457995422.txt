@@ -1,0 +1,55 @@
+Build a dedicated Executive Strategy Cockpit for Tony Casella inside Rose OS / Command Center.
+
+Tony’s documented role is Chief Strategy Officer / Founding Partner - Risk & Platform Strategy. This cockpit should support founder-level strategic oversight, financial visibility, major decision participation, risk/platform strategy, and drill-down access across the company.
+
+Do not build this as a normal team cockpit or admin dashboard. Tony is not responsible for day-to-day operational management unless separately agreed in writing.
+
+Main sections:
+- Executive Home
+- Company Strategy Overview
+- Major Decision Queue
+- Financial Visibility
+- Risk & Platform Strategy
+- AI / Platform Roadmap
+- Strategic Partnerships
+- Founder Involvement & Milestones
+- Monthly Founder Review
+- Company Brain Source Records
+- CLP Separation / Litigation-Aware Guardrails
+
+Major Decision Queue must flag items requiring founder-level written approval, including:
+- Founder-level equity, ownership, profit participation, or revenue participation rights
+- New founder, partner, executive-level owner, or strategic equity participant
+- First-12-month full-time hires, compensation structures, bonus arrangements, or contractor/consulting engagements over $5,000 unless budget-approved
+- Executive/leadership hires over $75,000 unless budget-approved
+- Debt, guarantees, merchant cash advances, or financing over $25,000
+- Technology, AI/software, platform, or white-label commitments over $15,000 unless budget-approved
+- Sale, transfer, license, or disposition of material Company IP, risk models, software, platform rights, or white-label rights
+- Sale, merger, dissolution, acquisition, reorganization, or ownership/control change
+- Owner distributions during the first 12 months or before reserve requirements are satisfied
+- Material parent/subsidiary, ownership, or platform IP structure changes
+- Equity issuance, SAFE, convertible note, option pool, profit interest, or dilution event
+
+Financial Visibility should show:
+- Monthly financial reports
+- Collected retained revenue
+- Revenue trigger progress
+- Payroll
+- Operating expenses
+- Debt obligations
+- Merchant holds
+- Accounts receivable
+- Operating reserve status
+- Startup funding
+- Major upcoming financial commitments
+- Bank/merchant summaries as visibility only, not signing or transfer authority
+
+Guardrails:
+- Tony has founder-level visibility and strategic participation rights.
+- Tony does not automatically have day-to-day operational control.
+- Tony does not automatically have bank signing authority, unilateral spending authority, authority to move funds, or authority to incur debt.
+- Tony cannot make unilateral founder-level promises, equity promises, profit participation promises, or material compensation commitments.
+- Company IP, risk models, AI/platform logic, workflows, SOPs, templates, and strategy materials must remain Company-owned when created for the Company.
+- Any public use of Tony’s name, credentials, biography, likeness, endorsement, or professional identity should require approval where material.
+- CLP separation must be protected. Do not use CLP data, funds, CRM, leads, client lists, domains, templates, systems, or confidential information unless cleared by counsel.
+- Rose OS remains recommend-only. Recommendations are not approved decisions until human-approved.
