@@ -66,68 +66,59 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* Base Theme - Midnight & Rose Gold */
+/* Light Theme - Navy & Electric Blue on White/Gray */
 :root {
-  --button-outline: rgba(255,255,255, .10);
-  --badge-outline: rgba(255,255,255, .05);
+  --background: 210 20% 98%; /* Light gray */
+  --foreground: 222 47% 11%;
 
-  --opaque-button-border-intensity: 9;
-
-  --elevate-1: rgba(255,255,255, .04);
-  --elevate-2: rgba(255,255,255, .09);
-
-  /* Midnight background */
-  --background: 222 47% 11%;
-  --foreground: 210 40% 98%;
-
-  --border: 217 32% 17%;
+  --border: 214 32% 91%;
   
-  --card: 222 47% 11%;
-  --card-foreground: 210 40% 98%;
-  --card-border: 217 32% 17%;
+  --card: 0 0% 100%; /* White */
+  --card-foreground: 222 47% 11%;
+  --card-border: 214 32% 91%;
 
-  --sidebar: 222 47% 9%;
+  --sidebar: 222 47% 9%; /* Dark navy */
   --sidebar-foreground: 210 40% 98%;
   --sidebar-border: 217 32% 17%;
-  --sidebar-primary: 346 65% 55%;
-  --sidebar-primary-foreground: 355 100% 97%;
+  --sidebar-primary: 210 40% 98%;
+  --sidebar-primary-foreground: 222 47% 11%;
   --sidebar-accent: 217 32% 17%;
   --sidebar-accent-foreground: 210 40% 98%;
   --sidebar-ring: 217 32% 17%;
 
-  --popover: 222 47% 11%;
-  --popover-foreground: 210 40% 98%;
-  --popover-border: 217 32% 17%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --popover-border: 214 32% 91%;
 
-  /* Rose Gold / Crimson Primary */
-  --primary: 346 65% 55%;
-  --primary-foreground: 355 100% 97%;
+  /* Electric Blue */
+  --primary: 221 83% 53%;
+  --primary-foreground: 210 40% 98%;
 
-  --secondary: 217 32% 17%;
-  --secondary-foreground: 210 40% 98%;
+  --secondary: 214 32% 91%; /* Steel / Silver */
+  --secondary-foreground: 222 47% 11%;
 
-  --muted: 217 32% 17%;
-  --muted-foreground: 215 20.2% 65.1%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%; /* Graphite */
 
-  --accent: 217 32% 17%;
-  --accent-foreground: 210 40% 98%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222 47% 11%;
 
-  --destructive: 0 62.8% 30.6%;
+  --destructive: 0 84% 60%; /* Red */
   --destructive-foreground: 210 40% 98%;
 
-  --input: 217 32% 17%;
-  --ring: 346 65% 55%;
+  --input: 214 32% 91%;
+  --ring: 221 83% 53%;
   
-  --chart-1: 346 65% 55%;
-  --chart-2: 210 40% 98%;
-  --chart-3: 35 100% 50%;
-  --chart-4: 217 32% 17%;
-  --chart-5: 0 0% 100%;
+  --chart-1: 221 83% 53%; /* Electric Blue */
+  --chart-2: 214 32% 91%;
+  --chart-3: 142 71% 45%; /* Green */
+  --chart-4: 38 92% 50%; /* Amber */
+  --chart-5: 0 84% 60%;
 
   --app-font-sans: 'Inter', sans-serif;
   --app-font-serif: Georgia, serif;
   --app-font-mono: Menlo, monospace;
-  --radius: .5rem;
+  --radius: .375rem; /* 6px */
   
   /* Fallbacks */
   --sidebar-primary-border: hsl(var(--sidebar-primary));
@@ -140,7 +131,41 @@
 }
 
 .dark {
-  /* Same as root because we force dark mode styling essentially */
+  /* Enforce the same light theme for app content because it's a light work surface. */
+  --background: 210 20% 98%; 
+  --foreground: 222 47% 11%;
+  --border: 214 32% 91%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --card-border: 214 32% 91%;
+  --sidebar: 222 47% 9%;
+  --sidebar-foreground: 210 40% 98%;
+  --sidebar-border: 217 32% 17%;
+  --sidebar-primary: 210 40% 98%;
+  --sidebar-primary-foreground: 222 47% 11%;
+  --sidebar-accent: 217 32% 17%;
+  --sidebar-accent-foreground: 210 40% 98%;
+  --sidebar-ring: 217 32% 17%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --popover-border: 214 32% 91%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 214 32% 91%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+  --input: 214 32% 91%;
+  --ring: 221 83% 53%;
+  --chart-1: 221 83% 53%;
+  --chart-2: 214 32% 91%;
+  --chart-3: 142 71% 45%;
+  --chart-4: 38 92% 50%;
+  --chart-5: 0 84% 60%;
 }
 
 @layer base {

@@ -1,6 +1,8 @@
-# Rose OS — Executive Strategy Cockpit
+# TonyOS Command Center (Rose OS)
 
-A founder-level oversight cockpit for the Chief Strategy Officer: strategic, financial, and risk visibility plus major-decision oversight. Strictly recommend-only — nothing is approved, committed, or signed until a human gives explicit written approval.
+A founder-level executive command center for Tony Casella: strategic oversight, financial visibility, major-decision review, and risk/platform strategy visibility with drill-down access. Strictly recommend-only / visibility-only — nothing is approved, committed, or signed until a human gives explicit written approval.
+
+Visual direction: dark navy app shell, light/white work surfaces, electric blue accents, steel/silver borders, restrained green/amber/red status chips, ~6px max radius. STRICTLY FORBIDDEN: pink, purple, lavender, magenta, rose/rose-gold, yellow-heavy, orange, generic gradients, decorative orbs, illustrations. No emojis.
 
 ## Run & Operate
 
@@ -34,7 +36,15 @@ _Populate as you build — short repo map plus pointers to the source-of-truth f
 
 ## Product
 
-Eleven founder-level sections, all read-mostly: Executive Home, Company Strategy Overview, Major Decision Queue (flags items needing written approval, filterable by status), Financial Visibility (visibility only), Risk & Platform Strategy, AI/Platform Roadmap, Strategic Partnerships, Founder Involvement & Milestones, Monthly Founder Review, Company Brain Source Records, and CLP Separation / Authority Guardrails. The only write action is adding a participation note to a decision — explicitly NOT an approval.
+Six founder-level sections in the sidebar, all read-mostly:
+- `/` Executive Home — dense dashboard: KPI row (Company Pulse, Collected Retained Revenue, Operating Reserve, Major Decisions Pending), Executive Brief, Major Decision Queue, Risk & Platform Strategy, Monthly Founder Financial Review, Governance Guardrails, CLP separation strip.
+- `/pulse` Strategic Pulse — strategy objectives + founder milestones + strategic partnerships.
+- `/financial` Financial Review — overview/monthly/commitments/bank summaries (visibility only) + monthly founder reviews (each links to `/reviews/:id`).
+- `/decisions` Major Decisions (+ `/decisions/:id`) — review/approval-oriented decision queue, filterable by status.
+- `/risk` Risk Platform — risk items + AI/platform roadmap phases.
+- `/brain` Company Brain — source records (CLP-cleared status) + authority guardrails.
+
+The only write action is adding a participation note to a decision — explicitly NOT an approval. Detail routes `/reviews/:id` and `/decisions/:id` are reachable from their list pages, not the sidebar.
 
 ## User preferences
 

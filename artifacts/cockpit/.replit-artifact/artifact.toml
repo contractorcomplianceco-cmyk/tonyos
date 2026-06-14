@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "Executive Strategy Cockpit"
+title = "TonyOS Command Center"
 version = "1.0.0"
 id = "artifacts/cockpit"
 router = "path"

@@ -1,0 +1,117 @@
+Rebuild the Tony executive dashboard using the attached TonyOS Command Center mockup as the required visual design reference.
+
+This is not optional inspiration. Match the design direction closely.
+
+Product name:
+TonyOS Command Center
+
+Purpose:
+TonyOS is the founder-level executive command center for Tony Casella. It gives him strategic oversight, financial visibility, major decision review, risk/platform strategy visibility, and drill-down access without making him a day-to-day operator.
+
+Required visual direction:
+- Dark navy executive app shell
+- White work surfaces
+- Electric blue primary accents
+- Steel/silver dividers and borders
+- Graphite/slate secondary surfaces
+- Restrained green, amber, and red status chips only
+- Premium B2B SaaS / executive command center feel
+- Clean, serious, strategic, investor-grade
+- Compact but not crowded
+- Strong hierarchy
+- Crisp typography
+- Rounded corners should stay subtle, around 6px max
+
+Do NOT use:
+- Pink
+- Purple
+- Lavender
+- Magenta
+- Rose-colored gradients
+- Yellow-heavy Rose Brain styling
+- Orange construction themes
+- Generic colorful SaaS gradients
+- Decorative orbs
+- Bokeh blobs
+- Cartoon/illustration styling
+- Marketing landing page layout
+
+Required layout:
+1. Left sidebar
+   - Top identity: TonyOS
+   - Smaller label: Command Center
+   - Navigation:
+     - Executive Home
+     - Strategic Pulse
+     - Financial Review
+     - Major Decisions
+     - Risk Platform
+     - Company Brain
+
+2. Top bar
+   - Breadcrumb: Rose OS / TonyOS Command Center
+   - User chip: Tony Casella - Founder-Level Strategic Oversight
+
+3. Main page title
+   - TonyOS Command Center
+   - Subtitle: Founder-level strategy, financial visibility, and major decision oversight
+
+4. Top KPI row
+   Include four executive KPI tiles:
+   - Company Pulse
+   - Collected Retained Revenue
+   - Operating Reserve
+   - Major Decisions Pending
+
+5. Executive Brief panel
+   - Title: Executive Brief
+   - Subtitle or label: Top 5 Things Tony Should Know
+   - Each row should have a short summary, status chip, and drill-down arrow
+
+6. Major Decision Queue panel
+   Include approval-needed items with status chips:
+   - Written Approval
+   - Budget Threshold
+   - IP / Platform Rights
+   - Financial Commitment
+
+7. Risk & Platform Strategy panel
+   Include four cards:
+   - Compliance Risk Audit
+   - Insurance Readiness
+   - Bonding Readiness
+   - AI / Platform Roadmap
+
+8. Monthly Founder Financial Review panel
+   Include:
+   - Mini chart
+   - Revenue trigger progress
+   - Reserve target
+   - Payroll
+   - Debt
+   - Accounts receivable summary
+
+9. Governance Guardrails panel
+   Include read-only indicator chips:
+   - Strategic Review
+   - Financial Visibility
+   - No Unilateral Bank Authority
+   - No Day-to-Day Operations
+
+10. CLP separation alert
+   Add a small understated alert strip:
+   “CLP separation guardrail: approved company systems and cleared source records only.”
+
+Functional behavior:
+- Every KPI tile should be clickable or clearly prepared for drill-down.
+- Executive Brief rows should drill into related project, decision, financial, or Company Brain records.
+- Major Decision Queue should be review/approval-oriented, not task-board oriented.
+- Financial Review should be visibility-only unless a separate written approval workflow exists.
+- TonyOS should not expose admin/system write controls by default.
+- TonyOS should not give Tony unilateral bank, spending, payroll, hiring/firing, debt, or company-binding authority.
+
+Agreement-based guardrails:
+Tony’s role is founder-level strategic oversight, not day-to-day operational management. Build the UI around strategy, visibility, governance, and major decision review.
+
+Final requirement:
+Before marking complete, compare the app visually against the attached TonyOS Command Center mockup. If the screen uses pink, purple, lavender, magenta, yellow-heavy branding, orange themes, or generic gradients, it is not complete.

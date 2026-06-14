@@ -1,0 +1,1 @@
+- [Forbidden colors hide in Tailwind utilities](forbidden-colors-tailwind.md) — re-theming CSS tokens does NOT catch hardcoded `bg-rose-*`/`text-rose-*` etc. in components; grep the whole tree.
