@@ -40,19 +40,24 @@ export function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col md:flex-row">
       {/* Top Bar for Mobile */}
-      <header className="md:hidden sticky top-0 z-20 flex items-center justify-between border-b border-sidebar-border bg-sidebar px-4 py-3 text-sidebar-foreground">
-        <div>
-          <div className="font-serif text-lg font-semibold tracking-tight text-sidebar-primary">TonyOS</div>
-          <div className="font-mono text-[10px] uppercase tracking-widest text-sidebar-foreground/70 mt-0.5">
-            Command Center
+      <header className="md:hidden sticky top-0 z-20 flex items-center justify-between border-b border-sidebar-border bg-sidebar px-4 py-3 text-sidebar-foreground shadow-sm">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 bg-primary rounded-sm flex items-center justify-center">
+            <span className="text-[10px] font-bold text-primary-foreground">TO</span>
+          </div>
+          <div>
+            <div className="font-sans text-sm font-semibold tracking-tight text-sidebar-primary">TonyOS</div>
+            <div className="font-mono text-[9px] uppercase tracking-widest text-sidebar-foreground/70 mt-0.5">
+              Command Center
+            </div>
           </div>
         </div>
         <button
           onClick={() => setMobileOpen(true)}
-          className="p-2 rounded-md border border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent transition-colors"
+          className="p-1.5 rounded border border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent transition-colors"
           aria-label="Open navigation"
         >
-          <Menu className="h-5 w-5" />
+          <Menu className="h-4 w-4" />
         </button>
       </header>
 
@@ -80,13 +85,13 @@ export function Shell({ children }: { children: ReactNode }) {
       {/* Main Content Area */}
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
         {/* Top Breadcrumb Bar */}
-        <header className="hidden md:flex items-center justify-between px-8 py-4 border-b border-border bg-card">
-          <div className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-            Rose OS <span className="text-border">/</span> <span className="text-foreground">TonyOS Command Center</span>
+        <header className="hidden md:flex items-center justify-between px-8 py-3 border-b border-sidebar-border bg-background">
+          <div className="text-xs font-medium text-sidebar-foreground/70 flex items-center gap-2">
+            Rose OS <span className="text-sidebar-border">/</span> <span className="text-sidebar-foreground">TonyOS Command Center</span>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/50 border border-border">
-            <div className="w-2 h-2 rounded-full bg-primary" />
-            <span className="text-xs font-medium">Tony Casella - Founder-Level Strategic Oversight</span>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-sidebar-accent/50 border border-sidebar-border">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            <span className="text-[11px] font-mono tracking-wide text-sidebar-foreground">Tony Casella &bull; Founder-Level Strategic Oversight</span>
           </div>
         </header>
 
@@ -110,24 +115,33 @@ function SidebarContent({
   return (
     <>
       <div className="flex items-center justify-between px-6 py-6">
-        <div>
-          <div className="font-serif text-2xl font-bold tracking-tight text-sidebar-primary">TonyOS</div>
-          <div className="font-mono text-[10px] uppercase tracking-widest text-sidebar-foreground/60 mt-1">
-            Command Center
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-primary rounded flex items-center justify-center shadow-sm">
+            <span className="text-xs font-bold text-primary-foreground tracking-tighter">TO</span>
+          </div>
+          <div>
+            <div className="font-sans text-xl font-bold tracking-tight text-sidebar-primary">TonyOS</div>
+            <div className="font-mono text-[9px] uppercase tracking-widest text-sidebar-foreground/60 mt-1">
+              Command Center
+            </div>
           </div>
         </div>
         {onNavigate && (
           <button
             onClick={onNavigate}
-            className="p-1.5 rounded-md text-sidebar-foreground/70 hover:text-sidebar-foreground"
+            className="p-1.5 rounded text-sidebar-foreground/70 hover:text-sidebar-foreground"
             aria-label="Close navigation"
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </button>
         )}
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
+      <div className="px-6 mb-4">
+        <div className="h-px bg-sidebar-border/80 w-full" />
+      </div>
+
+      <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-1">
         {NAV.map((item) => {
           const active = isActive(location, item.href);
           const Icon = item.icon;
@@ -136,37 +150,38 @@ function SidebarContent({
               key={item.href}
               href={item.href}
               onClick={onNavigate}
-              className={`group flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${
+              className={`group relative flex items-center gap-3 rounded px-3 py-2 text-sm font-medium transition-all ${
                 active
-                  ? "bg-primary text-primary-foreground"
+                  ? "bg-primary/10 text-primary"
                   : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground"
               }`}
             >
-              <Icon className={`h-4 w-4 ${active ? "text-primary-foreground" : "text-sidebar-foreground/60 group-hover:text-sidebar-foreground"}`} />
-              <span className="flex-1">{item.label}</span>
+              {active && <div className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-primary rounded-r-sm" />}
+              <Icon className={`h-4 w-4 ${active ? "text-primary" : "text-sidebar-foreground/60 group-hover:text-sidebar-foreground"}`} />
+              <span className="flex-1 tracking-tight">{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
       <div className="mt-auto px-4 pb-6 space-y-6">
-        <div className="bg-sidebar-accent/50 rounded-md p-3 border border-sidebar-border space-y-2">
-          <div className="flex items-center gap-2 text-xs font-semibold text-sidebar-foreground">
+        <div className="bg-sidebar-accent/30 rounded p-3 border border-sidebar-border space-y-2">
+          <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-sidebar-foreground">
             <Lock className="h-3 w-3 text-sidebar-foreground/70" /> Source Record Integrity
           </div>
-          <p className="text-[11px] leading-tight text-sidebar-foreground/70">
+          <p className="text-[11px] leading-tight text-sidebar-foreground/60">
             All critical systems connected, cleared source records only.
           </p>
-          <Link href="/brain" className="text-[11px] text-primary hover:underline flex items-center gap-1">
+          <Link href="/brain" className="text-[11px] text-primary hover:underline flex items-center gap-1 font-medium mt-1">
             View Source Record Status <ExternalLink className="h-3 w-3" />
           </Link>
         </div>
 
         <div className="px-2 pt-4 border-t border-sidebar-border">
-          <div className="font-serif text-sm font-medium text-sidebar-foreground leading-none">
+          <div className="font-sans text-sm font-semibold text-sidebar-foreground tracking-tight leading-none">
             Rose OS
           </div>
-          <div className="font-mono text-[10px] uppercase tracking-widest text-sidebar-foreground/50 mt-1">
+          <div className="font-mono text-[9px] uppercase tracking-widest text-sidebar-foreground/50 mt-1.5">
             Operating System
           </div>
         </div>

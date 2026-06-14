@@ -1,0 +1,54 @@
+The TonyOS screen is still not visually correct. Do not change the content structure yet. Redesign the visual system to match a true executive command center.
+
+Current problems to fix:
+- The page is too white and too plain.
+- It looks like a generic admin dashboard, not TonyOS.
+- The typography feels mismatched and too document-like.
+- The dashboard lacks a premium command-center feel.
+- The KPI cards are too flat and disconnected.
+- The page needs stronger navy/blue/silver identity across the whole screen, not only the sidebar.
+- The layout is structurally okay, but the visual treatment is not approved.
+
+Keep:
+- TonyOS Command Center name
+- Left navigation sections
+- KPI row
+- Executive Brief
+- Monthly Founder Financial Review
+- Risk & Platform Strategy
+- Major Decision Queue
+- Governance Guardrails
+- CLP separation guardrail
+
+Redesign only the visual layer.
+
+Required design system:
+- Use a full executive command-center shell, not a white admin page.
+- Background should be layered navy/slate, not plain light gray.
+- Main workspace may use white or near-white panels, but panels should sit inside a darker premium command-center environment.
+- Use deep navy, midnight blue, graphite, steel, silver, white, and electric blue.
+- Use electric blue for active nav, primary actions, chart highlights, and key system signals.
+- Use silver/steel dividers and subtle borders.
+- Use restrained green, amber, and red only for status chips.
+- No pink, purple, lavender, magenta, gold, yellow-heavy, orange, or generic gradients.
+
+Typography:
+- Replace the current oversized serif feel.
+- Use a modern executive SaaS font style.
+- Titles should feel premium and sharp, not like a document heading.
+- Dashboard text should be compact, clean, and highly scannable.
+
+Specific visual changes:
+- Make the top header feel integrated into the dark command-center shell.
+- Add a stronger TonyOS identity area in the sidebar.
+- Give KPI cards a premium executive metric style with darker headers, subtle blue accents, and clearer visual hierarchy.
+- Make “Executive Brief” look like the central command briefing module, not a normal card.
+- Make “Major Decision Queue” feel like a governance review panel.
+- Make “Monthly Founder Financial Review” feel like an executive finance module.
+- Make “Risk & Platform Strategy” feel like a strategic command section.
+- Keep rounded corners subtle, 6px max.
+- Reduce empty white space.
+- Improve spacing so the screen feels dense, expensive, and intentional.
+
+Important:
+Do not mark complete until the screen no longer looks like a generic light admin template. It must look like TonyOS: private, executive, navy, strategic, high-trust, and founder-level.

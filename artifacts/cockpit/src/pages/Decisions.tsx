@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useGetDecisions, useGetDecisionSummary } from "@workspace/api-client-react";
 import type { GetDecisionsParams } from "@workspace/api-client-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "wouter";
-import { AlertCircle, Calendar, ChevronRight } from "lucide-react";
+import { AlertCircle, ChevronRight, Lock } from "lucide-react";
 import { format } from "date-fns";
 
 type StatusFilter = NonNullable<GetDecisionsParams["status"]>;
@@ -23,28 +22,28 @@ export default function Decisions() {
   const { data: summary } = useGetDecisionSummary();
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-12">
       <div>
-        <h1 className="text-3xl font-serif text-foreground font-medium tracking-tight">Major Decisions</h1>
-        <p className="text-muted-foreground mt-1 text-sm">Recommend-Only Governance / Written Approval Required</p>
+        <h1 className="text-3xl font-sans text-foreground font-bold tracking-tight">Major Decisions</h1>
+        <p className="text-foreground/70 mt-1 text-sm font-medium">Recommend-Only Governance / Written Approval Required</p>
       </div>
 
-      <div className="bg-secondary/30 border border-border rounded-md px-4 py-3 flex gap-3 items-start text-sm">
-        <AlertCircle className="h-5 w-5 text-primary shrink-0" />
-        <p className="font-medium text-foreground">
-          Authority Guardrail: <span className="font-normal text-muted-foreground">No commitment or action is taken until explicit written approval is provided. Review recommendations carefully.</span>
+      <div className="bg-sidebar border border-sidebar-border rounded px-5 py-4 flex gap-3 items-start text-sm shadow-sm text-sidebar-foreground">
+        <Lock className="h-5 w-5 text-primary shrink-0" />
+        <p className="font-semibold tracking-tight">
+          Authority Guardrail: <span className="font-medium text-sidebar-foreground/70">No commitment or action is taken until explicit written approval is provided. Review recommendations carefully.</span>
         </p>
       </div>
 
       {summary && filter === "all" && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="border border-border rounded-md p-3 bg-card shadow-sm">
-            <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Pending</div>
-            <div className="text-2xl font-serif text-primary mt-1">{summary.pendingApproval}</div>
+          <div className="border border-card-border rounded p-5 bg-card shadow-sm">
+            <div className="text-[10px] text-muted-foreground font-mono uppercase tracking-widest">Pending</div>
+            <div className="text-3xl font-sans font-bold text-primary tracking-tighter mt-2 tabular-nums">{summary.pendingApproval}</div>
           </div>
-          <div className="border border-border rounded-md p-3 bg-card shadow-sm">
-            <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Total Impact</div>
-            <div className="text-2xl font-serif text-foreground mt-1">{summary.totalImpact}</div>
+          <div className="border border-card-border rounded p-5 bg-card shadow-sm">
+            <div className="text-[10px] text-muted-foreground font-mono uppercase tracking-widest">Total Impact</div>
+            <div className="text-3xl font-sans font-bold text-card-foreground tracking-tighter mt-2 tabular-nums">{summary.totalImpact}</div>
           </div>
         </div>
       )}
@@ -54,10 +53,10 @@ export default function Decisions() {
           <button
             key={f.value}
             onClick={() => setFilter(f.value)}
-            className={`px-4 py-1.5 text-xs font-medium uppercase tracking-wider rounded-md border transition-colors ${
+            className={`px-4 py-2 text-[10px] font-mono uppercase tracking-widest rounded border transition-colors ${
               filter === f.value
                 ? "bg-primary text-primary-foreground border-primary"
-                : "bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground"
+                : "bg-card text-muted-foreground border-card-border hover:border-primary/50 hover:text-card-foreground"
             }`}
           >
             {f.label}
@@ -65,51 +64,58 @@ export default function Decisions() {
         ))}
       </div>
 
-      {isLoading ? (
-        <div className="space-y-3">
-          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-20 w-full rounded-md" />)}
+      <div className="border border-card-border bg-card rounded shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-card-border flex items-center justify-between">
+          <h2 className="text-base font-bold tracking-tight text-card-foreground">Governance Review Queue</h2>
         </div>
-      ) : (
-        <div className="space-y-3">
-          {decisions?.length === 0 ? (
-            <div className="text-center p-8 border border-border rounded-md text-muted-foreground text-sm italic">
-              No decisions found for this filter.
+        <div className="p-0">
+          {isLoading ? (
+            <div className="p-6 space-y-4">
+              {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-20 w-full rounded" />)}
             </div>
-          ) : decisions?.map((decision) => (
-            <Link key={decision.id} href={`/decisions/${decision.id}`} className="block group">
-              <div className="bg-card border border-border rounded-md p-4 shadow-sm hover:border-primary/50 transition-colors flex items-center justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <StatusChip status={decision.status} />
-                    {decision.founderApprovalRequired && (
-                      <span className="text-[9px] font-mono text-primary uppercase tracking-widest border border-primary/20 bg-primary/5 px-1.5 py-0.5 rounded-sm">
-                        Approval Required
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="text-base font-medium text-foreground truncate">{decision.title}</h3>
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground mt-1.5">
-                    <span className="font-medium text-foreground/80">{decision.approvalType.replace(/_/g, ' ')}</span>
-                    {decision.estimatedImpact && (
-                      <>
-                        <span className="text-border">&bull;</span>
-                        <span className="font-mono">{decision.estimatedImpact}</span>
-                      </>
-                    )}
-                  </div>
+          ) : (
+            <div className="divide-y divide-card-border">
+              {decisions?.length === 0 ? (
+                <div className="text-center p-8 text-muted-foreground text-sm italic">
+                  No decisions found for this filter.
                 </div>
-                
-                <div className="text-right shrink-0 flex items-center gap-4">
-                  <div className="text-xs text-muted-foreground font-medium hidden sm:block">
-                    {format(new Date(decision.dueDate), 'MMM d, yyyy')}
+              ) : decisions?.map((decision) => (
+                <Link key={decision.id} href={`/decisions/${decision.id}`} className="block group hover:bg-secondary transition-colors p-5">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-3 mb-2">
+                        <StatusChip status={decision.status} />
+                        {decision.founderApprovalRequired && (
+                          <span className="text-[9px] font-mono text-primary uppercase tracking-widest border border-primary/20 bg-primary/5 px-1.5 py-0.5 rounded-[2px]">
+                            Approval Required
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="text-base font-semibold text-card-foreground truncate">{decision.title}</h3>
+                      <div className="flex items-center gap-3 text-xs text-muted-foreground mt-2">
+                        <span className="font-semibold text-card-foreground/80 uppercase tracking-wider text-[10px]">{decision.approvalType.replace(/_/g, ' ')}</span>
+                        {decision.estimatedImpact && (
+                          <>
+                            <span className="text-card-border">&bull;</span>
+                            <span className="font-mono">{decision.estimatedImpact}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="text-right shrink-0 flex items-center gap-5">
+                      <div className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground hidden sm:block">
+                        {format(new Date(decision.dueDate), 'MMM d, yyyy')}
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    </div>
                   </div>
-                  <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                </div>
-              </div>
-            </Link>
-          ))}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -127,7 +133,7 @@ function StatusChip({ status }: { status: string }) {
   }
 
   return (
-    <span className={`inline-flex items-center justify-center border font-medium uppercase tracking-wider rounded-sm px-1.5 py-0.5 text-[9px] ${colorClass}`}>
+    <span className={`inline-flex items-center justify-center border font-mono uppercase tracking-widest rounded-[2px] px-2 py-0.5 text-[9px] ${colorClass}`}>
       {label}
     </span>
   );

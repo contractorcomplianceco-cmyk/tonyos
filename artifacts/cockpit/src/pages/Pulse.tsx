@@ -1,7 +1,6 @@
 import { useGetStrategyObjectives, useGetMilestones, useGetPartnerships } from "@workspace/api-client-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Activity, Flag, Handshake, Target } from "lucide-react";
+import { Target, Flag, Handshake } from "lucide-react";
 
 export default function Pulse() {
   const { data: objectives, isLoading: loadingObjectives } = useGetStrategyObjectives();
@@ -9,92 +8,94 @@ export default function Pulse() {
   const { data: partnerships, isLoading: loadingPartnerships } = useGetPartnerships();
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-12">
       <div>
-        <h1 className="text-3xl font-serif text-foreground font-medium tracking-tight">Strategic Pulse</h1>
-        <p className="text-muted-foreground mt-1 text-sm">Company strategy objectives, founder milestones, and strategic partnerships.</p>
+        <h1 className="text-3xl font-sans text-foreground font-bold tracking-tight">Strategic Pulse</h1>
+        <p className="text-foreground/70 mt-1 text-sm font-medium">Company strategy objectives, founder milestones, and strategic partnerships.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Objectives */}
         <div className="space-y-6">
-          <Card className="shadow-sm">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-serif flex items-center gap-2">
-                <Target className="h-5 w-5 text-primary" /> Strategy Objectives
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {loadingObjectives ? <Skeleton className="h-64" /> : objectives?.map(obj => (
-                <div key={obj.id} className="border border-border rounded-md p-4 bg-secondary/10">
-                  <div className="flex justify-between items-start mb-2">
+          <div className="border border-card-border bg-card rounded shadow-sm overflow-hidden">
+            <div className="px-6 py-4 border-b border-card-border flex items-center gap-3">
+              <Target className="h-5 w-5 text-primary" />
+              <h2 className="text-base font-bold tracking-tight text-card-foreground">Strategy Objectives</h2>
+            </div>
+            <div className="p-6 space-y-4">
+              {loadingObjectives ? <Skeleton className="h-64 rounded border-border" /> : objectives?.map(obj => (
+                <div key={obj.id} className="border border-card-border rounded p-5 bg-secondary relative overflow-hidden group">
+                  <div className="absolute top-0 left-0 bottom-0 w-1 bg-primary/20 group-hover:bg-primary transition-colors" />
+                  <div className="flex justify-between items-start mb-3">
                     <div>
-                      <div className="font-medium text-foreground">{obj.title}</div>
-                      <div className="text-xs text-muted-foreground mt-0.5">{obj.pillar} &bull; {obj.horizon}</div>
+                      <div className="font-semibold text-card-foreground">{obj.title}</div>
+                      <div className="text-[10px] uppercase font-mono tracking-widest text-muted-foreground mt-1.5">{obj.pillar} &bull; {obj.horizon}</div>
                     </div>
                     <StatusChip status={obj.status} />
                   </div>
-                  <div className="w-full bg-secondary rounded-full h-1.5 mt-3">
+                  <div className="w-full bg-secondary rounded-full h-1.5 mt-4">
                     <div className="bg-primary h-1.5 rounded-full" style={{ width: `${obj.progress}%` }} />
                   </div>
-                  <div className="flex justify-between mt-1 text-[10px] uppercase font-mono text-muted-foreground">
+                  <div className="flex justify-between mt-2 text-[10px] uppercase font-mono text-muted-foreground tracking-widest">
                     <span>Progress</span>
-                    <span>{obj.progress}%</span>
+                    <span className="font-bold text-card-foreground">{obj.progress}%</span>
                   </div>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-6">
           {/* Milestones */}
-          <Card className="shadow-sm">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-serif flex items-center gap-2">
-                <Flag className="h-5 w-5 text-primary" /> Founder Milestones
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {loadingMilestones ? <Skeleton className="h-48" /> : milestones?.map(mile => (
-                <div key={mile.id} className="flex gap-4 items-start border-b border-border/50 pb-3 last:border-0 last:pb-0">
-                  <div className="text-xs font-mono text-muted-foreground pt-0.5 w-24 shrink-0">
-                    {new Date(mile.date).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}
+          <div className="border border-card-border bg-card rounded shadow-sm overflow-hidden">
+            <div className="px-6 py-4 border-b border-card-border flex items-center gap-3">
+              <Flag className="h-5 w-5 text-primary" />
+              <h2 className="text-base font-bold tracking-tight text-card-foreground">Founder Milestones</h2>
+            </div>
+            <div className="p-0">
+              <div className="divide-y divide-card-border">
+                {loadingMilestones ? (
+                  <div className="p-6"><Skeleton className="h-48 rounded border-border" /></div>
+                ) : milestones?.map(mile => (
+                  <div key={mile.id} className="flex gap-4 items-start p-6 hover:bg-secondary transition-colors">
+                    <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground pt-0.5 w-20 shrink-0">
+                      {mile.date}
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold text-sm text-card-foreground">{mile.title}</div>
+                      {mile.description && <div className="text-xs text-card-foreground/70 mt-1.5 leading-relaxed">{mile.description}</div>}
+                    </div>
+                    <div className="ml-auto pl-4">
+                      <StatusChip status={mile.status} />
+                    </div>
                   </div>
-                  <div>
-                    <div className="font-medium text-sm text-foreground">{mile.title}</div>
-                    {mile.description && <div className="text-xs text-muted-foreground mt-1">{mile.description}</div>}
-                  </div>
-                  <div className="ml-auto pl-4">
-                    <StatusChip status={mile.status} />
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+                ))}
+              </div>
+            </div>
+          </div>
 
           {/* Partnerships */}
-          <Card className="shadow-sm">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-serif flex items-center gap-2">
-                <Handshake className="h-5 w-5 text-primary" /> Strategic Partnerships
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {loadingPartnerships ? <Skeleton className="h-48" /> : partnerships?.map(partner => (
-                <div key={partner.id} className="border border-border rounded-md p-3 flex justify-between items-center hover:border-primary/30 transition-colors">
+          <div className="border border-card-border bg-card rounded shadow-sm overflow-hidden">
+            <div className="px-6 py-4 border-b border-card-border flex items-center gap-3">
+              <Handshake className="h-5 w-5 text-primary" />
+              <h2 className="text-base font-bold tracking-tight text-card-foreground">Strategic Partnerships</h2>
+            </div>
+            <div className="p-6 space-y-3">
+              {loadingPartnerships ? <Skeleton className="h-48 rounded border-border" /> : partnerships?.map(partner => (
+                <div key={partner.id} className="border border-card-border rounded p-4 flex justify-between items-center hover:border-primary/50 transition-colors bg-secondary">
                   <div>
-                    <div className="font-medium text-sm text-foreground">{partner.name}</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">{partner.type}</div>
+                    <div className="font-semibold text-sm text-card-foreground">{partner.name}</div>
+                    <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mt-1">{partner.type}</div>
                   </div>
                   <div className="text-right">
                     <StatusChip status={partner.stage} />
-                    {partner.value && <div className="text-xs font-mono mt-1 text-foreground">{partner.value}</div>}
+                    {partner.value && <div className="text-[10px] font-mono mt-2 font-bold text-card-foreground tabular-nums tracking-widest">{partner.value}</div>}
                   </div>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -114,7 +115,7 @@ function StatusChip({ status }: { status: string }) {
   }
 
   return (
-    <span className={`inline-flex items-center justify-center border font-medium uppercase tracking-wider rounded-sm px-2 py-0.5 text-[10px] ${colorClass}`}>
+    <span className={`inline-flex items-center justify-center border font-mono uppercase tracking-widest font-bold rounded-[2px] px-2 py-0.5 text-[9px] ${colorClass}`}>
       {label}
     </span>
   );

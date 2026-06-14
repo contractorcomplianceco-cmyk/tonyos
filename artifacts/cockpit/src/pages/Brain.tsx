@@ -1,5 +1,4 @@
 import { useGetSourceRecords, useGetGuardrails } from "@workspace/api-client-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Database, Lock, CheckCircle2, ShieldAlert } from "lucide-react";
 import { format } from "date-fns";
@@ -9,83 +8,81 @@ export default function Brain() {
   const { data: guardrails, isLoading: loadingGuardrails } = useGetGuardrails();
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-8 pb-12">
       <div>
-        <h1 className="text-3xl font-serif text-foreground font-medium tracking-tight">Company Brain</h1>
-        <p className="text-muted-foreground mt-1 text-sm">Source record integrity and authority guardrails.</p>
+        <h1 className="text-3xl font-sans text-foreground font-bold tracking-tight">Company Brain</h1>
+        <p className="text-foreground/70 mt-1 text-sm font-medium">Source record integrity and authority guardrails.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Source Records */}
         <div className="space-y-6">
-          <Card className="shadow-sm">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-serif flex items-center gap-2">
-                <Database className="h-5 w-5 text-primary" /> Source Records
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-md p-3 mb-4 text-sm flex gap-2">
-                <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" />
-                <p>CLP Separation Guardrail: All listed systems are cleared. Non-cleared systems are firewalled.</p>
+          <div className="border border-card-border bg-card rounded shadow-sm overflow-hidden">
+            <div className="px-6 py-4 border-b border-card-border flex items-center gap-3">
+              <Database className="h-5 w-5 text-primary" />
+              <h2 className="text-base font-bold tracking-tight text-card-foreground">Source Records</h2>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="bg-emerald-50 text-emerald-800 border border-emerald-200 rounded p-4 mb-2 text-sm flex gap-3 shadow-sm">
+                <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0 text-emerald-600" />
+                <p className="font-medium leading-relaxed">CLP Separation Guardrail: All listed systems are cleared. Non-cleared systems are firewalled.</p>
               </div>
 
-              {loadingRecords ? <Skeleton className="h-64" /> : records?.map((rec) => (
-                <div key={rec.id} className="border border-border rounded-md p-3 flex justify-between items-center bg-card shadow-sm hover:border-primary/30 transition-colors">
+              {loadingRecords ? <Skeleton className="h-64 rounded border-border" /> : records?.map((rec) => (
+                <div key={rec.id} className="border border-card-border rounded p-4 flex justify-between items-center bg-secondary hover:border-primary/50 transition-colors">
                   <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-sm font-medium text-foreground">{rec.title}</h3>
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="text-sm font-semibold text-card-foreground">{rec.title}</h3>
                       {rec.clpCleared && (
-                        <span className="bg-emerald-100 text-emerald-700 px-1 rounded text-[9px] font-mono uppercase tracking-widest border border-emerald-200">
+                        <span className="bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-[2px] text-[9px] font-mono uppercase tracking-widest border border-emerald-200 font-bold">
                           Cleared
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-muted-foreground flex gap-2">
+                    <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground flex gap-2">
                       <span>{rec.source}</span>
-                      <span>&bull;</span>
-                      <span className="capitalize">{rec.type}</span>
+                      <span className="text-card-border">&bull;</span>
+                      <span>{rec.type}</span>
                     </div>
                   </div>
                   <div className="text-right flex flex-col items-end">
                     <StatusChip status={rec.status} />
-                    <div className="text-[10px] font-mono text-muted-foreground mt-2">
+                    <div className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground mt-3 font-bold">
                       Updated {format(new Date(rec.lastUpdated), 'MMM d')}
                     </div>
                   </div>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         {/* Guardrails */}
         <div className="space-y-6">
-          <Card className="shadow-sm border-border bg-secondary/5">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-serif flex items-center gap-2">
-                <Lock className="h-5 w-5 text-primary" /> Authority Guardrails
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {loadingGuardrails ? <Skeleton className="h-64" /> : guardrails?.map((g) => (
-                <div key={g.id} className="border border-border rounded-md p-4 bg-card shadow-sm">
-                  <div className="flex justify-between items-start mb-1">
-                    <div className="flex items-center gap-2">
-                      {g.status === 'enforced' ? <Lock className="h-4 w-4 text-primary" /> : <ShieldAlert className="h-4 w-4 text-amber-500" />}
-                      <h3 className="text-sm font-medium text-foreground">{g.title}</h3>
+          <div className="border border-sidebar-border bg-sidebar rounded shadow-sm overflow-hidden text-sidebar-foreground">
+            <div className="px-6 py-4 border-b border-sidebar-border flex items-center gap-3">
+              <Lock className="h-5 w-5 text-primary" />
+              <h2 className="text-base font-bold tracking-tight">Authority Guardrails</h2>
+            </div>
+            <div className="p-6 space-y-4">
+              {loadingGuardrails ? <Skeleton className="h-64 rounded bg-sidebar-border" /> : guardrails?.map((g) => (
+                <div key={g.id} className="border border-sidebar-border rounded p-5 bg-sidebar-accent/30 shadow-sm">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="flex items-center gap-3">
+                      {g.status.toLowerCase() === 'active' || g.status.toLowerCase() === 'enforced' ? <Lock className="h-4 w-4 text-primary" /> : <ShieldAlert className="h-4 w-4 text-amber-500" />}
+                      <h3 className="text-sm font-bold tracking-tight">{g.title}</h3>
                     </div>
-                    <span className={`text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded border ${
-                      g.status === 'enforced' ? 'bg-primary/10 text-primary border-primary/20' : 'bg-amber-50 text-amber-700 border-amber-200'
+                    <span className={`text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-[2px] border font-bold ${
+                      g.status.toLowerCase() === 'active' || g.status.toLowerCase() === 'enforced' ? 'bg-primary/20 text-primary border-primary/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'
                     }`}>
                       {g.status}
                     </span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed ml-6">{g.description}</p>
+                  <p className="text-xs text-sidebar-foreground/70 mt-3 leading-relaxed ml-7 font-medium">{g.description}</p>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -105,7 +102,7 @@ function StatusChip({ status }: { status: string }) {
   }
 
   return (
-    <span className={`inline-flex items-center justify-center border font-medium uppercase tracking-wider rounded-sm px-1.5 py-0.5 text-[9px] ${colorClass}`}>
+    <span className={`inline-flex items-center justify-center border font-mono font-bold uppercase tracking-widest rounded-[2px] px-2 py-0.5 text-[9px] ${colorClass}`}>
       {label}
     </span>
   );
