@@ -23,8 +23,8 @@ export default function Brain() {
         {/* Source Records */}
         <div className="space-y-6">
           <Panel icon={Database} title="Source Records" bodyClassName="p-6 space-y-4">
-            <div className="bg-emerald-50 text-emerald-800 border border-emerald-200 rounded p-4 mb-2 text-sm flex gap-3 shadow-sm">
-              <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0 text-emerald-600" />
+            <div className="bg-emerald-500/10 text-emerald-200 border border-emerald-500/30 rounded p-4 mb-2 text-sm flex gap-3 shadow-sm">
+              <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0 text-emerald-400" />
               <p className="font-medium leading-relaxed">CLP Separation Guardrail: All listed systems are cleared. Non-cleared systems are firewalled.</p>
             </div>
 
@@ -40,7 +40,7 @@ export default function Brain() {
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-sm font-semibold text-card-foreground">{rec.title}</h3>
                     {rec.clpCleared && (
-                      <span className="bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-[2px] text-[9px] font-mono uppercase tracking-widest border border-emerald-200 font-bold">
+                      <span className="bg-emerald-500/15 text-emerald-300 px-1.5 py-0.5 rounded-[2px] text-[9px] font-mono uppercase tracking-widest border border-emerald-500/30 font-bold">
                         Cleared
                       </span>
                     )}

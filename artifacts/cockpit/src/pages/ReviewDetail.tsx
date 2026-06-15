@@ -30,7 +30,7 @@ export default function ReviewDetail() {
         <div className="flex items-center gap-4 text-sm font-semibold">
           <span className="text-muted-foreground uppercase tracking-widest text-[11px] font-mono">Founder Review Package</span>
           <span className="text-border">&bull;</span>
-          <span className={`px-2.5 py-1 rounded-[2px] border uppercase tracking-widest text-[10px] font-mono font-bold ${review.status === 'published' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'}`}>
+          <span className={`px-2.5 py-1 rounded-[2px] border uppercase tracking-widest text-[10px] font-mono font-bold ${review.status === 'published' ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' : 'bg-amber-500/15 text-amber-300 border-amber-500/30'}`}>
             {review.status}
           </span>
         </div>
@@ -55,7 +55,7 @@ export default function ReviewDetail() {
         {review.highlights && review.highlights.length > 0 && (
           <div className="bg-card border border-card-border rounded shadow-sm overflow-hidden">
             <div className="px-6 py-5 border-b border-card-border flex items-center gap-3">
-              <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+              <CheckCircle2 className="h-5 w-5 text-emerald-400" />
               <h3 className="text-base font-bold text-card-foreground tracking-tight">Key Highlights</h3>
             </div>
             <div className="p-6">
@@ -69,15 +69,15 @@ export default function ReviewDetail() {
         )}
 
         {review.watchItems && review.watchItems.length > 0 && (
-          <div className="bg-amber-50/50 border border-amber-200 rounded shadow-sm overflow-hidden">
-            <div className="px-6 py-5 border-b border-amber-200 flex items-center gap-3">
-              <AlertTriangle className="h-5 w-5 text-amber-600" />
-              <h3 className="text-base font-bold text-amber-900 tracking-tight">Watch Items</h3>
+          <div className="bg-amber-500/10 border border-amber-500/30 rounded shadow-sm overflow-hidden">
+            <div className="px-6 py-5 border-b border-amber-500/30 flex items-center gap-3">
+              <AlertTriangle className="h-5 w-5 text-amber-400" />
+              <h3 className="text-base font-bold text-amber-200 tracking-tight">Watch Items</h3>
             </div>
             <div className="p-6">
               <ul className="space-y-4">
                 {review.watchItems.map((w, i) => (
-                  <li key={i} className="text-sm text-amber-900/80 pl-4 border-l-[3px] border-amber-500 font-medium leading-relaxed">{w}</li>
+                  <li key={i} className="text-sm text-amber-100/90 pl-4 border-l-[3px] border-amber-500 font-medium leading-relaxed">{w}</li>
                 ))}
               </ul>
             </div>

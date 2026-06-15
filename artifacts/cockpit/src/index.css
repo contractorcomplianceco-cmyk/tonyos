@@ -67,15 +67,15 @@
 
 :root {
   /* Deep Navy Shell */
-  --background: 222 47% 9%; 
+  --background: 222 47% 9%;
   --foreground: 0 0% 100%;
 
-  --border: 217 32% 17%;
-  
-  /* Cards are white floating in the navy */
-  --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
-  --card-border: 214 32% 85%;
+  --border: 217 32% 20%;
+
+  /* Cards are dark navy command modules elevated above the shell */
+  --card: 222 39% 13%;
+  --card-foreground: 210 40% 98%;
+  --card-border: 215 25% 24%;
 
   --sidebar: 222 47% 7%;
   --sidebar-foreground: 210 40% 98%;
@@ -86,31 +86,31 @@
   --sidebar-accent-foreground: 210 40% 98%;
   --sidebar-ring: 217 32% 17%;
 
-  --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
-  --popover-border: 214 32% 91%;
+  --popover: 222 39% 13%;
+  --popover-foreground: 210 40% 98%;
+  --popover-border: 215 25% 24%;
 
   /* Electric Blue */
   --primary: 217 91% 60%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 214 32% 91%; /* Steel / Silver */
-  --secondary-foreground: 222 47% 11%;
+  --secondary: 217 30% 18%; /* Dark steel inner surface */
+  --secondary-foreground: 210 40% 96%;
 
-  --muted: 210 40% 96%;
-  --muted-foreground: 215 16% 47%; /* Graphite */
+  --muted: 217 30% 18%;
+  --muted-foreground: 215 20% 68%; /* Light graphite */
 
-  --accent: 210 40% 96%;
-  --accent-foreground: 222 47% 11%;
+  --accent: 217 30% 22%;
+  --accent-foreground: 210 40% 98%;
 
   --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
 
-  --input: 214 32% 91%;
+  --input: 215 25% 24%;
   --ring: 217 91% 60%;
-  
+
   --chart-1: 217 91% 60%;
-  --chart-2: 214 32% 91%;
+  --chart-2: 215 20% 65%;
   --chart-3: 142 71% 45%;
   --chart-4: 38 92% 50%;
   --chart-5: 0 84% 60%;
@@ -118,7 +118,7 @@
   --app-font-sans: 'Geist', sans-serif;
   --app-font-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --radius: .375rem; /* 6px max */
-  
+
   /* Fallbacks */
   --sidebar-primary-border: hsl(var(--sidebar-primary));
   --sidebar-accent-border: hsl(var(--sidebar-accent));
@@ -130,12 +130,12 @@
 }
 
 .dark {
-  --background: 222 47% 9%; 
+  --background: 222 47% 9%;
   --foreground: 0 0% 100%;
-  --border: 217 32% 17%;
-  --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
-  --card-border: 214 32% 85%;
+  --border: 217 32% 20%;
+  --card: 222 39% 13%;
+  --card-foreground: 210 40% 98%;
+  --card-border: 215 25% 24%;
   --sidebar: 222 47% 7%;
   --sidebar-foreground: 210 40% 98%;
   --sidebar-border: 217 32% 17%;
@@ -144,23 +144,23 @@
   --sidebar-accent: 217 32% 15%;
   --sidebar-accent-foreground: 210 40% 98%;
   --sidebar-ring: 217 32% 17%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
-  --popover-border: 214 32% 91%;
+  --popover: 222 39% 13%;
+  --popover-foreground: 210 40% 98%;
+  --popover-border: 215 25% 24%;
   --primary: 217 91% 60%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 214 32% 91%;
-  --secondary-foreground: 222 47% 11%;
-  --muted: 210 40% 96%;
-  --muted-foreground: 215 16% 47%;
-  --accent: 210 40% 96%;
-  --accent-foreground: 222 47% 11%;
+  --secondary: 217 30% 18%;
+  --secondary-foreground: 210 40% 96%;
+  --muted: 217 30% 18%;
+  --muted-foreground: 215 20% 68%;
+  --accent: 217 30% 22%;
+  --accent-foreground: 210 40% 98%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
-  --input: 214 32% 91%;
+  --input: 215 25% 24%;
   --ring: 217 91% 60%;
   --chart-1: 217 91% 60%;
-  --chart-2: 214 32% 91%;
+  --chart-2: 215 20% 65%;
   --chart-3: 142 71% 45%;
   --chart-4: 38 92% 50%;
   --chart-5: 0 84% 60%;

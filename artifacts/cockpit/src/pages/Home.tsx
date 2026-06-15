@@ -172,7 +172,7 @@ export default function Home() {
                       <div className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest">Retained Revenue &mdash; Actual vs Plan</div>
                       <div className="flex items-center gap-3">
                         <span className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-card-foreground/70"><span className="h-2 w-2 rounded-[1px] bg-primary" /> Actual</span>
-                        <span className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-card-foreground/70"><span className="h-2 w-2 rounded-[1px] bg-secondary border border-card-border" /> Plan</span>
+                        <span className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-card-foreground/70"><span className="h-2 w-2 rounded-[1px] bg-muted-foreground" /> Plan</span>
                       </div>
                     </div>
                     <div className="h-36 w-full">
@@ -188,11 +188,13 @@ export default function Home() {
                           <XAxis dataKey="month" fontSize={10} tickLine={false} axisLine={false} tick={{ fill: 'hsl(var(--muted-foreground))' }} />
                           <YAxis fontSize={10} tickLine={false} axisLine={false} tickFormatter={(val) => `$${(val/1000)}k`} tick={{ fill: 'hsl(var(--muted-foreground))' }} />
                           <Tooltip
-                            cursor={{ fill: 'hsl(var(--primary) / 0.06)' }}
-                            contentStyle={{ fontSize: '12px', backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--card-border))' }}
+                            cursor={{ fill: 'hsl(var(--primary) / 0.10)' }}
+                            contentStyle={{ fontSize: '12px', backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--card-border))', borderRadius: '4px', color: 'hsl(var(--card-foreground))' }}
+                            itemStyle={{ color: 'hsl(var(--card-foreground))' }}
+                            labelStyle={{ color: 'hsl(var(--muted-foreground))' }}
                             formatter={(val) => `$${Number(val).toLocaleString()}`}
                           />
-                          <Bar dataKey="plan" name="Plan" fill="hsl(var(--secondary))" radius={[3, 3, 0, 0]} barSize={12} />
+                          <Bar dataKey="plan" name="Plan" fill="hsl(var(--muted-foreground))" radius={[3, 3, 0, 0]} barSize={12} />
                           <Bar dataKey="actual" name="Actual" fill="url(#kpiBarBlue)" radius={[3, 3, 0, 0]} barSize={12} />
                         </BarChart>
                       </ResponsiveContainer>
@@ -293,10 +295,10 @@ export default function Home() {
 }
 
 const KPI_TONE: Record<string, { bar: string; chip: string; border: string; spark: string; delta: string }> = {
-  green: { bar: "bg-emerald-500", chip: "bg-emerald-50 text-emerald-600 ring-emerald-200", border: "hover:border-emerald-300", spark: "hsl(142 71% 45%)", delta: "text-emerald-600" },
-  amber: { bar: "bg-amber-500", chip: "bg-amber-50 text-amber-600 ring-amber-200", border: "hover:border-amber-300", spark: "hsl(38 92% 50%)", delta: "text-amber-600" },
-  red: { bar: "bg-red-500", chip: "bg-red-50 text-red-600 ring-red-200", border: "hover:border-red-300", spark: "hsl(0 84% 60%)", delta: "text-red-600" },
-  blue: { bar: "bg-primary", chip: "bg-primary/10 text-primary ring-primary/20", border: "hover:border-primary/40", spark: "hsl(217 91% 60%)", delta: "text-primary" },
+  green: { bar: "bg-emerald-500", chip: "bg-emerald-500/15 text-emerald-300 ring-emerald-500/30", border: "hover:border-emerald-500/50", spark: "hsl(142 71% 45%)", delta: "text-emerald-400" },
+  amber: { bar: "bg-amber-500", chip: "bg-amber-500/15 text-amber-300 ring-amber-500/30", border: "hover:border-amber-500/50", spark: "hsl(38 92% 50%)", delta: "text-amber-400" },
+  red: { bar: "bg-red-500", chip: "bg-red-500/15 text-red-300 ring-red-500/30", border: "hover:border-red-500/50", spark: "hsl(0 84% 60%)", delta: "text-red-400" },
+  blue: { bar: "bg-primary", chip: "bg-primary/15 text-primary ring-primary/30", border: "hover:border-primary/50", spark: "hsl(217 91% 60%)", delta: "text-primary" },
 };
 
 function KpiCard({ label, value, trend, change, unit, helper, icon: Icon, spark }: { label: string, value: string, trend?: string | null, change?: string | null, unit?: string | null, helper?: string | null, icon: any, spark?: number[] }) {

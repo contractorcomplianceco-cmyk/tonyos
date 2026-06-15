@@ -2,7 +2,7 @@
 
 A founder-level executive command center for Tony Casella: strategic oversight, financial visibility, major-decision review, and risk/platform strategy visibility with drill-down access. Strictly recommend-only / visibility-only — nothing is approved, committed, or signed until a human gives explicit written approval.
 
-Visual direction: dark navy app shell, light/white work surfaces, electric blue accents, steel/silver borders, restrained green/amber/red status chips, ~6px max radius. STRICTLY FORBIDDEN: pink, purple, lavender, magenta, rose/rose-gold, yellow-heavy, orange, generic gradients, decorative orbs, illustrations. No emojis.
+Visual direction: dark navy app shell with dark navy command modules (content cards are elevated dark surfaces, NOT white admin cards), electric blue accents, steel/silver borders, translucent green/amber/red status chips, ~6px max radius. STRICTLY FORBIDDEN: pink, purple, lavender, magenta, rose/rose-gold, yellow-heavy, orange, generic gradients, decorative orbs, illustrations. No emojis.
 
 ## Run & Operate
 

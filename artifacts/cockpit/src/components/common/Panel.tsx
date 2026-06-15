@@ -18,7 +18,7 @@ export function Panel({
   return (
     <div className={`border border-card-border bg-card rounded shadow-sm overflow-hidden ${className}`}>
       {(title || action) && (
-        <div className="px-6 py-4 border-b border-card-border flex items-center justify-between gap-3 bg-gradient-to-b from-secondary/40 to-transparent">
+        <div className="px-6 py-4 border-b border-card-border flex items-center justify-between gap-3 bg-secondary/40">
           <div className="flex items-center gap-3">
             {Icon && (
               <span className="inline-flex h-8 w-8 items-center justify-center rounded bg-primary/10 text-primary ring-1 ring-primary/15 shrink-0">
