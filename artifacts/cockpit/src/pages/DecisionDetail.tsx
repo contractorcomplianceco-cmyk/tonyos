@@ -9,6 +9,8 @@ import { ArrowLeft, Shield, FileText, CheckCircle2 } from "lucide-react";
 import { Link } from "wouter";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { StatusBadge } from "@/components/common/StatusBadge";
+import { ErrorState } from "@/components/common/ErrorState";
 
 export default function DecisionDetail() {
   const params = useParams();
@@ -16,7 +18,7 @@ export default function DecisionDetail() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
-  const { data: decision, isLoading } = useGetDecision(id);
+  const { data: decision, isLoading, isError, refetch } = useGetDecision(id);
   const { data: notes, isLoading: loadingNotes } = useGetDecisionNotes(id);
   const createNote = useCreateDecisionNote();
   
@@ -49,7 +51,31 @@ export default function DecisionDetail() {
     );
   }
 
-  if (!decision) return <div>Not found</div>;
+  if (isError) {
+    return (
+      <div className="max-w-5xl">
+        <Link href="/decisions" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-mono text-muted-foreground hover:text-primary transition-colors">
+          <ArrowLeft className="h-3.5 w-3.5" /> Back to Queue
+        </Link>
+        <div className="border border-card-border bg-card rounded shadow-sm mt-6">
+          <ErrorState onRetry={() => refetch()} />
+        </div>
+      </div>
+    );
+  }
+
+  if (!decision) {
+    return (
+      <div className="max-w-5xl">
+        <Link href="/decisions" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-mono text-muted-foreground hover:text-primary transition-colors">
+          <ArrowLeft className="h-3.5 w-3.5" /> Back to Queue
+        </Link>
+        <div className="border border-card-border bg-card rounded shadow-sm mt-6">
+          <ErrorState title="Decision not found" description="This decision may have been removed or the link is invalid." />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 pb-12 max-w-5xl">
@@ -59,7 +85,7 @@ export default function DecisionDetail() {
 
       <div className="space-y-4">
         <div className="flex gap-4 items-center">
-          <StatusChip status={decision.status} />
+          <StatusBadge status={decision.status} size="md" />
           <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Due {format(new Date(decision.dueDate), 'MMM d, yyyy')}</span>
         </div>
         
@@ -157,24 +183,5 @@ export default function DecisionDetail() {
         </div>
       </div>
     </div>
-  );
-}
-
-function StatusChip({ status }: { status: string }) {
-  let colorClass = "bg-secondary text-secondary-foreground border-border";
-  let label = status.replace(/_/g, ' ');
-
-  if (status === 'approved') {
-    colorClass = "bg-emerald-50 text-emerald-700 border-emerald-200";
-  } else if (status === 'pending') {
-    colorClass = "bg-amber-50 text-amber-700 border-amber-200";
-  } else if (status === 'declined') {
-    colorClass = "bg-red-50 text-red-700 border-red-200";
-  }
-
-  return (
-    <span className={`inline-flex items-center justify-center border font-mono font-bold uppercase tracking-widest rounded-[2px] px-2.5 py-1 text-[10px] ${colorClass}`}>
-      {label}
-    </span>
   );
 }
