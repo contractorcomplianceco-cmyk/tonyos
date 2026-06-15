@@ -12,6 +12,7 @@ import {
   Lock,
   ExternalLink
 } from "lucide-react";
+import crest from "@assets/cca-crest-inset_1781490765434.png";
 
 type NavItem = {
   href: string;
@@ -42,11 +43,9 @@ export function Shell({ children }: { children: ReactNode }) {
       {/* Top Bar for Mobile */}
       <header className="md:hidden sticky top-0 z-20 flex items-center justify-between border-b border-sidebar-border bg-sidebar px-4 py-3 text-sidebar-foreground shadow-sm">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-primary rounded-sm flex items-center justify-center">
-            <span className="text-[10px] font-bold text-primary-foreground">TO</span>
-          </div>
+          <img src={crest} alt="CCA crest" className="h-7 w-auto object-contain shrink-0" />
           <div>
-            <div className="font-sans text-sm font-semibold tracking-tight text-sidebar-primary">TonyOS</div>
+            <div className="font-sans text-sm font-semibold tracking-tight text-primary">TonyOS</div>
             <div className="font-mono text-[9px] uppercase tracking-widest text-sidebar-foreground/70 mt-0.5">
               Command Center
             </div>
@@ -116,11 +115,9 @@ function SidebarContent({
     <>
       <div className="flex items-center justify-between px-6 py-6">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-primary rounded flex items-center justify-center ring-1 ring-primary/40 shadow-[0_0_20px_-4px_hsl(var(--primary)/0.8)]">
-            <span className="text-xs font-bold text-primary-foreground tracking-tighter">TO</span>
-          </div>
+          <img src={crest} alt="CCA crest" className="h-11 w-auto object-contain shrink-0 drop-shadow-[0_0_14px_hsl(var(--primary)/0.35)]" />
           <div>
-            <div className="font-sans text-xl font-bold tracking-tight text-sidebar-primary">TonyOS</div>
+            <div className="font-sans text-xl font-bold tracking-tight text-primary">TonyOS</div>
             <div className="font-mono text-[9px] uppercase tracking-widest text-sidebar-foreground/60 mt-1">
               Command Center
             </div>
