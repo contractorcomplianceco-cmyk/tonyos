@@ -20,22 +20,28 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  Brand,
   BriefingItem,
   Decision,
   DecisionNote,
   DecisionNoteInput,
   DecisionSummary,
+  Department,
   Error,
   ExecutiveSummary,
   FinancialCommitment,
   FinancialOverview,
   GetDecisionsParams,
+  GetDepartmentsParams,
+  GetProjectsParams,
   Guardrail,
   HealthStatus,
   Milestone,
   MonthlyFinancialPoint,
   MonthlyReview,
   Partnership,
+  Predictor,
+  Project,
   RiskItem,
   RoadmapPhase,
   SourceRecord,
@@ -1585,6 +1591,482 @@ export function useGetGuardrails<TData = Awaited<ReturnType<typeof getGuardrails
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetGuardrailsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getGetBrandsUrl = () => {
+
+
+
+
+  return `/api/brands`
+}
+
+/**
+ * @summary CAG parent company and brand portfolio
+ */
+export const getBrands = async ( options?: RequestInit): Promise<Brand[]> => {
+
+  return customFetch<Brand[]>(getGetBrandsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetBrandsQueryKey = () => {
+    return [
+    `/api/brands`
+    ] as const;
+    }
+
+
+export const getGetBrandsQueryOptions = <TData = Awaited<ReturnType<typeof getBrands>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getBrands>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetBrandsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBrands>>> = ({ signal }) => getBrands({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getBrands>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetBrandsQueryResult = NonNullable<Awaited<ReturnType<typeof getBrands>>>
+export type GetBrandsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary CAG parent company and brand portfolio
+ */
+
+export function useGetBrands<TData = Awaited<ReturnType<typeof getBrands>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getBrands>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetBrandsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getGetBrandUrl = (code: string,) => {
+
+
+
+
+  return `/api/brands/${code}`
+}
+
+/**
+ * @summary Single brand detail
+ */
+export const getBrand = async (code: string, options?: RequestInit): Promise<Brand> => {
+
+  return customFetch<Brand>(getGetBrandUrl(code),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetBrandQueryKey = (code: string,) => {
+    return [
+    `/api/brands/${code}`
+    ] as const;
+    }
+
+
+export const getGetBrandQueryOptions = <TData = Awaited<ReturnType<typeof getBrand>>, TError = ErrorType<Error>>(code: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getBrand>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetBrandQueryKey(code);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBrand>>> = ({ signal }) => getBrand(code, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(code), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getBrand>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetBrandQueryResult = NonNullable<Awaited<ReturnType<typeof getBrand>>>
+export type GetBrandQueryError = ErrorType<Error>
+
+
+/**
+ * @summary Single brand detail
+ */
+
+export function useGetBrand<TData = Awaited<ReturnType<typeof getBrand>>, TError = ErrorType<Error>>(
+ code: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getBrand>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetBrandQueryOptions(code,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getGetDepartmentsUrl = (params?: GetDepartmentsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/departments?${stringifiedParams}` : `/api/departments`
+}
+
+/**
+ * @summary Brand department health
+ */
+export const getDepartments = async (params?: GetDepartmentsParams, options?: RequestInit): Promise<Department[]> => {
+
+  return customFetch<Department[]>(getGetDepartmentsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetDepartmentsQueryKey = (params?: GetDepartmentsParams,) => {
+    return [
+    `/api/departments`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetDepartmentsQueryOptions = <TData = Awaited<ReturnType<typeof getDepartments>>, TError = ErrorType<unknown>>(params?: GetDepartmentsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getDepartments>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetDepartmentsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDepartments>>> = ({ signal }) => getDepartments(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getDepartments>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetDepartmentsQueryResult = NonNullable<Awaited<ReturnType<typeof getDepartments>>>
+export type GetDepartmentsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Brand department health
+ */
+
+export function useGetDepartments<TData = Awaited<ReturnType<typeof getDepartments>>, TError = ErrorType<unknown>>(
+ params?: GetDepartmentsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getDepartments>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetDepartmentsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getGetProjectsUrl = (params?: GetProjectsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/projects?${stringifiedParams}` : `/api/projects`
+}
+
+/**
+ * @summary Brand and department projects
+ */
+export const getProjects = async (params?: GetProjectsParams, options?: RequestInit): Promise<Project[]> => {
+
+  return customFetch<Project[]>(getGetProjectsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetProjectsQueryKey = (params?: GetProjectsParams,) => {
+    return [
+    `/api/projects`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetProjectsQueryOptions = <TData = Awaited<ReturnType<typeof getProjects>>, TError = ErrorType<unknown>>(params?: GetProjectsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getProjects>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetProjectsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getProjects>>> = ({ signal }) => getProjects(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getProjects>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetProjectsQueryResult = NonNullable<Awaited<ReturnType<typeof getProjects>>>
+export type GetProjectsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Brand and department projects
+ */
+
+export function useGetProjects<TData = Awaited<ReturnType<typeof getProjects>>, TError = ErrorType<unknown>>(
+ params?: GetProjectsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getProjects>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetProjectsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getGetProjectUrl = (id: number,) => {
+
+
+
+
+  return `/api/projects/${id}`
+}
+
+/**
+ * @summary Single project detail
+ */
+export const getProject = async (id: number, options?: RequestInit): Promise<Project> => {
+
+  return customFetch<Project>(getGetProjectUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetProjectQueryKey = (id: number,) => {
+    return [
+    `/api/projects/${id}`
+    ] as const;
+    }
+
+
+export const getGetProjectQueryOptions = <TData = Awaited<ReturnType<typeof getProject>>, TError = ErrorType<Error>>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getProject>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetProjectQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getProject>>> = ({ signal }) => getProject(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getProject>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetProjectQueryResult = NonNullable<Awaited<ReturnType<typeof getProject>>>
+export type GetProjectQueryError = ErrorType<Error>
+
+
+/**
+ * @summary Single project detail
+ */
+
+export function useGetProject<TData = Awaited<ReturnType<typeof getProject>>, TError = ErrorType<Error>>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getProject>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetProjectQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getGetPredictorsUrl = () => {
+
+
+
+
+  return `/api/predictors`
+}
+
+/**
+ * @summary Predictive intelligence modules
+ */
+export const getPredictors = async ( options?: RequestInit): Promise<Predictor[]> => {
+
+  return customFetch<Predictor[]>(getGetPredictorsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetPredictorsQueryKey = () => {
+    return [
+    `/api/predictors`
+    ] as const;
+    }
+
+
+export const getGetPredictorsQueryOptions = <TData = Awaited<ReturnType<typeof getPredictors>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPredictors>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPredictorsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPredictors>>> = ({ signal }) => getPredictors({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPredictors>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPredictorsQueryResult = NonNullable<Awaited<ReturnType<typeof getPredictors>>>
+export type GetPredictorsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Predictive intelligence modules
+ */
+
+export function useGetPredictors<TData = Awaited<ReturnType<typeof getPredictors>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPredictors>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetPredictorsQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

@@ -53,6 +53,14 @@ export const GetExecutiveSummaryResponse = zod.object({
   "trend": zod.string().nullish().describe('up, down, or flat'),
   "helper": zod.string().nullish()
 }),
+  "predictiveAlerts": zod.union([zod.object({
+  "label": zod.string(),
+  "value": zod.string(),
+  "unit": zod.string().nullish(),
+  "change": zod.string().nullish(),
+  "trend": zod.string().nullish().describe('up, down, or flat'),
+  "helper": zod.string().nullish()
+}),zod.null()]).optional(),
   "pulseTrend": zod.array(zod.number())
 })
 
@@ -105,7 +113,9 @@ export const GetDecisionsResponseItem = zod.object({
   "status": zod.string().describe('pending, approved, declined, deferred'),
   "founderApprovalRequired": zod.boolean(),
   "recommendation": zod.string().nullish(),
-  "sourceRecord": zod.string().nullish()
+  "sourceRecord": zod.string().nullish(),
+  "authorityLabel": zod.string().nullish(),
+  "brandCode": zod.string().nullish()
 })
 export const GetDecisionsResponse = zod.array(GetDecisionsResponseItem)
 
@@ -142,7 +152,9 @@ export const GetDecisionResponse = zod.object({
   "status": zod.string().describe('pending, approved, declined, deferred'),
   "founderApprovalRequired": zod.boolean(),
   "recommendation": zod.string().nullish(),
-  "sourceRecord": zod.string().nullish()
+  "sourceRecord": zod.string().nullish(),
+  "authorityLabel": zod.string().nullish(),
+  "brandCode": zod.string().nullish()
 })
 
 
@@ -359,5 +371,137 @@ export const GetGuardrailsResponseItem = zod.object({
   "category": zod.string()
 })
 export const GetGuardrailsResponse = zod.array(GetGuardrailsResponseItem)
+
+
+/**
+ * @summary CAG parent company and brand portfolio
+ */
+export const GetBrandsResponseItem = zod.object({
+  "id": zod.number(),
+  "code": zod.string(),
+  "name": zod.string(),
+  "fullName": zod.string(),
+  "kind": zod.string().describe('parent or brand'),
+  "parentCode": zod.string().nullish(),
+  "stage": zod.string().describe('Active, Planned, Build Concept, Future'),
+  "health": zod.number(),
+  "risk": zod.string().describe('Low, Medium, High'),
+  "tagline": zod.string().nullish(),
+  "summary": zod.string().nullish(),
+  "authorityLabel": zod.string().nullish()
+})
+export const GetBrandsResponse = zod.array(GetBrandsResponseItem)
+
+
+/**
+ * @summary Single brand detail
+ */
+export const GetBrandParams = zod.object({
+  "code": zod.coerce.string()
+})
+
+export const GetBrandResponse = zod.object({
+  "id": zod.number(),
+  "code": zod.string(),
+  "name": zod.string(),
+  "fullName": zod.string(),
+  "kind": zod.string().describe('parent or brand'),
+  "parentCode": zod.string().nullish(),
+  "stage": zod.string().describe('Active, Planned, Build Concept, Future'),
+  "health": zod.number(),
+  "risk": zod.string().describe('Low, Medium, High'),
+  "tagline": zod.string().nullish(),
+  "summary": zod.string().nullish(),
+  "authorityLabel": zod.string().nullish()
+})
+
+
+/**
+ * @summary Brand department health
+ */
+export const GetDepartmentsQueryParams = zod.object({
+  "brand": zod.coerce.string().optional()
+})
+
+export const GetDepartmentsResponseItem = zod.object({
+  "id": zod.number(),
+  "brandCode": zod.string(),
+  "name": zod.string(),
+  "status": zod.string(),
+  "health": zod.number(),
+  "blockers": zod.number(),
+  "nextAction": zod.string().nullish(),
+  "owner": zod.string().nullish(),
+  "summary": zod.string().nullish(),
+  "authorityLabel": zod.string().nullish()
+})
+export const GetDepartmentsResponse = zod.array(GetDepartmentsResponseItem)
+
+
+/**
+ * @summary Brand and department projects
+ */
+export const GetProjectsQueryParams = zod.object({
+  "brand": zod.coerce.string().optional(),
+  "department": zod.coerce.string().optional()
+})
+
+export const GetProjectsResponseItem = zod.object({
+  "id": zod.number(),
+  "brandCode": zod.string(),
+  "department": zod.string().nullish(),
+  "name": zod.string(),
+  "status": zod.string(),
+  "health": zod.number(),
+  "owner": zod.string().nullish(),
+  "summary": zod.string().nullish(),
+  "dueDate": zod.string().nullish(),
+  "authorityLabel": zod.string().nullish(),
+  "sourceRecord": zod.string().nullish()
+})
+export const GetProjectsResponse = zod.array(GetProjectsResponseItem)
+
+
+/**
+ * @summary Single project detail
+ */
+export const GetProjectParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetProjectResponse = zod.object({
+  "id": zod.number(),
+  "brandCode": zod.string(),
+  "department": zod.string().nullish(),
+  "name": zod.string(),
+  "status": zod.string(),
+  "health": zod.number(),
+  "owner": zod.string().nullish(),
+  "summary": zod.string().nullish(),
+  "dueDate": zod.string().nullish(),
+  "authorityLabel": zod.string().nullish(),
+  "sourceRecord": zod.string().nullish()
+})
+
+
+/**
+ * @summary Predictive intelligence modules
+ */
+export const GetPredictorsResponseItem = zod.object({
+  "id": zod.number(),
+  "key": zod.string(),
+  "name": zod.string(),
+  "category": zod.string().describe('Financial, Operational, People, Strategic, Risk'),
+  "level": zod.string().describe('On Track, Low, Strong, Moderate, Elevated, High, At Risk'),
+  "value": zod.string().nullish(),
+  "trend": zod.string().nullish(),
+  "score": zod.number(),
+  "summary": zod.string().nullish(),
+  "detail": zod.string().nullish(),
+  "brandCode": zod.string().nullish(),
+  "onRadar": zod.boolean(),
+  "authorityLabel": zod.string().nullish()
+})
+export const GetPredictorsResponse = zod.array(GetPredictorsResponseItem)
 
 

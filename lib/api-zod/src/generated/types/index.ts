@@ -7,18 +7,22 @@
  */
 
 export * from './bankSummary';
+export * from './brand';
 export * from './briefingItem';
 export * from './countByLabel';
 export * from './decision';
 export * from './decisionNote';
 export * from './decisionNoteInput';
 export * from './decisionSummary';
+export * from './department';
 export * from './error';
 export * from './executiveSummary';
 export * from './financialCommitment';
 export * from './financialOverview';
 export * from './getDecisionsParams';
 export * from './getDecisionsStatus';
+export * from './getDepartmentsParams';
+export * from './getProjectsParams';
 export * from './guardrail';
 export * from './healthStatus';
 export * from './metric';
@@ -26,6 +30,8 @@ export * from './milestone';
 export * from './monthlyFinancialPoint';
 export * from './monthlyReview';
 export * from './partnership';
+export * from './predictor';
+export * from './project';
 export * from './riskItem';
 export * from './roadmapPhase';
 export * from './sourceRecord';

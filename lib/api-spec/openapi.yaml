@@ -32,6 +32,14 @@ tags:
     description: Company brain source records
   - name: guardrails
     description: CLP separation and authority guardrails
+  - name: brands
+    description: CAG parent company and brand portfolio
+  - name: departments
+    description: Brand department health
+  - name: projects
+    description: Brand and department projects
+  - name: predictors
+    description: Predictive intelligence modules
 paths:
   /healthz:
     get:
@@ -373,6 +381,133 @@ paths:
                 items:
                   $ref: "#/components/schemas/Guardrail"
 
+  /brands:
+    get:
+      operationId: getBrands
+      tags: [brands]
+      summary: CAG parent company and brand portfolio
+      responses:
+        "200":
+          description: Brands
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Brand"
+
+  /brands/{code}:
+    get:
+      operationId: getBrand
+      tags: [brands]
+      summary: Single brand detail
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Brand
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Brand"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /departments:
+    get:
+      operationId: getDepartments
+      tags: [departments]
+      summary: Brand department health
+      parameters:
+        - name: brand
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Departments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Department"
+
+  /projects:
+    get:
+      operationId: getProjects
+      tags: [projects]
+      summary: Brand and department projects
+      parameters:
+        - name: brand
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: department
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
+  /projects/{id}:
+    get:
+      operationId: getProject
+      tags: [projects]
+      summary: Single project detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /predictors:
+    get:
+      operationId: getPredictors
+      tags: [predictors]
+      summary: Predictive intelligence modules
+      responses:
+        "200":
+          description: Predictors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Predictor"
+
 components:
   schemas:
     HealthStatus:
@@ -426,6 +561,10 @@ components:
           $ref: "#/components/schemas/Metric"
         majorDecisionsPending:
           $ref: "#/components/schemas/Metric"
+        predictiveAlerts:
+          oneOf:
+            - $ref: "#/components/schemas/Metric"
+            - type: "null"
         pulseTrend:
           type: array
           items:
@@ -498,6 +637,10 @@ components:
         recommendation:
           type: ["string", "null"]
         sourceRecord:
+          type: ["string", "null"]
+        authorityLabel:
+          type: ["string", "null"]
+        brandCode:
           type: ["string", "null"]
 
     DecisionSummary:
@@ -742,3 +885,120 @@ components:
           description: enforced, advisory
         category:
           type: string
+
+    Brand:
+      type: object
+      required: [id, code, name, fullName, kind, stage, health, risk]
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        name:
+          type: string
+        fullName:
+          type: string
+        kind:
+          type: string
+          description: parent or brand
+        parentCode:
+          type: ["string", "null"]
+        stage:
+          type: string
+          description: Active, Planned, Build Concept, Future
+        health:
+          type: integer
+        risk:
+          type: string
+          description: Low, Medium, High
+        tagline:
+          type: ["string", "null"]
+        summary:
+          type: ["string", "null"]
+        authorityLabel:
+          type: ["string", "null"]
+
+    Department:
+      type: object
+      required: [id, brandCode, name, status, health, blockers]
+      properties:
+        id:
+          type: integer
+        brandCode:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        health:
+          type: integer
+        blockers:
+          type: integer
+        nextAction:
+          type: ["string", "null"]
+        owner:
+          type: ["string", "null"]
+        summary:
+          type: ["string", "null"]
+        authorityLabel:
+          type: ["string", "null"]
+
+    Project:
+      type: object
+      required: [id, brandCode, name, status, health]
+      properties:
+        id:
+          type: integer
+        brandCode:
+          type: string
+        department:
+          type: ["string", "null"]
+        name:
+          type: string
+        status:
+          type: string
+        health:
+          type: integer
+        owner:
+          type: ["string", "null"]
+        summary:
+          type: ["string", "null"]
+        dueDate:
+          type: ["string", "null"]
+        authorityLabel:
+          type: ["string", "null"]
+        sourceRecord:
+          type: ["string", "null"]
+
+    Predictor:
+      type: object
+      required: [id, key, name, category, level, score, onRadar]
+      properties:
+        id:
+          type: integer
+        key:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+          description: Financial, Operational, People, Strategic, Risk
+        level:
+          type: string
+          description: On Track, Low, Strong, Moderate, Elevated, High, At Risk
+        value:
+          type: ["string", "null"]
+        trend:
+          type: ["string", "null"]
+        score:
+          type: integer
+        summary:
+          type: ["string", "null"]
+        detail:
+          type: ["string", "null"]
+        brandCode:
+          type: ["string", "null"]
+        onRadar:
+          type: boolean
+        authorityLabel:
+          type: ["string", "null"]

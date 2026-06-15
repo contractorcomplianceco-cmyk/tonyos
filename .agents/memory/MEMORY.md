@@ -1,5 +1,2 @@
-- [Forbidden colors hide in Tailwind utilities](forbidden-colors-tailwind.md) — re-theming CSS tokens does NOT catch hardcoded `bg-rose-*`/`text-rose-*` etc. in components; grep the whole tree.
-- [Cockpit dark command modules](cockpit-dark-modules.md) — content cards are dark navy via tokens (not white); `--secondary` must be dark steel for inner cards, so chart Plan series uses `--muted-foreground` instead; chips translucent-on-dark.
-- [Navy-shell inner-card contrast trap](navy-shell-contrast.md) — cockpit inner cards use `bg-secondary` (now dark steel), never `bg-background`; milestone dates are raw strings, guardrail status is "Active".
-- [StatusBadge normalization & tone overrides](status-badge-normalization.md) — cockpit API returns human-cased status/severity ("In Progress", "High"); per-page tone overrides must use `normalizeStatus()`, never strict-equal raw values, or they silently fall through.
-- [Cockpit single-hue depth gradients are intentional](cockpit-facelift-gradients.md) — the navy shell depth, blue chart-bar fill, and steel header accents are deliberate single-hue treatments; don't strip them as "no gradients" brief violations.
+- [Authority-mode lens scope](authority-lens-scope.md) — the Founder Authority Mode lens filters only authority-gated action items (decisions, projects), never org-structure/health entities (brands, departments, predictors).
+- [Brand color guardrails](brand-color-guardrails.md) — no gradients/orbs/pink/purple/rose; even the "Rose" authority label uses amber, not pink.

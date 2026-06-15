@@ -44,6 +44,8 @@ export const decisionsTable = pgTable("decisions", {
     .default(true),
   recommendation: text("recommendation"),
   sourceRecord: text("source_record"),
+  authorityLabel: text("authority_label"),
+  brandCode: text("brand_code"),
   sort: integer("sort").notNull().default(0),
 });
 
@@ -178,6 +180,7 @@ export const executiveSummaryTable = pgTable("executive_summary", {
   majorDecisionsPending: jsonb("major_decisions_pending")
     .$type<Metric>()
     .notNull(),
+  predictiveAlerts: jsonb("predictive_alerts").$type<Metric>(),
   pulseTrend: jsonb("pulse_trend").$type<number[]>().notNull().default([]),
 });
 
@@ -193,4 +196,67 @@ export const financialOverviewTable = pgTable("financial_overview", {
     .$type<{ name: string; balance: string; note: string }[]>()
     .notNull()
     .default([]),
+});
+
+// CAG parent company and its brand portfolio (self-referential via parentCode).
+export const brandsTable = pgTable("brands", {
+  id: serial("id").primaryKey(),
+  code: text("code").notNull().unique(),
+  name: text("name").notNull(),
+  fullName: text("full_name").notNull(),
+  kind: text("kind").notNull(), // "parent" | "brand"
+  parentCode: text("parent_code"),
+  stage: text("stage").notNull(),
+  health: integer("health").notNull().default(0),
+  risk: text("risk").notNull().default("Low"),
+  tagline: text("tagline"),
+  summary: text("summary"),
+  authorityLabel: text("authority_label"),
+  sort: integer("sort").notNull().default(0),
+});
+
+export const departmentsTable = pgTable("departments", {
+  id: serial("id").primaryKey(),
+  brandCode: text("brand_code").notNull(),
+  name: text("name").notNull(),
+  status: text("status").notNull(),
+  health: integer("health").notNull().default(0),
+  blockers: integer("blockers").notNull().default(0),
+  nextAction: text("next_action"),
+  owner: text("owner"),
+  summary: text("summary"),
+  authorityLabel: text("authority_label"),
+  sort: integer("sort").notNull().default(0),
+});
+
+export const projectsTable = pgTable("projects", {
+  id: serial("id").primaryKey(),
+  brandCode: text("brand_code").notNull(),
+  department: text("department"),
+  name: text("name").notNull(),
+  status: text("status").notNull(),
+  health: integer("health").notNull().default(0),
+  owner: text("owner"),
+  summary: text("summary"),
+  dueDate: text("due_date"),
+  authorityLabel: text("authority_label"),
+  sourceRecord: text("source_record"),
+  sort: integer("sort").notNull().default(0),
+});
+
+export const predictorsTable = pgTable("predictors", {
+  id: serial("id").primaryKey(),
+  key: text("key").notNull().unique(),
+  name: text("name").notNull(),
+  category: text("category").notNull(),
+  level: text("level").notNull(),
+  value: text("value"),
+  trend: text("trend"),
+  score: integer("score").notNull().default(0),
+  summary: text("summary"),
+  detail: text("detail"),
+  brandCode: text("brand_code"),
+  onRadar: boolean("on_radar").notNull().default(false),
+  authorityLabel: text("authority_label"),
+  sort: integer("sort").notNull().default(0),
 });

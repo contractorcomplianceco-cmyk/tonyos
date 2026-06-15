@@ -10,6 +10,9 @@ import { Panel } from "@/components/common/Panel";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorState } from "@/components/common/ErrorState";
+import { AuthorityBadge } from "@/components/common/AuthorityBadge";
+import { useAuthorityMode, AuthorityModeToggle } from "@/context/AuthorityMode";
+import { matchesMode } from "@/lib/authority";
 
 type StatusFilter = NonNullable<GetDecisionsParams["status"]>;
 const FILTERS: { label: string; value: StatusFilter | "all" }[] = [
@@ -25,12 +28,24 @@ export default function Decisions() {
   const params = filter === "all" ? undefined : { status: filter };
   const { data: decisions, isLoading, isError, refetch } = useGetDecisions(params);
   const { data: summary } = useGetDecisionSummary();
+  const { mode, caption } = useAuthorityMode();
+
+  const visible = (decisions ?? []).filter((d) => matchesMode(mode, d.authorityLabel));
 
   return (
     <div className="space-y-8 pb-12">
       <PageHeader
         title="Major Decisions"
         subtitle="Recommend-Only Governance / Written Approval Required"
+        actions={
+          <div className="flex flex-col items-end gap-1.5">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">Authority Mode</span>
+              <AuthorityModeToggle />
+            </div>
+            <div className="text-[10px] text-muted-foreground font-mono">{caption}</div>
+          </div>
+        }
       />
 
       <div className="bg-sidebar border border-sidebar-border rounded px-5 py-4 flex gap-3 items-start text-sm shadow-sm text-sidebar-foreground">
@@ -76,25 +91,26 @@ export default function Decisions() {
           </div>
         ) : isError ? (
           <ErrorState onRetry={() => refetch()} />
-        ) : decisions?.length === 0 ? (
+        ) : visible.length === 0 ? (
           <EmptyState
             icon={GanttChartSquare}
             title="No decisions found"
-            description="There are no decisions matching this filter."
+            description={`No decisions match this filter under the ${mode} authority lens.`}
           />
         ) : (
           <div className="divide-y divide-card-border">
-            {decisions?.map((decision) => (
+            {visible.map((decision) => (
               <Link key={decision.id} href={`/decisions/${decision.id}`} className="block group hover:bg-secondary transition-colors p-5">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
                       <StatusBadge status={decision.status} />
-                      {decision.founderApprovalRequired && (
-                        <span className="text-[9px] font-mono text-primary uppercase tracking-widest border border-primary/20 bg-primary/5 px-1.5 py-0.5 rounded-[2px]">
-                          Approval Required
+                      {decision.brandCode && (
+                        <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest border border-card-border px-1.5 py-0.5 rounded-[2px]">
+                          {decision.brandCode}
                         </span>
                       )}
+                      <AuthorityBadge label={decision.authorityLabel} />
                     </div>
                     <h3 className="text-base font-semibold text-card-foreground truncate">{decision.title}</h3>
                     <div className="flex items-center gap-3 text-xs text-muted-foreground mt-2">

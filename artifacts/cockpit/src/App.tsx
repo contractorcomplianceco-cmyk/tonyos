@@ -4,9 +4,14 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { Shell } from "@/components/layout/Shell";
+import { AuthorityModeProvider } from "@/context/AuthorityMode";
 
 // Pages
 import Home from "@/pages/Home";
+import Brands from "@/pages/Brands";
+import BrandDetail from "@/pages/BrandDetail";
+import Operating from "@/pages/Operating";
+import Predictors from "@/pages/Predictors";
 import Pulse from "@/pages/Pulse";
 import Financial from "@/pages/Financial";
 import Decisions from "@/pages/Decisions";
@@ -29,6 +34,10 @@ function Router() {
     <Shell>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/brands" component={Brands} />
+        <Route path="/brands/:code" component={BrandDetail} />
+        <Route path="/operating" component={Operating} />
+        <Route path="/predictors" component={Predictors} />
         <Route path="/pulse" component={Pulse} />
         <Route path="/financial" component={Financial} />
         <Route path="/reviews/:id" component={ReviewDetail} />
@@ -46,9 +55,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
+        <AuthorityModeProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <Router />
+          </WouterRouter>
+        </AuthorityModeProvider>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

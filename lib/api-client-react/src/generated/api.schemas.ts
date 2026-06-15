@@ -34,6 +34,7 @@ export interface ExecutiveSummary {
   collectedRetainedRevenue: Metric;
   operatingReserve: Metric;
   majorDecisionsPending: Metric;
+  predictiveAlerts?: Metric | null;
   pulseTrend: number[];
 }
 
@@ -84,6 +85,10 @@ export interface Decision {
   recommendation?: string | null;
   /** @nullable */
   sourceRecord?: string | null;
+  /** @nullable */
+  authorityLabel?: string | null;
+  /** @nullable */
+  brandCode?: string | null;
 }
 
 export interface CountByLabel {
@@ -219,6 +224,89 @@ export interface Guardrail {
   category: string;
 }
 
+export interface Brand {
+  id: number;
+  code: string;
+  name: string;
+  fullName: string;
+  /** parent or brand */
+  kind: string;
+  /** @nullable */
+  parentCode?: string | null;
+  /** Active, Planned, Build Concept, Future */
+  stage: string;
+  health: number;
+  /** Low, Medium, High */
+  risk: string;
+  /** @nullable */
+  tagline?: string | null;
+  /** @nullable */
+  summary?: string | null;
+  /** @nullable */
+  authorityLabel?: string | null;
+}
+
+export interface Department {
+  id: number;
+  brandCode: string;
+  name: string;
+  status: string;
+  health: number;
+  blockers: number;
+  /** @nullable */
+  nextAction?: string | null;
+  /** @nullable */
+  owner?: string | null;
+  /** @nullable */
+  summary?: string | null;
+  /** @nullable */
+  authorityLabel?: string | null;
+}
+
+export interface Project {
+  id: number;
+  brandCode: string;
+  /** @nullable */
+  department?: string | null;
+  name: string;
+  status: string;
+  health: number;
+  /** @nullable */
+  owner?: string | null;
+  /** @nullable */
+  summary?: string | null;
+  /** @nullable */
+  dueDate?: string | null;
+  /** @nullable */
+  authorityLabel?: string | null;
+  /** @nullable */
+  sourceRecord?: string | null;
+}
+
+export interface Predictor {
+  id: number;
+  key: string;
+  name: string;
+  /** Financial, Operational, People, Strategic, Risk */
+  category: string;
+  /** On Track, Low, Strong, Moderate, Elevated, High, At Risk */
+  level: string;
+  /** @nullable */
+  value?: string | null;
+  /** @nullable */
+  trend?: string | null;
+  score: number;
+  /** @nullable */
+  summary?: string | null;
+  /** @nullable */
+  detail?: string | null;
+  /** @nullable */
+  brandCode?: string | null;
+  onRadar: boolean;
+  /** @nullable */
+  authorityLabel?: string | null;
+}
+
 export type GetDecisionsParams = {
 status?: GetDecisionsStatus;
 };
@@ -232,4 +320,13 @@ export const GetDecisionsStatus = {
   declined: 'declined',
   deferred: 'deferred',
 } as const;
+
+export type GetDepartmentsParams = {
+brand?: string;
+};
+
+export type GetProjectsParams = {
+brand?: string;
+department?: string;
+};
 

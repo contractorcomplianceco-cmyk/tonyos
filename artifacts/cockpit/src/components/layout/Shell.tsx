@@ -2,7 +2,9 @@ import { useState, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import {
   LayoutDashboard,
+  Network,
   Activity,
+  Radar as RadarIcon,
   Wallet,
   GanttChartSquare,
   ShieldAlert,
@@ -21,10 +23,12 @@ type NavItem = {
 };
 
 const NAV: NavItem[] = [
-  { href: "/", label: "Executive Home", icon: LayoutDashboard },
-  { href: "/pulse", label: "Strategic Pulse", icon: Activity },
-  { href: "/financial", label: "Financial Review", icon: Wallet },
+  { href: "/", label: "Parent Overview", icon: LayoutDashboard },
+  { href: "/brands", label: "Brand Portfolio", icon: Network },
+  { href: "/operating", label: "CCA Operating Pulse", icon: Activity },
+  { href: "/predictors", label: "Predictive Intelligence", icon: RadarIcon },
   { href: "/decisions", label: "Major Decisions", icon: GanttChartSquare },
+  { href: "/financial", label: "Financial Review", icon: Wallet },
   { href: "/risk", label: "Risk Platform", icon: ShieldAlert },
   { href: "/brain", label: "Company Brain", icon: Database },
 ];
@@ -86,7 +90,7 @@ export function Shell({ children }: { children: ReactNode }) {
         {/* Top Breadcrumb Bar */}
         <header className="hidden md:flex sticky top-0 z-20 items-center justify-between px-8 py-3 border-b border-sidebar-border bg-background/80 backdrop-blur-md">
           <div className="text-xs font-medium text-sidebar-foreground/70 flex items-center gap-2">
-            Rose OS <span className="text-sidebar-border">/</span> <span className="text-sidebar-foreground">TonyOS Command Center</span>
+            Rose OS <span className="text-sidebar-border">/</span> <span className="text-sidebar-foreground/70">Compliance Authority Group</span> <span className="text-sidebar-border">/</span> <span className="text-sidebar-foreground">TonyOS Command Center</span>
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-primary/10 border border-primary/20 shadow-[0_0_18px_-6px_hsl(var(--primary)/0.7)]">
             <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />

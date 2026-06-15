@@ -19,6 +19,7 @@ router.get("/executive-summary", async (_req, res) => {
     collectedRetainedRevenue: row.collectedRetainedRevenue,
     operatingReserve: row.operatingReserve,
     majorDecisionsPending: row.majorDecisionsPending,
+    predictiveAlerts: row.predictiveAlerts,
     pulseTrend: row.pulseTrend,
   });
   res.json(data);

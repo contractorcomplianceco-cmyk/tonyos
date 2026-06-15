@@ -25,4 +25,8 @@ export interface Decision {
   recommendation?: string | null;
   /** @nullable */
   sourceRecord?: string | null;
+  /** @nullable */
+  authorityLabel?: string | null;
+  /** @nullable */
+  brandCode?: string | null;
 }

@@ -12,5 +12,6 @@ export interface ExecutiveSummary {
   collectedRetainedRevenue: Metric;
   operatingReserve: Metric;
   majorDecisionsPending: Metric;
+  predictiveAlerts?: Metric | null;
   pulseTrend: number[];
 }
