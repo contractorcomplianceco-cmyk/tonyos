@@ -69,9 +69,10 @@ export default function Home() {
         <div className="space-y-6">
           {/* Briefing */}
           <div className="border border-card-border bg-card rounded-md shadow-sm overflow-hidden flex flex-col">
-            <div className="bg-sidebar border-b border-sidebar-border px-5 py-4">
+            <div className="relative bg-sidebar border-b border-sidebar-border px-5 py-4 overflow-hidden">
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
               <div className="text-[10px] text-primary uppercase font-mono tracking-widest mb-1 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 Central Command Briefing
               </div>
               <h2 className="text-xl font-bold tracking-tight text-sidebar-foreground">Executive Brief</h2>
@@ -157,14 +158,21 @@ export default function Home() {
                   <div className="h-36 w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={financialMonthly?.slice(-6) || []} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+                        <defs>
+                          <linearGradient id="kpiBarBlue" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.95} />
+                            <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.5} />
+                          </linearGradient>
+                        </defs>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--card-border))" />
                         <XAxis dataKey="month" fontSize={10} tickLine={false} axisLine={false} tick={{ fill: 'hsl(var(--muted-foreground))' }} />
                         <YAxis fontSize={10} tickLine={false} axisLine={false} tickFormatter={(val) => `$${(val/1000)}k`} tick={{ fill: 'hsl(var(--muted-foreground))' }} />
                         <Tooltip
+                          cursor={{ fill: 'hsl(var(--primary) / 0.06)' }}
                           contentStyle={{ fontSize: '12px', backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--card-border))' }}
                           formatter={(val) => `$${Number(val).toLocaleString()}`}
                         />
-                        <Bar dataKey="actual" fill="hsl(var(--primary))" radius={[2, 2, 0, 0]} barSize={16} />
+                        <Bar dataKey="actual" fill="url(#kpiBarBlue)" radius={[3, 3, 0, 0]} barSize={18} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -257,16 +265,29 @@ export default function Home() {
   );
 }
 
+const KPI_TONE: Record<string, { bar: string; chip: string; border: string }> = {
+  green: { bar: "bg-emerald-500", chip: "bg-emerald-50 text-emerald-600 ring-emerald-200", border: "hover:border-emerald-300" },
+  amber: { bar: "bg-amber-500", chip: "bg-amber-50 text-amber-600 ring-amber-200", border: "hover:border-amber-300" },
+  red: { bar: "bg-red-500", chip: "bg-red-50 text-red-600 ring-red-200", border: "hover:border-red-300" },
+  blue: { bar: "bg-primary", chip: "bg-primary/10 text-primary ring-primary/20", border: "hover:border-primary/40" },
+};
+
 function KpiCard({ label, value, trend, helper, icon: Icon }: { label: string, value: string, trend?: string | null, helper?: string | null, icon: any }) {
+  const tone = trend === 'up' ? 'green' : trend === 'down' ? 'amber' : 'blue';
+  const t = KPI_TONE[tone];
   return (
-    <div className="border border-card-border rounded bg-card p-5 shadow-sm relative overflow-hidden group flex flex-col">
-      <div className="absolute top-0 left-0 right-0 h-1 bg-primary/20" />
-      <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-3 pr-8">{label}</div>
+    <div className={`border border-card-border rounded bg-card p-5 shadow-sm relative overflow-hidden group flex flex-col transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 ${t.border}`}>
+      <div className={`absolute top-0 left-0 right-0 h-1 ${t.bar}`} />
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground pt-1">{label}</div>
+        <span className={`shrink-0 inline-flex h-8 w-8 items-center justify-center rounded ring-1 ${t.chip}`}>
+          <Icon className="h-4 w-4" />
+        </span>
+      </div>
       <div className="text-3xl font-sans font-bold text-card-foreground tracking-tighter tabular-nums mb-3">{value}</div>
       <div className="mt-auto">
         <StatusBadge status={trend === 'up' ? 'on_track' : trend === 'down' ? 'watch' : 'info'} label={helper || trend || ''} />
       </div>
-      <Icon className="absolute top-4 right-4 h-5 w-5 text-muted-foreground/30 group-hover:text-primary transition-colors" />
     </div>
   );
 }

@@ -85,11 +85,11 @@ export function Shell({ children }: { children: ReactNode }) {
       {/* Main Content Area */}
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
         {/* Top Breadcrumb Bar */}
-        <header className="hidden md:flex sticky top-0 z-20 items-center justify-between px-8 py-3 border-b border-sidebar-border bg-background">
+        <header className="hidden md:flex sticky top-0 z-20 items-center justify-between px-8 py-3 border-b border-sidebar-border bg-background/80 backdrop-blur-md">
           <div className="text-xs font-medium text-sidebar-foreground/70 flex items-center gap-2">
             Rose OS <span className="text-sidebar-border">/</span> <span className="text-sidebar-foreground">TonyOS Command Center</span>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-sidebar-accent/50 border border-sidebar-border">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-primary/10 border border-primary/20 shadow-[0_0_18px_-6px_hsl(var(--primary)/0.7)]">
             <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             <span className="text-[11px] font-mono tracking-wide text-sidebar-foreground">Tony Casella &bull; Founder-Level Strategic Oversight</span>
           </div>
@@ -116,7 +116,7 @@ function SidebarContent({
     <>
       <div className="flex items-center justify-between px-6 py-6">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-primary rounded flex items-center justify-center shadow-sm">
+          <div className="w-8 h-8 bg-primary rounded flex items-center justify-center ring-1 ring-primary/40 shadow-[0_0_20px_-4px_hsl(var(--primary)/0.8)]">
             <span className="text-xs font-bold text-primary-foreground tracking-tighter">TO</span>
           </div>
           <div>

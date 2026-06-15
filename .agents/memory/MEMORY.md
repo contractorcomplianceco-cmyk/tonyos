@@ -1,3 +1,4 @@
 - [Forbidden colors hide in Tailwind utilities](forbidden-colors-tailwind.md) — re-theming CSS tokens does NOT catch hardcoded `bg-rose-*`/`text-rose-*` etc. in components; grep the whole tree.
 - [Navy-shell inner-card contrast trap](navy-shell-contrast.md) — cockpit inner cards inside white panels must use `bg-secondary`, never `bg-background`, or dark text goes invisible; also milestone dates are raw strings, guardrail status is "Active".
 - [StatusBadge normalization & tone overrides](status-badge-normalization.md) — cockpit API returns human-cased status/severity ("In Progress", "High"); per-page tone overrides must use `normalizeStatus()`, never strict-equal raw values, or they silently fall through.
+- [Cockpit single-hue depth gradients are intentional](cockpit-facelift-gradients.md) — the navy shell depth, blue chart-bar fill, and steel header accents are deliberate single-hue treatments; don't strip them as "no gradients" brief violations.
