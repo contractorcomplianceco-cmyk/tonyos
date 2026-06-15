@@ -164,7 +164,7 @@ export default function DecisionDetail() {
             </div>
             <div className="p-5">
               {decision.sourceRecord ? (
-                <Link href="/brain" className="text-sm font-semibold text-primary flex items-center gap-2 hover:underline">
+                <Link href={`/brain?record=${encodeURIComponent(decision.sourceRecord)}`} className="text-sm font-semibold text-primary flex items-center gap-2 hover:underline">
                   <FileText className="h-4 w-4" />
                   {decision.sourceRecord}
                 </Link>

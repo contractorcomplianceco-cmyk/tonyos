@@ -1,2 +1,3 @@
 - [Authority-mode lens scope](authority-lens-scope.md) — the Founder Authority Mode lens filters only authority-gated action items (decisions, projects), never org-structure/health entities (brands, departments, predictors).
 - [Brand color guardrails](brand-color-guardrails.md) — no gradients/orbs/pink/purple/rose; even the "Rose" authority label uses amber, not pink.
+- [Orval query-options require queryKey](orval-query-options.md) — generated hooks reject a bare `{ query: { enabled } }`; call unconditionally and guard on data.

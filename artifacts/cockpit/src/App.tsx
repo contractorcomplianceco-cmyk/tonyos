@@ -11,6 +11,8 @@ import Home from "@/pages/Home";
 import Brands from "@/pages/Brands";
 import BrandDetail from "@/pages/BrandDetail";
 import Operating from "@/pages/Operating";
+import DepartmentDetail from "@/pages/DepartmentDetail";
+import ProjectDetail from "@/pages/ProjectDetail";
 import Predictors from "@/pages/Predictors";
 import Pulse from "@/pages/Pulse";
 import Financial from "@/pages/Financial";
@@ -37,6 +39,8 @@ function Router() {
         <Route path="/brands" component={Brands} />
         <Route path="/brands/:code" component={BrandDetail} />
         <Route path="/operating" component={Operating} />
+        <Route path="/departments/:id" component={DepartmentDetail} />
+        <Route path="/projects/:id" component={ProjectDetail} />
         <Route path="/predictors" component={Predictors} />
         <Route path="/pulse" component={Pulse} />
         <Route path="/financial" component={Financial} />

@@ -1,4 +1,6 @@
 import { useGetSourceRecords, useGetGuardrails } from "@workspace/api-client-react";
+import { useSearch } from "wouter";
+import { useEffect, useMemo, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Database, Lock, CheckCircle2, ShieldAlert } from "lucide-react";
 import { format } from "date-fns";
@@ -11,6 +13,16 @@ import { ErrorState } from "@/components/common/ErrorState";
 export default function Brain() {
   const { data: records, isLoading: loadingRecords, isError: recordsError, refetch: refetchRecords } = useGetSourceRecords();
   const { data: guardrails, isLoading: loadingGuardrails, isError: guardrailsError, refetch: refetchGuardrails } = useGetGuardrails();
+
+  const search = useSearch();
+  const highlight = useMemo(() => new URLSearchParams(search).get("record"), [search]);
+  const highlightRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (highlight && highlightRef.current) {
+      highlightRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [highlight, records]);
 
   return (
     <div className="space-y-8 pb-12">
@@ -34,8 +46,14 @@ export default function Brain() {
               <ErrorState onRetry={() => refetchRecords()} />
             ) : records?.length === 0 ? (
               <EmptyState icon={Database} title="No source records" description="No source records are currently connected." />
-            ) : records?.map((rec) => (
-              <div key={rec.id} className="border border-card-border rounded p-4 flex justify-between items-center bg-secondary hover:border-primary/50 transition-colors">
+            ) : records?.map((rec) => {
+              const isHighlighted = !!highlight && rec.title === highlight;
+              return (
+              <div
+                key={rec.id}
+                ref={isHighlighted ? highlightRef : undefined}
+                className={`border rounded p-4 flex justify-between items-center transition-colors ${isHighlighted ? "border-primary ring-1 ring-primary/40 bg-primary/5" : "border-card-border bg-secondary hover:border-primary/50"}`}
+              >
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-sm font-semibold text-card-foreground">{rec.title}</h3>
@@ -58,7 +76,8 @@ export default function Brain() {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </Panel>
         </div>
 

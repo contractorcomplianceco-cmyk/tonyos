@@ -37,7 +37,7 @@ _Populate as you build — short repo map plus pointers to the source-of-truth f
 ## Product
 
 This is the **CAG (Compliance Authority Group) parent-company command center**. Hierarchy: CAG parent → brands (CCA active + candidates PCA/QCA/CANNA CA/GCA) → CCA departments → projects → decisions. Sidebar sections, all read-mostly:
-- `/` Parent Overview (Home) — CAG portfolio dashboard: KPI row (Company Pulse, Collected Retained Revenue, Operating Reserve, Major Decisions Pending, Predictive Alerts), brand-portfolio org tree, Major Decision Queue (authority-mode lens), Predictive Intelligence radar, Governance Guardrails, CLP strip. Carries the Founder Authority Mode toggle.
+- `/` Parent Overview (Home) — CAG portfolio dashboard: KPI row (Company Pulse, Collected Retained Revenue, Operating Reserve, Major Decisions Pending, Predictive Alerts), brand-portfolio org tree, Major Decision Control table (impact / required authority / status / due, authority-mode lens), embedded CCA Operating Pulse snapshot table, Financial Intelligence block, Predictive Intelligence radar, Governance Guardrails, CLP strip. Carries the Founder Authority Mode toggle.
 - `/brands` Brand Portfolio (+ `/brands/:code` Brand Detail) — org tree + active/candidate brand cards; drill-down shows brand profile/health, department health, projects, and brand predictive signals.
 - `/operating` CCA Operating Pulse — composite health, departments-on-track, open blockers, Department Health table, Active Projects. Carries the Founder Authority Mode toggle (lens filters projects by authority label).
 - `/predictors` Predictive Intelligence — 18 forward-looking modules (radar + category-filterable cards).

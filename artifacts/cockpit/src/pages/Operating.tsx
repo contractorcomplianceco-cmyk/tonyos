@@ -1,6 +1,7 @@
 import { useGetDepartments, useGetProjects } from "@workspace/api-client-react";
+import { Link } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Layers, GanttChartSquare, Activity } from "lucide-react";
+import { Layers, GanttChartSquare, Activity, ChevronRight } from "lucide-react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorState } from "@/components/common/ErrorState";
@@ -69,17 +70,20 @@ export default function Operating() {
         ) : filteredProjects.length > 0 ? (
           <div className="divide-y divide-card-border">
             {filteredProjects.map((p) => (
-              <div key={p.id} className="px-6 py-4 flex flex-wrap items-center justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="font-semibold text-card-foreground tracking-tight">{p.name}</div>
-                  <div className="text-[11px] text-muted-foreground mt-0.5">{p.department ?? "—"}{p.owner ? ` • ${p.owner}` : ""}{p.dueDate ? ` • Due ${p.dueDate}` : ""}</div>
-                  {p.summary && <p className="text-xs text-card-foreground/70 mt-1.5 max-w-2xl">{p.summary}</p>}
+              <Link key={p.id} href={`/projects/${p.id}`} className="block group">
+                <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 hover:bg-secondary/40 transition-colors">
+                  <div className="min-w-0">
+                    <div className="font-semibold text-card-foreground tracking-tight group-hover:text-primary transition-colors">{p.name}</div>
+                    <div className="text-[11px] text-muted-foreground mt-0.5">{p.department ?? "—"}{p.owner ? ` • ${p.owner}` : ""}{p.dueDate ? ` • Due ${p.dueDate}` : ""}</div>
+                    {p.summary && <p className="text-xs text-card-foreground/70 mt-1.5 max-w-2xl">{p.summary}</p>}
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <StatusBadge status={p.status} />
+                    <AuthorityBadge label={p.authorityLabel} />
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <StatusBadge status={p.status} />
-                  <AuthorityBadge label={p.authorityLabel} />
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (projects && projects.length > 0) ? (

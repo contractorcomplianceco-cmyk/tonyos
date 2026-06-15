@@ -5,6 +5,8 @@ import {
   useGetBrands,
   useGetPredictors,
   useGetGuardrails,
+  useGetDepartments,
+  useGetFinancialOverview,
 } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "wouter";
@@ -21,6 +23,8 @@ import {
   Minus,
   Network,
   Radar as RadarIcon,
+  Layers,
+  Wallet,
 } from "lucide-react";
 import { ResponsiveContainer, AreaChart, Area } from "recharts";
 import { PageHeader } from "@/components/common/PageHeader";
@@ -30,7 +34,8 @@ import { ErrorState } from "@/components/common/ErrorState";
 import { Panel } from "@/components/common/Panel";
 import { OrgTree } from "@/components/common/OrgTree";
 import { IntelRadar } from "@/components/common/IntelRadar";
-import { AuthorityBadge } from "@/components/common/AuthorityBadge";
+import { DepartmentTable } from "@/components/common/DepartmentTable";
+import { DecisionTable } from "@/components/common/DecisionTable";
 import { useAuthorityMode, AuthorityModeToggle } from "@/context/AuthorityMode";
 import { matchesMode } from "@/lib/authority";
 
@@ -42,6 +47,8 @@ export default function Home() {
   const { data: brands, isLoading: loadingBrands, isError: brandsError, refetch: refetchBrands } = useGetBrands();
   const { data: predictors, isLoading: loadingPredictors, isError: predictorsError, refetch: refetchPredictors } = useGetPredictors();
   const { data: guardrails, isLoading: loadingGuardrails, isError: guardrailsError } = useGetGuardrails();
+  const { data: ccaDepartments, isLoading: loadingCcaDept, isError: ccaDeptError, refetch: refetchCcaDept } = useGetDepartments({ brand: "CCA" });
+  const { data: financial, isLoading: loadingFinancial, isError: financialError, refetch: refetchFinancial } = useGetFinancialOverview();
 
   const radarData = (predictors ?? [])
     .filter((p) => p.onRadar)
@@ -110,48 +117,95 @@ export default function Home() {
         )}
       </Panel>
 
+      {/* Major Decision Control */}
+      <Panel
+        icon={Lock}
+        title="Major Decision Control"
+        action={<Link href="/decisions" className="text-[10px] font-mono uppercase tracking-widest text-primary hover:underline">View All</Link>}
+        bodyClassName="p-0"
+      >
+        {decisionSummary && (
+          <div className="grid grid-cols-2 divide-x divide-card-border border-b border-card-border bg-secondary/40">
+            <div className="px-5 py-3">
+              <div className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest">Capital Impact Under Review</div>
+              <div className="text-lg font-bold text-card-foreground tracking-tight tabular-nums mt-1">{decisionSummary.totalImpact}</div>
+            </div>
+            <div className="px-5 py-3">
+              <div className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest">Pending Founder Approval</div>
+              <div className="text-lg font-bold text-card-foreground tracking-tight tabular-nums mt-1">{decisionSummary.pendingApproval} <span className="text-xs font-medium text-muted-foreground">of {decisionSummary.total}</span></div>
+            </div>
+          </div>
+        )}
+        {loadingDecisions ? <div className="p-5"><Skeleton className="h-48" /></div> : decisionsError ? (
+          <div className="p-5"><ErrorState onRetry={() => refetchDecisions()} /></div>
+        ) : filteredDecisions.length === 0 ? (
+          <div className="p-5"><EmptyState icon={CheckCircle2} title="No decisions in this lens" description={`No pending decisions match the ${mode} authority lens.`} /></div>
+        ) : (
+          <DecisionTable decisions={filteredDecisions} />
+        )}
+      </Panel>
+
+      {/* CCA Operating Pulse snapshot */}
+      <Panel
+        icon={Layers}
+        title="CCA Operating Pulse"
+        action={<Link href="/operating" className="text-[10px] font-mono uppercase tracking-widest text-primary hover:underline">Open Operating Pulse</Link>}
+        bodyClassName="p-0"
+      >
+        {loadingCcaDept ? <div className="p-6"><Skeleton className="h-40" /></div> : ccaDeptError ? (
+          <div className="p-6"><ErrorState onRetry={() => refetchCcaDept()} /></div>
+        ) : ccaDepartments && ccaDepartments.length > 0 ? (
+          <DepartmentTable departments={ccaDepartments} />
+        ) : (
+          <div className="p-6"><EmptyState icon={Layers} title="No departments" description="No CCA departments are configured yet." /></div>
+        )}
+      </Panel>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Major Decisions */}
+        {/* Financial Intelligence */}
         <Panel
-          icon={Lock}
-          title="Major Decision Queue"
-          action={<Link href="/decisions" className="text-[10px] font-mono uppercase tracking-widest text-primary hover:underline">View All</Link>}
-          bodyClassName="p-0"
+          icon={Wallet}
+          title="Financial Intelligence"
+          action={<Link href="/financial" className="text-[10px] font-mono uppercase tracking-widest text-primary hover:underline">Financial Review</Link>}
         >
-          {decisionSummary && (
-            <div className="grid grid-cols-2 divide-x divide-card-border border-b border-card-border bg-secondary/40">
-              <div className="px-5 py-3">
-                <div className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest">Capital Impact Under Review</div>
-                <div className="text-lg font-bold text-card-foreground tracking-tight tabular-nums mt-1">{decisionSummary.totalImpact}</div>
+          {loadingFinancial ? <Skeleton className="h-64" /> : financialError ? (
+            <ErrorState onRetry={() => refetchFinancial()} />
+          ) : financial ? (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="border border-card-border rounded p-4 bg-secondary/40">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-1">Operating Reserve</div>
+                  <div className="text-2xl font-bold text-card-foreground tabular-nums tracking-tight">{financial.reserveMonths}<span className="text-sm text-muted-foreground font-semibold ml-1">mo</span></div>
+                  <div className="text-[10px] font-mono text-muted-foreground mt-1">Target {financial.reserveTarget}mo</div>
+                </div>
+                <div className="border border-card-border rounded p-4 bg-secondary/40">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-1">Revenue Trigger</div>
+                  <div className="text-2xl font-bold text-card-foreground tabular-nums tracking-tight">{financial.revenueTriggerProgress}<span className="text-sm text-muted-foreground font-semibold ml-1">%</span></div>
+                  <div className="w-full bg-secondary rounded-full h-1.5 mt-2.5">
+                    <div className="bg-primary h-1.5 rounded-full" style={{ width: `${Math.min(100, Math.max(0, financial.revenueTriggerProgress))}%` }} />
+                  </div>
+                </div>
               </div>
-              <div className="px-5 py-3">
-                <div className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest">Pending Founder Approval</div>
-                <div className="text-lg font-bold text-card-foreground tracking-tight tabular-nums mt-1">{decisionSummary.pendingApproval} <span className="text-xs font-medium text-muted-foreground">of {decisionSummary.total}</span></div>
+              <div className="divide-y divide-card-border border-t border-card-border">
+                {financial.metrics.slice(0, 4).map((metric, i) => (
+                  <div key={i} className="flex items-center justify-between py-2.5">
+                    <span className="text-xs text-card-foreground/80 font-medium">{metric.label}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-card-foreground tabular-nums">{metric.value}{metric.unit ?? ""}</span>
+                      {metric.change && (
+                        <span className={`inline-flex items-center gap-0.5 text-[10px] font-bold tabular-nums ${metric.trend === "up" ? "text-emerald-400" : metric.trend === "down" ? "text-amber-400" : "text-muted-foreground"}`}>
+                          {metric.trend === "up" ? <ArrowUpRight className="h-3 w-3" /> : metric.trend === "down" ? <ArrowDownRight className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
+                          {metric.change}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
+          ) : (
+            <EmptyState icon={Wallet} title="No financial data" />
           )}
-          <div className="p-5 space-y-3">
-            {loadingDecisions ? <Skeleton className="h-48" /> : decisionsError ? (
-              <ErrorState onRetry={() => refetchDecisions()} />
-            ) : filteredDecisions.length === 0 ? (
-              <EmptyState icon={CheckCircle2} title="No decisions in this lens" description={`No pending decisions match the ${mode} authority lens.`} />
-            ) : filteredDecisions.map((dec) => (
-              <Link key={dec.id} href={`/decisions/${dec.id}`} className="block group">
-                <div className="border border-card-border rounded p-3 hover:border-primary/50 transition-colors flex justify-between items-center gap-3 bg-card shadow-sm relative overflow-hidden">
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary/0 group-hover:bg-primary transition-colors" />
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      {dec.brandCode && <span className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground border border-card-border rounded-[2px] px-1.5 py-0.5">{dec.brandCode}</span>}
-                      <span className="text-[10px] text-primary font-mono uppercase tracking-widest">{dec.approvalType.replace(/_/g, " ")}</span>
-                    </div>
-                    <div className="text-sm font-semibold text-card-foreground truncate">{dec.title}</div>
-                    <div className="mt-1.5"><AuthorityBadge label={dec.authorityLabel} /></div>
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
-                </div>
-              </Link>
-            ))}
-          </div>
         </Panel>
 
         {/* Predictors Radar */}
