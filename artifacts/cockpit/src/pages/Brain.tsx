@@ -9,6 +9,7 @@ import { Panel } from "@/components/common/Panel";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorState } from "@/components/common/ErrorState";
+import { GuardrailNote } from "@/components/common/GuardrailNote";
 
 export default function Brain() {
   const { data: records, isLoading: loadingRecords, isError: recordsError, refetch: refetchRecords } = useGetSourceRecords();
@@ -28,8 +29,10 @@ export default function Brain() {
     <div className="space-y-8 pb-12">
       <PageHeader
         title="Company Brain"
-        subtitle="Source record integrity and authority guardrails."
+        subtitle="Source record integrity and authority guardrails across the CAG portfolio."
       />
+
+      <GuardrailNote text="Company Brain is read-only intelligence. Source records and authority guardrails are for visibility — no system of record is changed without written founder approval." />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Source Records */}

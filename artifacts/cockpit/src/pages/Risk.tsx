@@ -6,6 +6,7 @@ import { Panel } from "@/components/common/Panel";
 import { StatusBadge, normalizeStatus } from "@/components/common/StatusBadge";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorState } from "@/components/common/ErrorState";
+import { GuardrailNote } from "@/components/common/GuardrailNote";
 
 export default function Risk() {
   const { data: risks, isLoading: loadingRisks, isError: risksError, refetch: refetchRisks } = useGetRiskItems();
@@ -15,8 +16,10 @@ export default function Risk() {
     <div className="space-y-8 pb-12">
       <PageHeader
         title="Risk & Platform Strategy"
-        subtitle="Strategic risk oversight and AI/Platform roadmap visibility."
+        subtitle="Parent-level strategic risk oversight and AI/Platform roadmap visibility across the CAG portfolio."
       />
+
+      <GuardrailNote text="Risk and platform intelligence only. Audit findings and roadmap phases are recommendations — no remediation, vendor commitment, or platform investment proceeds without written founder approval." />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Risks */}

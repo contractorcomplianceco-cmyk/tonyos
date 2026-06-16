@@ -9,6 +9,7 @@ import { Panel } from "@/components/common/Panel";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorState } from "@/components/common/ErrorState";
+import { GuardrailNote } from "@/components/common/GuardrailNote";
 
 export default function Financial() {
   const { data: overview, isLoading: loadingOverview, isError: overviewError, refetch: refetchOverview } = useGetFinancialOverview();
@@ -20,12 +21,10 @@ export default function Financial() {
     <div className="space-y-8 pb-12">
       <PageHeader
         title="Financial Review"
-        subtitle={
-          <span className="flex items-center gap-2">
-            <Eye className="h-4 w-4 text-primary" /> Visibility Only — No Signing or Transfer Authority
-          </span>
-        }
+        subtitle="Parent-level financial review across the CAG portfolio."
       />
+
+      <GuardrailNote text="Financial visibility only across the CAG portfolio. No signing, transfer, or payment authority — commitments require explicit written founder approval." />
 
       {loadingOverview ? (
         <Skeleton className="h-32 w-full rounded border-border" />
