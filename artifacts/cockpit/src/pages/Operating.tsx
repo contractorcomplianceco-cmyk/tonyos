@@ -3,6 +3,8 @@ import {
   useGetProjects,
   useGetProjectNotes,
   useCreateProjectNote,
+  useUpdateProjectNote,
+  useDeleteProjectNote,
   getGetProjectNotesQueryKey,
   type Project,
 } from "@workspace/api-client-react";
@@ -106,6 +108,8 @@ function ProjectPulseRow({ project }: { project: Project }) {
     query: { queryKey: getGetProjectNotesQueryKey(project.id), enabled: open },
   });
   const createNote = useCreateProjectNote();
+  const updateNote = useUpdateProjectNote();
+  const deleteNote = useDeleteProjectNote();
   const noteCount = notes?.length ?? 0;
 
   return (
@@ -143,8 +147,16 @@ function ProjectPulseRow({ project }: { project: Project }) {
             isLoading={loadingNotes}
             isPending={createNote.isPending}
             invalidateKey={getGetProjectNotesQueryKey(project.id)}
+            isUpdating={updateNote.isPending}
+            isDeleting={deleteNote.isPending}
             onSubmit={(body, callbacks) =>
               createNote.mutate({ id: project.id, data: { body } }, callbacks)
+            }
+            onUpdate={(noteId, body, callbacks) =>
+              updateNote.mutate({ id: project.id, noteId, data: { body } }, callbacks)
+            }
+            onDelete={(noteId, callbacks) =>
+              deleteNote.mutate({ id: project.id, noteId }, callbacks)
             }
           />
         </div>

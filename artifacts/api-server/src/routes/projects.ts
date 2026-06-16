@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { db, projectsTable, projectNotesTable } from "@workspace/db";
-import { asc, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import {
   GetProjectsResponse,
   GetProjectsQueryParams,
@@ -10,6 +10,9 @@ import {
   GetProjectNotesParams,
   CreateProjectNoteParams,
   CreateProjectNoteBody,
+  UpdateProjectNoteParams,
+  UpdateProjectNoteBody,
+  DeleteProjectNoteParams,
 } from "@workspace/api-zod";
 
 const router: IRouter = Router();
@@ -84,6 +87,56 @@ router.post("/projects/:id/notes", async (req, res) => {
     .returning();
 
   res.status(201).json(created);
+});
+
+router.patch("/projects/:id/notes/:noteId", async (req, res) => {
+  const { id, noteId } = UpdateProjectNoteParams.parse(req.params);
+  const body = UpdateProjectNoteBody.parse(req.body);
+
+  const trimmedBody = body.body.trim();
+  if (!trimmedBody) {
+    res.status(400).json({ error: "Note body must not be empty" });
+    return;
+  }
+
+  const [updated] = await db
+    .update(projectNotesTable)
+    .set({ body: trimmedBody })
+    .where(
+      and(
+        eq(projectNotesTable.id, noteId),
+        eq(projectNotesTable.projectId, id),
+      ),
+    )
+    .returning();
+
+  if (!updated) {
+    res.status(404).json({ error: "Note not found" });
+    return;
+  }
+
+  res.json(updated);
+});
+
+router.delete("/projects/:id/notes/:noteId", async (req, res) => {
+  const { id, noteId } = DeleteProjectNoteParams.parse(req.params);
+
+  const [deleted] = await db
+    .delete(projectNotesTable)
+    .where(
+      and(
+        eq(projectNotesTable.id, noteId),
+        eq(projectNotesTable.projectId, id),
+      ),
+    )
+    .returning();
+
+  if (!deleted) {
+    res.status(404).json({ error: "Note not found" });
+    return;
+  }
+
+  res.status(204).end();
 });
 
 export default router;

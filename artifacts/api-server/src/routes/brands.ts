@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { db, brandsTable, brandNotesTable } from "@workspace/db";
-import { asc, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import {
   GetBrandsResponse,
   GetBrandParams,
@@ -9,6 +9,9 @@ import {
   GetBrandNotesParams,
   CreateBrandNoteParams,
   CreateBrandNoteBody,
+  UpdateBrandNoteParams,
+  UpdateBrandNoteBody,
+  DeleteBrandNoteParams,
 } from "@workspace/api-zod";
 
 const router: IRouter = Router();
@@ -79,6 +82,56 @@ router.post("/brands/:code/notes", async (req, res) => {
     .returning();
 
   res.status(201).json(created);
+});
+
+router.patch("/brands/:code/notes/:noteId", async (req, res) => {
+  const { code, noteId } = UpdateBrandNoteParams.parse(req.params);
+  const body = UpdateBrandNoteBody.parse(req.body);
+
+  const trimmedBody = body.body.trim();
+  if (!trimmedBody) {
+    res.status(400).json({ error: "Note body must not be empty" });
+    return;
+  }
+
+  const [updated] = await db
+    .update(brandNotesTable)
+    .set({ body: trimmedBody })
+    .where(
+      and(
+        eq(brandNotesTable.id, noteId),
+        eq(brandNotesTable.brandCode, code),
+      ),
+    )
+    .returning();
+
+  if (!updated) {
+    res.status(404).json({ error: "Note not found" });
+    return;
+  }
+
+  res.json(updated);
+});
+
+router.delete("/brands/:code/notes/:noteId", async (req, res) => {
+  const { code, noteId } = DeleteBrandNoteParams.parse(req.params);
+
+  const [deleted] = await db
+    .delete(brandNotesTable)
+    .where(
+      and(
+        eq(brandNotesTable.id, noteId),
+        eq(brandNotesTable.brandCode, code),
+      ),
+    )
+    .returning();
+
+  if (!deleted) {
+    res.status(404).json({ error: "Note not found" });
+    return;
+  }
+
+  res.status(204).end();
 });
 
 export default router;

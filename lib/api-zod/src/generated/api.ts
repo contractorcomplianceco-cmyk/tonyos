@@ -192,6 +192,40 @@ export const CreateDecisionNoteBody = zod.object({
 
 
 /**
+ * @summary Edit a founder participation note (recommend-only, not an approval)
+ */
+export const UpdateDecisionNoteParams = zod.object({
+  "id": zod.coerce.number(),
+  "noteId": zod.coerce.number()
+})
+
+
+
+
+export const UpdateDecisionNoteBody = zod.object({
+  "author": zod.string().optional(),
+  "body": zod.string().min(1)
+})
+
+export const UpdateDecisionNoteResponse = zod.object({
+  "id": zod.number(),
+  "decisionId": zod.number(),
+  "author": zod.string(),
+  "body": zod.string(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Remove a founder participation note added in error
+ */
+export const DeleteDecisionNoteParams = zod.object({
+  "id": zod.coerce.number(),
+  "noteId": zod.coerce.number()
+})
+
+
+/**
  * @summary Financial visibility overview (visibility only)
  */
 export const GetFinancialOverviewResponse = zod.object({
@@ -450,6 +484,40 @@ export const CreateBrandNoteBody = zod.object({
 
 
 /**
+ * @summary Edit a founder participation note on a brand (recommend-only, not an approval)
+ */
+export const UpdateBrandNoteParams = zod.object({
+  "code": zod.coerce.string(),
+  "noteId": zod.coerce.number()
+})
+
+
+
+
+export const UpdateBrandNoteBody = zod.object({
+  "author": zod.string().optional(),
+  "body": zod.string().min(1)
+})
+
+export const UpdateBrandNoteResponse = zod.object({
+  "id": zod.number(),
+  "brandCode": zod.string(),
+  "author": zod.string(),
+  "body": zod.string(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Remove a founder participation note on a brand added in error
+ */
+export const DeleteBrandNoteParams = zod.object({
+  "code": zod.coerce.string(),
+  "noteId": zod.coerce.number()
+})
+
+
+/**
  * @summary Brand department health
  */
 export const GetDepartmentsQueryParams = zod.object({
@@ -547,6 +615,40 @@ export const CreateProjectNoteParams = zod.object({
 export const CreateProjectNoteBody = zod.object({
   "author": zod.string().optional(),
   "body": zod.string().min(1)
+})
+
+
+/**
+ * @summary Edit a founder participation note on a project (recommend-only, not an approval)
+ */
+export const UpdateProjectNoteParams = zod.object({
+  "id": zod.coerce.number(),
+  "noteId": zod.coerce.number()
+})
+
+
+
+
+export const UpdateProjectNoteBody = zod.object({
+  "author": zod.string().optional(),
+  "body": zod.string().min(1)
+})
+
+export const UpdateProjectNoteResponse = zod.object({
+  "id": zod.number(),
+  "projectId": zod.number(),
+  "author": zod.string(),
+  "body": zod.string(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Remove a founder participation note on a project added in error
+ */
+export const DeleteProjectNoteParams = zod.object({
+  "id": zod.coerce.number(),
+  "noteId": zod.coerce.number()
 })
 
 

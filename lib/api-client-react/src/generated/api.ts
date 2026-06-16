@@ -759,6 +759,152 @@ export const useCreateDecisionNote = <TError = ErrorType<Error>,
       return useMutation(getCreateDecisionNoteMutationOptions(options));
     }
 
+export const getUpdateDecisionNoteUrl = (id: number,
+    noteId: number,) => {
+
+
+
+
+  return `/api/decisions/${id}/notes/${noteId}`
+}
+
+/**
+ * @summary Edit a founder participation note (recommend-only, not an approval)
+ */
+export const updateDecisionNote = async (id: number,
+    noteId: number,
+    decisionNoteInput: DecisionNoteInput, options?: RequestInit): Promise<DecisionNote> => {
+
+  return customFetch<DecisionNote>(getUpdateDecisionNoteUrl(id,noteId),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      decisionNoteInput,)
+  }
+);}
+
+
+
+
+export const getUpdateDecisionNoteMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateDecisionNote>>, TError,{id: number;noteId: number;data: BodyType<DecisionNoteInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateDecisionNote>>, TError,{id: number;noteId: number;data: BodyType<DecisionNoteInput>}, TContext> => {
+
+const mutationKey = ['updateDecisionNote'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateDecisionNote>>, {id: number;noteId: number;data: BodyType<DecisionNoteInput>}> = (props) => {
+          const {id,noteId,data} = props ?? {};
+
+          return  updateDecisionNote(id,noteId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateDecisionNoteMutationResult = NonNullable<Awaited<ReturnType<typeof updateDecisionNote>>>
+    export type UpdateDecisionNoteMutationBody = BodyType<DecisionNoteInput>
+    export type UpdateDecisionNoteMutationError = ErrorType<Error>
+
+    /**
+ * @summary Edit a founder participation note (recommend-only, not an approval)
+ */
+export const useUpdateDecisionNote = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateDecisionNote>>, TError,{id: number;noteId: number;data: BodyType<DecisionNoteInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateDecisionNote>>,
+        TError,
+        {id: number;noteId: number;data: BodyType<DecisionNoteInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateDecisionNoteMutationOptions(options));
+    }
+
+export const getDeleteDecisionNoteUrl = (id: number,
+    noteId: number,) => {
+
+
+
+
+  return `/api/decisions/${id}/notes/${noteId}`
+}
+
+/**
+ * @summary Remove a founder participation note added in error
+ */
+export const deleteDecisionNote = async (id: number,
+    noteId: number, options?: RequestInit): Promise<void> => {
+
+  return customFetch<void>(getDeleteDecisionNoteUrl(id,noteId),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getDeleteDecisionNoteMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteDecisionNote>>, TError,{id: number;noteId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteDecisionNote>>, TError,{id: number;noteId: number}, TContext> => {
+
+const mutationKey = ['deleteDecisionNote'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteDecisionNote>>, {id: number;noteId: number}> = (props) => {
+          const {id,noteId} = props ?? {};
+
+          return  deleteDecisionNote(id,noteId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteDecisionNoteMutationResult = NonNullable<Awaited<ReturnType<typeof deleteDecisionNote>>>
+
+    export type DeleteDecisionNoteMutationError = ErrorType<Error>
+
+    /**
+ * @summary Remove a founder participation note added in error
+ */
+export const useDeleteDecisionNote = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteDecisionNote>>, TError,{id: number;noteId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteDecisionNote>>,
+        TError,
+        {id: number;noteId: number},
+        TContext
+      > => {
+      return useMutation(getDeleteDecisionNoteMutationOptions(options));
+    }
+
 export const getGetFinancialOverviewUrl = () => {
 
 
@@ -1909,6 +2055,152 @@ export const useCreateBrandNote = <TError = ErrorType<Error>,
       return useMutation(getCreateBrandNoteMutationOptions(options));
     }
 
+export const getUpdateBrandNoteUrl = (code: string,
+    noteId: number,) => {
+
+
+
+
+  return `/api/brands/${code}/notes/${noteId}`
+}
+
+/**
+ * @summary Edit a founder participation note on a brand (recommend-only, not an approval)
+ */
+export const updateBrandNote = async (code: string,
+    noteId: number,
+    noteInput: NoteInput, options?: RequestInit): Promise<BrandNote> => {
+
+  return customFetch<BrandNote>(getUpdateBrandNoteUrl(code,noteId),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      noteInput,)
+  }
+);}
+
+
+
+
+export const getUpdateBrandNoteMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateBrandNote>>, TError,{code: string;noteId: number;data: BodyType<NoteInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateBrandNote>>, TError,{code: string;noteId: number;data: BodyType<NoteInput>}, TContext> => {
+
+const mutationKey = ['updateBrandNote'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateBrandNote>>, {code: string;noteId: number;data: BodyType<NoteInput>}> = (props) => {
+          const {code,noteId,data} = props ?? {};
+
+          return  updateBrandNote(code,noteId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateBrandNoteMutationResult = NonNullable<Awaited<ReturnType<typeof updateBrandNote>>>
+    export type UpdateBrandNoteMutationBody = BodyType<NoteInput>
+    export type UpdateBrandNoteMutationError = ErrorType<Error>
+
+    /**
+ * @summary Edit a founder participation note on a brand (recommend-only, not an approval)
+ */
+export const useUpdateBrandNote = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateBrandNote>>, TError,{code: string;noteId: number;data: BodyType<NoteInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateBrandNote>>,
+        TError,
+        {code: string;noteId: number;data: BodyType<NoteInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateBrandNoteMutationOptions(options));
+    }
+
+export const getDeleteBrandNoteUrl = (code: string,
+    noteId: number,) => {
+
+
+
+
+  return `/api/brands/${code}/notes/${noteId}`
+}
+
+/**
+ * @summary Remove a founder participation note on a brand added in error
+ */
+export const deleteBrandNote = async (code: string,
+    noteId: number, options?: RequestInit): Promise<void> => {
+
+  return customFetch<void>(getDeleteBrandNoteUrl(code,noteId),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getDeleteBrandNoteMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteBrandNote>>, TError,{code: string;noteId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteBrandNote>>, TError,{code: string;noteId: number}, TContext> => {
+
+const mutationKey = ['deleteBrandNote'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteBrandNote>>, {code: string;noteId: number}> = (props) => {
+          const {code,noteId} = props ?? {};
+
+          return  deleteBrandNote(code,noteId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteBrandNoteMutationResult = NonNullable<Awaited<ReturnType<typeof deleteBrandNote>>>
+
+    export type DeleteBrandNoteMutationError = ErrorType<Error>
+
+    /**
+ * @summary Remove a founder participation note on a brand added in error
+ */
+export const useDeleteBrandNote = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteBrandNote>>, TError,{code: string;noteId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteBrandNote>>,
+        TError,
+        {code: string;noteId: number},
+        TContext
+      > => {
+      return useMutation(getDeleteBrandNoteMutationOptions(options));
+    }
+
 export const getGetDepartmentsUrl = (params?: GetDepartmentsParams,) => {
   const normalizedParams = new URLSearchParams();
 
@@ -2301,6 +2593,152 @@ export const useCreateProjectNote = <TError = ErrorType<Error>,
         TContext
       > => {
       return useMutation(getCreateProjectNoteMutationOptions(options));
+    }
+
+export const getUpdateProjectNoteUrl = (id: number,
+    noteId: number,) => {
+
+
+
+
+  return `/api/projects/${id}/notes/${noteId}`
+}
+
+/**
+ * @summary Edit a founder participation note on a project (recommend-only, not an approval)
+ */
+export const updateProjectNote = async (id: number,
+    noteId: number,
+    noteInput: NoteInput, options?: RequestInit): Promise<ProjectNote> => {
+
+  return customFetch<ProjectNote>(getUpdateProjectNoteUrl(id,noteId),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      noteInput,)
+  }
+);}
+
+
+
+
+export const getUpdateProjectNoteMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateProjectNote>>, TError,{id: number;noteId: number;data: BodyType<NoteInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateProjectNote>>, TError,{id: number;noteId: number;data: BodyType<NoteInput>}, TContext> => {
+
+const mutationKey = ['updateProjectNote'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateProjectNote>>, {id: number;noteId: number;data: BodyType<NoteInput>}> = (props) => {
+          const {id,noteId,data} = props ?? {};
+
+          return  updateProjectNote(id,noteId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateProjectNoteMutationResult = NonNullable<Awaited<ReturnType<typeof updateProjectNote>>>
+    export type UpdateProjectNoteMutationBody = BodyType<NoteInput>
+    export type UpdateProjectNoteMutationError = ErrorType<Error>
+
+    /**
+ * @summary Edit a founder participation note on a project (recommend-only, not an approval)
+ */
+export const useUpdateProjectNote = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateProjectNote>>, TError,{id: number;noteId: number;data: BodyType<NoteInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateProjectNote>>,
+        TError,
+        {id: number;noteId: number;data: BodyType<NoteInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateProjectNoteMutationOptions(options));
+    }
+
+export const getDeleteProjectNoteUrl = (id: number,
+    noteId: number,) => {
+
+
+
+
+  return `/api/projects/${id}/notes/${noteId}`
+}
+
+/**
+ * @summary Remove a founder participation note on a project added in error
+ */
+export const deleteProjectNote = async (id: number,
+    noteId: number, options?: RequestInit): Promise<void> => {
+
+  return customFetch<void>(getDeleteProjectNoteUrl(id,noteId),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getDeleteProjectNoteMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteProjectNote>>, TError,{id: number;noteId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteProjectNote>>, TError,{id: number;noteId: number}, TContext> => {
+
+const mutationKey = ['deleteProjectNote'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteProjectNote>>, {id: number;noteId: number}> = (props) => {
+          const {id,noteId} = props ?? {};
+
+          return  deleteProjectNote(id,noteId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteProjectNoteMutationResult = NonNullable<Awaited<ReturnType<typeof deleteProjectNote>>>
+
+    export type DeleteProjectNoteMutationError = ErrorType<Error>
+
+    /**
+ * @summary Remove a founder participation note on a project added in error
+ */
+export const useDeleteProjectNote = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteProjectNote>>, TError,{id: number;noteId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteProjectNote>>,
+        TError,
+        {id: number;noteId: number},
+        TContext
+      > => {
+      return useMutation(getDeleteProjectNoteMutationOptions(options));
     }
 
 export const getGetPredictorsUrl = () => {

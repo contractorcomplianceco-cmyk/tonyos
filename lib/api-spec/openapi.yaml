@@ -208,6 +208,66 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /decisions/{id}/notes/{noteId}:
+    patch:
+      operationId: updateDecisionNote
+      tags: [decisions]
+      summary: Edit a founder participation note (recommend-only, not an approval)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: noteId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DecisionNoteInput"
+      responses:
+        "200":
+          description: Updated note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionNote"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteDecisionNote
+      tags: [decisions]
+      summary: Remove a founder participation note added in error
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: noteId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Note deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /financial-overview:
     get:
       operationId: getFinancialOverview
@@ -471,6 +531,66 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /brands/{code}/notes/{noteId}:
+    patch:
+      operationId: updateBrandNote
+      tags: [brands]
+      summary: Edit a founder participation note on a brand (recommend-only, not an approval)
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: noteId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NoteInput"
+      responses:
+        "200":
+          description: Updated note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrandNote"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteBrandNote
+      tags: [brands]
+      summary: Remove a founder participation note on a brand added in error
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: noteId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Note deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /departments:
     get:
       operationId: getDepartments
@@ -586,6 +706,66 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProjectNote"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /projects/{id}/notes/{noteId}:
+    patch:
+      operationId: updateProjectNote
+      tags: [projects]
+      summary: Edit a founder participation note on a project (recommend-only, not an approval)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: noteId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NoteInput"
+      responses:
+        "200":
+          description: Updated note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectNote"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteProjectNote
+      tags: [projects]
+      summary: Remove a founder participation note on a project added in error
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: noteId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Note deleted
         "404":
           description: Not found
           content:

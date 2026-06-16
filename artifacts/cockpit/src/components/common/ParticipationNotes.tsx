@@ -18,6 +18,10 @@ export function ParticipationNotes({
   isLoading,
   isPending,
   onSubmit,
+  onUpdate,
+  onDelete,
+  isUpdating,
+  isDeleting,
   queryClient: externalQueryClient,
   invalidateKey,
 }: {
@@ -25,6 +29,10 @@ export function ParticipationNotes({
   isLoading: boolean;
   isPending: boolean;
   onSubmit: (body: string, callbacks: { onSuccess: () => void; onError: () => void }) => void;
+  onUpdate?: (noteId: number, body: string, callbacks: { onSuccess: () => void; onError: () => void }) => void;
+  onDelete?: (noteId: number, callbacks: { onSuccess: () => void; onError: () => void }) => void;
+  isUpdating?: boolean;
+  isDeleting?: boolean;
   queryClient?: ReturnType<typeof useQueryClient>;
   invalidateKey?: QueryKey;
 }) {
@@ -32,6 +40,13 @@ export function ParticipationNotes({
   const internalQueryClient = useQueryClient();
   const queryClient = externalQueryClient ?? internalQueryClient;
   const [noteBody, setNoteBody] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editBody, setEditBody] = useState("");
+  const [confirmingDeleteId, setConfirmingDeleteId] = useState<number | null>(null);
+
+  const invalidate = () => {
+    if (invalidateKey) queryClient.invalidateQueries({ queryKey: invalidateKey });
+  };
 
   const handleAddNote = () => {
     const trimmed = noteBody.trim();
@@ -40,10 +55,51 @@ export function ParticipationNotes({
       onSuccess: () => {
         setNoteBody("");
         toast({ title: "Note added successfully" });
-        if (invalidateKey) queryClient.invalidateQueries({ queryKey: invalidateKey });
+        invalidate();
       },
       onError: () => {
         toast({ title: "Failed to add note", variant: "destructive" });
+      },
+    });
+  };
+
+  const startEdit = (note: Note) => {
+    setConfirmingDeleteId(null);
+    setEditingId(note.id);
+    setEditBody(note.body);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditBody("");
+  };
+
+  const handleSaveEdit = (noteId: number) => {
+    if (!onUpdate) return;
+    const trimmed = editBody.trim();
+    if (!trimmed) return;
+    onUpdate(noteId, trimmed, {
+      onSuccess: () => {
+        cancelEdit();
+        toast({ title: "Note updated" });
+        invalidate();
+      },
+      onError: () => {
+        toast({ title: "Failed to update note", variant: "destructive" });
+      },
+    });
+  };
+
+  const handleDelete = (noteId: number) => {
+    if (!onDelete) return;
+    onDelete(noteId, {
+      onSuccess: () => {
+        setConfirmingDeleteId(null);
+        toast({ title: "Note removed" });
+        invalidate();
+      },
+      onError: () => {
+        toast({ title: "Failed to remove note", variant: "destructive" });
       },
     });
   };
@@ -62,7 +118,86 @@ export function ParticipationNotes({
                 <span className="font-bold text-card-foreground">{note.author}</span>
                 <span className="text-muted-foreground">{format(new Date(note.createdAt), "MMM d, yyyy h:mm a")}</span>
               </div>
-              <p className="text-sm text-card-foreground/80 whitespace-pre-wrap">{note.body}</p>
+
+              {editingId === note.id ? (
+                <div className="space-y-3">
+                  <Textarea
+                    value={editBody}
+                    onChange={(e) => setEditBody(e.target.value)}
+                    className="bg-background focus-visible:ring-primary min-h-[100px] text-sm resize-none rounded-sm border-border"
+                  />
+                  <div className="flex justify-end gap-2">
+                    <Button
+                      onClick={cancelEdit}
+                      variant="ghost"
+                      className="text-[10px] font-mono uppercase tracking-widest h-8 px-4 rounded-sm text-muted-foreground hover:text-foreground"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={() => handleSaveEdit(note.id)}
+                      disabled={!editBody.trim() || isUpdating}
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 text-[10px] font-mono uppercase tracking-widest h-8 px-4 rounded-sm"
+                    >
+                      {isUpdating ? "Saving..." : "Save"}
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <p className="text-sm text-card-foreground/80 whitespace-pre-wrap">{note.body}</p>
+                  {(onUpdate || onDelete) && (
+                    <div className="flex justify-end gap-2 pt-1">
+                      {confirmingDeleteId === note.id ? (
+                        <>
+                          <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground self-center mr-1">
+                            Remove this note?
+                          </span>
+                          <Button
+                            onClick={() => setConfirmingDeleteId(null)}
+                            variant="ghost"
+                            className="text-[10px] font-mono uppercase tracking-widest h-7 px-3 rounded-sm text-muted-foreground hover:text-foreground"
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            onClick={() => handleDelete(note.id)}
+                            disabled={isDeleting}
+                            variant="ghost"
+                            className="text-[10px] font-mono uppercase tracking-widest h-7 px-3 rounded-sm text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                          >
+                            {isDeleting ? "Removing..." : "Confirm"}
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          {onUpdate && (
+                            <Button
+                              onClick={() => startEdit(note)}
+                              variant="ghost"
+                              className="text-[10px] font-mono uppercase tracking-widest h-7 px-3 rounded-sm text-muted-foreground hover:text-primary"
+                            >
+                              Edit
+                            </Button>
+                          )}
+                          {onDelete && (
+                            <Button
+                              onClick={() => {
+                                cancelEdit();
+                                setConfirmingDeleteId(note.id);
+                              }}
+                              variant="ghost"
+                              className="text-[10px] font-mono uppercase tracking-widest h-7 px-3 rounded-sm text-muted-foreground hover:text-red-400"
+                            >
+                              Delete
+                            </Button>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           ))
         ) : (

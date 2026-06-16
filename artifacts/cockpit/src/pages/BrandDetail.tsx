@@ -6,6 +6,8 @@ import {
   useGetPredictors,
   useGetBrandNotes,
   useCreateBrandNote,
+  useUpdateBrandNote,
+  useDeleteBrandNote,
   getGetBrandNotesQueryKey,
 } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -38,6 +40,8 @@ export default function BrandDetail() {
   const { data: predictors } = useGetPredictors();
   const { data: notes, isLoading: loadingNotes } = useGetBrandNotes(code);
   const createNote = useCreateBrandNote();
+  const updateNote = useUpdateBrandNote();
+  const deleteNote = useDeleteBrandNote();
 
   const brandPredictors = (predictors ?? []).filter((p) => p.brandCode === code);
 
@@ -149,8 +153,16 @@ export default function BrandDetail() {
           isLoading={loadingNotes}
           isPending={createNote.isPending}
           invalidateKey={getGetBrandNotesQueryKey(code)}
+          isUpdating={updateNote.isPending}
+          isDeleting={deleteNote.isPending}
           onSubmit={(body, callbacks) =>
             createNote.mutate({ code, data: { body } }, callbacks)
+          }
+          onUpdate={(noteId, body, callbacks) =>
+            updateNote.mutate({ code, noteId, data: { body } }, callbacks)
+          }
+          onDelete={(noteId, callbacks) =>
+            deleteNote.mutate({ code, noteId }, callbacks)
           }
         />
       </Panel>

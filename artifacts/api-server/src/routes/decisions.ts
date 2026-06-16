@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { db, decisionsTable, decisionNotesTable } from "@workspace/db";
-import { asc, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import {
   GetDecisionsResponse,
   GetDecisionsQueryParams,
@@ -11,6 +11,9 @@ import {
   GetDecisionNotesParams,
   CreateDecisionNoteParams,
   CreateDecisionNoteBody,
+  UpdateDecisionNoteParams,
+  UpdateDecisionNoteBody,
+  DeleteDecisionNoteParams,
 } from "@workspace/api-zod";
 
 const router: IRouter = Router();
@@ -138,6 +141,56 @@ router.post("/decisions/:id/notes", async (req, res) => {
     .returning();
 
   res.status(201).json(created);
+});
+
+router.patch("/decisions/:id/notes/:noteId", async (req, res) => {
+  const { id, noteId } = UpdateDecisionNoteParams.parse(req.params);
+  const body = UpdateDecisionNoteBody.parse(req.body);
+
+  const trimmedBody = body.body.trim();
+  if (!trimmedBody) {
+    res.status(400).json({ error: "Note body must not be empty" });
+    return;
+  }
+
+  const [updated] = await db
+    .update(decisionNotesTable)
+    .set({ body: trimmedBody })
+    .where(
+      and(
+        eq(decisionNotesTable.id, noteId),
+        eq(decisionNotesTable.decisionId, id),
+      ),
+    )
+    .returning();
+
+  if (!updated) {
+    res.status(404).json({ error: "Note not found" });
+    return;
+  }
+
+  res.json(updated);
+});
+
+router.delete("/decisions/:id/notes/:noteId", async (req, res) => {
+  const { id, noteId } = DeleteDecisionNoteParams.parse(req.params);
+
+  const [deleted] = await db
+    .delete(decisionNotesTable)
+    .where(
+      and(
+        eq(decisionNotesTable.id, noteId),
+        eq(decisionNotesTable.decisionId, id),
+      ),
+    )
+    .returning();
+
+  if (!deleted) {
+    res.status(404).json({ error: "Note not found" });
+    return;
+  }
+
+  res.status(204).end();
 });
 
 export default router;
