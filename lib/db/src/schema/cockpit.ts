@@ -57,6 +57,22 @@ export const decisionNotesTable = pgTable("decision_notes", {
   createdAt: text("created_at").notNull(),
 });
 
+export const brandNotesTable = pgTable("brand_notes", {
+  id: serial("id").primaryKey(),
+  brandCode: text("brand_code").notNull(),
+  author: text("author").notNull(),
+  body: text("body").notNull(),
+  createdAt: text("created_at").notNull(),
+});
+
+export const projectNotesTable = pgTable("project_notes", {
+  id: serial("id").primaryKey(),
+  projectId: integer("project_id").notNull(),
+  author: text("author").notNull(),
+  body: text("body").notNull(),
+  createdAt: text("created_at").notNull(),
+});
+
 export const financialCommitmentsTable = pgTable("financial_commitments", {
   id: serial("id").primaryKey(),
   label: text("label").notNull(),

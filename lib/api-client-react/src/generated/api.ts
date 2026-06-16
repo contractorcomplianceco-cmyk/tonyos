@@ -21,6 +21,7 @@ import type {
 
 import type {
   Brand,
+  BrandNote,
   BriefingItem,
   Decision,
   DecisionNote,
@@ -39,9 +40,11 @@ import type {
   Milestone,
   MonthlyFinancialPoint,
   MonthlyReview,
+  NoteInput,
   Partnership,
   Predictor,
   Project,
+  ProjectNote,
   RiskItem,
   RoadmapPhase,
   SourceRecord,
@@ -1757,6 +1760,155 @@ export function useGetBrand<TData = Awaited<ReturnType<typeof getBrand>>, TError
 
 
 
+export const getGetBrandNotesUrl = (code: string,) => {
+
+
+
+
+  return `/api/brands/${code}/notes`
+}
+
+/**
+ * @summary Founder participation notes on a brand
+ */
+export const getBrandNotes = async (code: string, options?: RequestInit): Promise<BrandNote[]> => {
+
+  return customFetch<BrandNote[]>(getGetBrandNotesUrl(code),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetBrandNotesQueryKey = (code: string,) => {
+    return [
+    `/api/brands/${code}/notes`
+    ] as const;
+    }
+
+
+export const getGetBrandNotesQueryOptions = <TData = Awaited<ReturnType<typeof getBrandNotes>>, TError = ErrorType<unknown>>(code: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getBrandNotes>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetBrandNotesQueryKey(code);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBrandNotes>>> = ({ signal }) => getBrandNotes(code, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(code), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getBrandNotes>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetBrandNotesQueryResult = NonNullable<Awaited<ReturnType<typeof getBrandNotes>>>
+export type GetBrandNotesQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Founder participation notes on a brand
+ */
+
+export function useGetBrandNotes<TData = Awaited<ReturnType<typeof getBrandNotes>>, TError = ErrorType<unknown>>(
+ code: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getBrandNotes>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetBrandNotesQueryOptions(code,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getCreateBrandNoteUrl = (code: string,) => {
+
+
+
+
+  return `/api/brands/${code}/notes`
+}
+
+/**
+ * @summary Add a founder participation note to a brand (recommend-only, not an approval)
+ */
+export const createBrandNote = async (code: string,
+    noteInput: NoteInput, options?: RequestInit): Promise<BrandNote> => {
+
+  return customFetch<BrandNote>(getCreateBrandNoteUrl(code),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      noteInput,)
+  }
+);}
+
+
+
+
+export const getCreateBrandNoteMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createBrandNote>>, TError,{code: string;data: BodyType<NoteInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createBrandNote>>, TError,{code: string;data: BodyType<NoteInput>}, TContext> => {
+
+const mutationKey = ['createBrandNote'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createBrandNote>>, {code: string;data: BodyType<NoteInput>}> = (props) => {
+          const {code,data} = props ?? {};
+
+          return  createBrandNote(code,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateBrandNoteMutationResult = NonNullable<Awaited<ReturnType<typeof createBrandNote>>>
+    export type CreateBrandNoteMutationBody = BodyType<NoteInput>
+    export type CreateBrandNoteMutationError = ErrorType<Error>
+
+    /**
+ * @summary Add a founder participation note to a brand (recommend-only, not an approval)
+ */
+export const useCreateBrandNote = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createBrandNote>>, TError,{code: string;data: BodyType<NoteInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createBrandNote>>,
+        TError,
+        {code: string;data: BodyType<NoteInput>},
+        TContext
+      > => {
+      return useMutation(getCreateBrandNoteMutationOptions(options));
+    }
+
 export const getGetDepartmentsUrl = (params?: GetDepartmentsParams,) => {
   const normalizedParams = new URLSearchParams();
 
@@ -2001,6 +2153,155 @@ export function useGetProject<TData = Awaited<ReturnType<typeof getProject>>, TE
 
 
 
+
+export const getGetProjectNotesUrl = (id: number,) => {
+
+
+
+
+  return `/api/projects/${id}/notes`
+}
+
+/**
+ * @summary Founder participation notes on a project
+ */
+export const getProjectNotes = async (id: number, options?: RequestInit): Promise<ProjectNote[]> => {
+
+  return customFetch<ProjectNote[]>(getGetProjectNotesUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetProjectNotesQueryKey = (id: number,) => {
+    return [
+    `/api/projects/${id}/notes`
+    ] as const;
+    }
+
+
+export const getGetProjectNotesQueryOptions = <TData = Awaited<ReturnType<typeof getProjectNotes>>, TError = ErrorType<unknown>>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getProjectNotes>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetProjectNotesQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getProjectNotes>>> = ({ signal }) => getProjectNotes(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getProjectNotes>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetProjectNotesQueryResult = NonNullable<Awaited<ReturnType<typeof getProjectNotes>>>
+export type GetProjectNotesQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Founder participation notes on a project
+ */
+
+export function useGetProjectNotes<TData = Awaited<ReturnType<typeof getProjectNotes>>, TError = ErrorType<unknown>>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getProjectNotes>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetProjectNotesQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getCreateProjectNoteUrl = (id: number,) => {
+
+
+
+
+  return `/api/projects/${id}/notes`
+}
+
+/**
+ * @summary Add a founder participation note to a project (recommend-only, not an approval)
+ */
+export const createProjectNote = async (id: number,
+    noteInput: NoteInput, options?: RequestInit): Promise<ProjectNote> => {
+
+  return customFetch<ProjectNote>(getCreateProjectNoteUrl(id),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      noteInput,)
+  }
+);}
+
+
+
+
+export const getCreateProjectNoteMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createProjectNote>>, TError,{id: number;data: BodyType<NoteInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createProjectNote>>, TError,{id: number;data: BodyType<NoteInput>}, TContext> => {
+
+const mutationKey = ['createProjectNote'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createProjectNote>>, {id: number;data: BodyType<NoteInput>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  createProjectNote(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateProjectNoteMutationResult = NonNullable<Awaited<ReturnType<typeof createProjectNote>>>
+    export type CreateProjectNoteMutationBody = BodyType<NoteInput>
+    export type CreateProjectNoteMutationError = ErrorType<Error>
+
+    /**
+ * @summary Add a founder participation note to a project (recommend-only, not an approval)
+ */
+export const useCreateProjectNote = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createProjectNote>>, TError,{id: number;data: BodyType<NoteInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createProjectNote>>,
+        TError,
+        {id: number;data: BodyType<NoteInput>},
+        TContext
+      > => {
+      return useMutation(getCreateProjectNoteMutationOptions(options));
+    }
 
 export const getGetPredictorsUrl = () => {
 

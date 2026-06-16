@@ -1,11 +1,15 @@
 import { Router, type IRouter } from "express";
-import { db, projectsTable } from "@workspace/db";
+import { db, projectsTable, projectNotesTable } from "@workspace/db";
 import { asc, eq } from "drizzle-orm";
 import {
   GetProjectsResponse,
   GetProjectsQueryParams,
   GetProjectParams,
   GetProjectResponse,
+  GetProjectNotesResponse,
+  GetProjectNotesParams,
+  CreateProjectNoteParams,
+  CreateProjectNoteBody,
 } from "@workspace/api-zod";
 
 const router: IRouter = Router();
@@ -36,6 +40,50 @@ router.get("/projects/:id", async (req, res) => {
   }
   const data = GetProjectResponse.parse(row);
   res.json(data);
+});
+
+router.get("/projects/:id/notes", async (req, res) => {
+  const { id } = GetProjectNotesParams.parse(req.params);
+  const rows = await db
+    .select()
+    .from(projectNotesTable)
+    .where(eq(projectNotesTable.projectId, id))
+    .orderBy(asc(projectNotesTable.id));
+  const data = GetProjectNotesResponse.parse(rows);
+  res.json(data);
+});
+
+router.post("/projects/:id/notes", async (req, res) => {
+  const { id } = CreateProjectNoteParams.parse(req.params);
+  const body = CreateProjectNoteBody.parse(req.body);
+
+  const trimmedBody = body.body.trim();
+  if (!trimmedBody) {
+    res.status(400).json({ error: "Note body must not be empty" });
+    return;
+  }
+
+  const [project] = await db
+    .select()
+    .from(projectsTable)
+    .where(eq(projectsTable.id, id))
+    .limit(1);
+  if (!project) {
+    res.status(404).json({ error: "Project not found" });
+    return;
+  }
+
+  const [created] = await db
+    .insert(projectNotesTable)
+    .values({
+      projectId: id,
+      author: body.author?.trim() ? body.author.trim() : "Tony Casella",
+      body: trimmedBody,
+      createdAt: new Date().toISOString(),
+    })
+    .returning();
+
+  res.status(201).json(created);
 });
 
 export default router;

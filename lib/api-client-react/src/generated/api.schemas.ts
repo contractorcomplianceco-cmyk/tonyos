@@ -117,6 +117,28 @@ export interface DecisionNoteInput {
   body: string;
 }
 
+export interface BrandNote {
+  id: number;
+  brandCode: string;
+  author: string;
+  body: string;
+  createdAt: string;
+}
+
+export interface ProjectNote {
+  id: number;
+  projectId: number;
+  author: string;
+  body: string;
+  createdAt: string;
+}
+
+export interface NoteInput {
+  author?: string;
+  /** @minLength 1 */
+  body: string;
+}
+
 export interface BankSummary {
   name: string;
   balance: string;

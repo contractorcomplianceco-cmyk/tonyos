@@ -8,6 +8,7 @@
 
 export * from './bankSummary';
 export * from './brand';
+export * from './brandNote';
 export * from './briefingItem';
 export * from './countByLabel';
 export * from './decision';
@@ -29,9 +30,11 @@ export * from './metric';
 export * from './milestone';
 export * from './monthlyFinancialPoint';
 export * from './monthlyReview';
+export * from './noteInput';
 export * from './partnership';
 export * from './predictor';
 export * from './project';
+export * from './projectNote';
 export * from './riskItem';
 export * from './roadmapPhase';
 export * from './sourceRecord';

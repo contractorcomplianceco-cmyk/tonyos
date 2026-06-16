@@ -421,6 +421,56 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /brands/{code}/notes:
+    get:
+      operationId: getBrandNotes
+      tags: [brands]
+      summary: Founder participation notes on a brand
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Brand notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BrandNote"
+    post:
+      operationId: createBrandNote
+      tags: [brands]
+      summary: Add a founder participation note to a brand (recommend-only, not an approval)
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NoteInput"
+      responses:
+        "201":
+          description: Created note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrandNote"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /departments:
     get:
       operationId: getDepartments
@@ -486,6 +536,56 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Project"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /projects/{id}/notes:
+    get:
+      operationId: getProjectNotes
+      tags: [projects]
+      summary: Founder participation notes on a project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Project notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectNote"
+    post:
+      operationId: createProjectNote
+      tags: [projects]
+      summary: Add a founder participation note to a project (recommend-only, not an approval)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NoteInput"
+      responses:
+        "201":
+          description: Created note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectNote"
         "404":
           description: Not found
           content:
@@ -683,6 +783,46 @@ components:
           type: string
 
     DecisionNoteInput:
+      type: object
+      required: [body]
+      properties:
+        author:
+          type: string
+        body:
+          type: string
+          minLength: 1
+
+    BrandNote:
+      type: object
+      required: [id, brandCode, author, body, createdAt]
+      properties:
+        id:
+          type: integer
+        brandCode:
+          type: string
+        author:
+          type: string
+        body:
+          type: string
+        createdAt:
+          type: string
+
+    ProjectNote:
+      type: object
+      required: [id, projectId, author, body, createdAt]
+      properties:
+        id:
+          type: integer
+        projectId:
+          type: integer
+        author:
+          type: string
+        body:
+          type: string
+        createdAt:
+          type: string
+
+    NoteInput:
       type: object
       required: [body]
       properties:

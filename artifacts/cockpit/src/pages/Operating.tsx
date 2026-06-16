@@ -1,7 +1,15 @@
-import { useGetDepartments, useGetProjects } from "@workspace/api-client-react";
+import {
+  useGetDepartments,
+  useGetProjects,
+  useGetProjectNotes,
+  useCreateProjectNote,
+  getGetProjectNotesQueryKey,
+  type Project,
+} from "@workspace/api-client-react";
 import { Link } from "wouter";
+import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Layers, GanttChartSquare, Activity, ChevronRight } from "lucide-react";
+import { Layers, GanttChartSquare, Activity, ChevronRight, MessageSquare, ChevronDown } from "lucide-react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorState } from "@/components/common/ErrorState";
@@ -10,6 +18,7 @@ import { StatusBadge } from "@/components/common/StatusBadge";
 import { AuthorityBadge } from "@/components/common/AuthorityBadge";
 import { DepartmentTable } from "@/components/common/DepartmentTable";
 import { GuardrailNote } from "@/components/common/GuardrailNote";
+import { ParticipationNotes } from "@/components/common/ParticipationNotes";
 import { healthTone, matchesMode } from "@/lib/authority";
 import { useAuthorityMode, AuthorityModeToggle } from "@/context/AuthorityMode";
 
@@ -70,20 +79,7 @@ export default function Operating() {
         ) : filteredProjects.length > 0 ? (
           <div className="divide-y divide-card-border">
             {filteredProjects.map((p) => (
-              <Link key={p.id} href={`/projects/${p.id}`} className="block group">
-                <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 hover:bg-secondary/40 transition-colors">
-                  <div className="min-w-0">
-                    <div className="font-semibold text-card-foreground tracking-tight group-hover:text-primary transition-colors">{p.name}</div>
-                    <div className="text-[11px] text-muted-foreground mt-0.5">{p.department ?? "—"}{p.owner ? ` • ${p.owner}` : ""}{p.dueDate ? ` • Due ${p.dueDate}` : ""}</div>
-                    {p.summary && <p className="text-xs text-card-foreground/70 mt-1.5 max-w-2xl">{p.summary}</p>}
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <StatusBadge status={p.status} />
-                    <AuthorityBadge label={p.authorityLabel} />
-                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                  </div>
-                </div>
-              </Link>
+              <ProjectPulseRow key={p.id} project={p} />
             ))}
           </div>
         ) : (projects && projects.length > 0) ? (
@@ -103,6 +99,59 @@ const TONE_CLASS: Record<string, { bar: string; chip: string }> = {
   blue: { bar: "bg-primary", chip: "bg-primary/15 text-primary border-primary/30" },
   neutral: { bar: "bg-card-border", chip: "bg-secondary text-secondary-foreground border-border" },
 };
+
+function ProjectPulseRow({ project }: { project: Project }) {
+  const [open, setOpen] = useState(false);
+  const { data: notes, isLoading: loadingNotes } = useGetProjectNotes(project.id, {
+    query: { queryKey: getGetProjectNotesQueryKey(project.id), enabled: open },
+  });
+  const createNote = useCreateProjectNote();
+  const noteCount = notes?.length ?? 0;
+
+  return (
+    <div>
+      <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 hover:bg-secondary/40 transition-colors">
+        <div className="min-w-0">
+          <Link href={`/projects/${project.id}`} className="group inline-block">
+            <span className="font-semibold text-card-foreground tracking-tight group-hover:text-primary transition-colors">{project.name}</span>
+          </Link>
+          <div className="text-[11px] text-muted-foreground mt-0.5">{project.department ?? "—"}{project.owner ? ` • ${project.owner}` : ""}{project.dueDate ? ` • Due ${project.dueDate}` : ""}</div>
+          {project.summary && <p className="text-xs text-card-foreground/70 mt-1.5 max-w-2xl">{project.summary}</p>}
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <StatusBadge status={project.status} />
+          <AuthorityBadge label={project.authorityLabel} />
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-expanded={open}
+            className={`inline-flex items-center gap-1.5 rounded-sm border px-2.5 py-1 text-[10px] font-mono font-bold uppercase tracking-widest transition-colors ${open ? "border-primary/40 bg-primary/10 text-primary" : "border-border bg-secondary/40 text-muted-foreground hover:text-foreground hover:border-card-border"}`}
+          >
+            <MessageSquare className="h-3.5 w-3.5" />
+            Notes{open && noteCount > 0 ? ` (${noteCount})` : ""}
+            <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+          </button>
+          <Link href={`/projects/${project.id}`} className="text-muted-foreground hover:text-primary transition-colors" aria-label="Open project detail">
+            <ChevronRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+      {open && (
+        <div className="px-6 pb-6 pt-1 bg-secondary/20 border-t border-card-border">
+          <ParticipationNotes
+            notes={notes}
+            isLoading={loadingNotes}
+            isPending={createNote.isPending}
+            invalidateKey={getGetProjectNotesQueryKey(project.id)}
+            onSubmit={(body, callbacks) =>
+              createNote.mutate({ id: project.id, data: { body } }, callbacks)
+            }
+          />
+        </div>
+      )}
+    </div>
+  );
+}
 
 function StatBlock({ icon: Icon, label, value, unit, tone, chip }: { icon: any; label: string; value: string; unit?: string; tone: string; chip: string }) {
   const t = TONE_CLASS[tone] ?? TONE_CLASS.neutral;

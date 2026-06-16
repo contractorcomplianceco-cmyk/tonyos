@@ -4,9 +4,12 @@ import {
   useGetDepartments,
   useGetProjects,
   useGetPredictors,
+  useGetBrandNotes,
+  useCreateBrandNote,
+  getGetBrandNotesQueryKey,
 } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Building2, GanttChartSquare, RadarIcon, Layers } from "lucide-react";
+import { ArrowLeft, Building2, GanttChartSquare, RadarIcon, Layers, MessageSquare } from "lucide-react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorState } from "@/components/common/ErrorState";
@@ -17,6 +20,7 @@ import { HealthBar } from "@/components/common/HealthBar";
 import { DepartmentTable } from "@/components/common/DepartmentTable";
 import { PredictorCard } from "@/components/common/PredictorCard";
 import { GuardrailNote } from "@/components/common/GuardrailNote";
+import { ParticipationNotes } from "@/components/common/ParticipationNotes";
 
 function riskTone(risk: string) {
   const r = risk.toLowerCase();
@@ -32,6 +36,8 @@ export default function BrandDetail() {
   const { data: departments } = useGetDepartments({ brand: code });
   const { data: projects } = useGetProjects({ brand: code });
   const { data: predictors } = useGetPredictors();
+  const { data: notes, isLoading: loadingNotes } = useGetBrandNotes(code);
+  const createNote = useCreateBrandNote();
 
   const brandPredictors = (predictors ?? []).filter((p) => p.brandCode === code);
 
@@ -136,6 +142,18 @@ export default function BrandDetail() {
           </div>
         </Panel>
       )}
+
+      <Panel icon={MessageSquare} title="Participation & Notes">
+        <ParticipationNotes
+          notes={notes}
+          isLoading={loadingNotes}
+          isPending={createNote.isPending}
+          invalidateKey={getGetBrandNotesQueryKey(code)}
+          onSubmit={(body, callbacks) =>
+            createNote.mutate({ code, data: { body } }, callbacks)
+          }
+        />
+      </Panel>
     </div>
   );
 }

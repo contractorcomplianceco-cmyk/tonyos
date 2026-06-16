@@ -417,6 +417,39 @@ export const GetBrandResponse = zod.object({
 
 
 /**
+ * @summary Founder participation notes on a brand
+ */
+export const GetBrandNotesParams = zod.object({
+  "code": zod.coerce.string()
+})
+
+export const GetBrandNotesResponseItem = zod.object({
+  "id": zod.number(),
+  "brandCode": zod.string(),
+  "author": zod.string(),
+  "body": zod.string(),
+  "createdAt": zod.string()
+})
+export const GetBrandNotesResponse = zod.array(GetBrandNotesResponseItem)
+
+
+/**
+ * @summary Add a founder participation note to a brand (recommend-only, not an approval)
+ */
+export const CreateBrandNoteParams = zod.object({
+  "code": zod.coerce.string()
+})
+
+
+
+
+export const CreateBrandNoteBody = zod.object({
+  "author": zod.string().optional(),
+  "body": zod.string().min(1)
+})
+
+
+/**
  * @summary Brand department health
  */
 export const GetDepartmentsQueryParams = zod.object({
@@ -481,6 +514,39 @@ export const GetProjectResponse = zod.object({
   "dueDate": zod.string().nullish(),
   "authorityLabel": zod.string().nullish(),
   "sourceRecord": zod.string().nullish()
+})
+
+
+/**
+ * @summary Founder participation notes on a project
+ */
+export const GetProjectNotesParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetProjectNotesResponseItem = zod.object({
+  "id": zod.number(),
+  "projectId": zod.number(),
+  "author": zod.string(),
+  "body": zod.string(),
+  "createdAt": zod.string()
+})
+export const GetProjectNotesResponse = zod.array(GetProjectNotesResponseItem)
+
+
+/**
+ * @summary Add a founder participation note to a project (recommend-only, not an approval)
+ */
+export const CreateProjectNoteParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+
+
+export const CreateProjectNoteBody = zod.object({
+  "author": zod.string().optional(),
+  "body": zod.string().min(1)
 })
 
 
