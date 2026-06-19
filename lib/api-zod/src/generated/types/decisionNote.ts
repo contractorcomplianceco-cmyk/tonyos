@@ -12,4 +12,5 @@ export interface DecisionNote {
   author: string;
   body: string;
   createdAt: string;
+  updatedAt?: string | null;
 }

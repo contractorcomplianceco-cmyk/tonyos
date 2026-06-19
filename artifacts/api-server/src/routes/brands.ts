@@ -96,7 +96,7 @@ router.patch("/brands/:code/notes/:noteId", async (req, res) => {
 
   const [updated] = await db
     .update(brandNotesTable)
-    .set({ body: trimmedBody })
+    .set({ body: trimmedBody, updatedAt: new Date().toISOString() })
     .where(
       and(
         eq(brandNotesTable.id, noteId),

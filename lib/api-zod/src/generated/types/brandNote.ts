@@ -12,4 +12,5 @@ export interface BrandNote {
   author: string;
   body: string;
   createdAt: string;
+  updatedAt?: string | null;
 }

@@ -109,6 +109,7 @@ export interface DecisionNote {
   author: string;
   body: string;
   createdAt: string;
+  updatedAt?: string | null;
 }
 
 export interface DecisionNoteInput {
@@ -123,6 +124,7 @@ export interface BrandNote {
   author: string;
   body: string;
   createdAt: string;
+  updatedAt?: string | null;
 }
 
 export interface ProjectNote {
@@ -131,6 +133,7 @@ export interface ProjectNote {
   author: string;
   body: string;
   createdAt: string;
+  updatedAt?: string | null;
 }
 
 export interface NoteInput {

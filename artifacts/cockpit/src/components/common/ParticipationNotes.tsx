@@ -12,6 +12,7 @@ type Note = {
   author: string;
   body: string;
   createdAt: string;
+  updatedAt?: string | null;
 };
 
 export function ParticipationNotes({
@@ -118,7 +119,17 @@ export function ParticipationNotes({
             <div key={note.id} className="bg-card border border-card-border rounded p-5 space-y-3 shadow-sm">
               <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
                 <span className="font-bold text-card-foreground">{note.author}</span>
-                <span className="text-muted-foreground">{format(new Date(note.createdAt), "MMM d, yyyy h:mm a")}</span>
+                <span className="flex items-center gap-2 text-muted-foreground">
+                  {note.updatedAt && (
+                    <span
+                      className="text-muted-foreground/70"
+                      title={`Edited ${format(new Date(note.updatedAt), "MMM d, yyyy h:mm a")}`}
+                    >
+                      Edited {format(new Date(note.updatedAt), "MMM d, yyyy h:mm a")}
+                    </span>
+                  )}
+                  <span>{format(new Date(note.createdAt), "MMM d, yyyy h:mm a")}</span>
+                </span>
               </div>
 
               {editingId === note.id ? (

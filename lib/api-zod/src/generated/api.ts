@@ -170,7 +170,8 @@ export const GetDecisionNotesResponseItem = zod.object({
   "decisionId": zod.number(),
   "author": zod.string(),
   "body": zod.string(),
-  "createdAt": zod.string()
+  "createdAt": zod.string(),
+  "updatedAt": zod.string().nullish()
 })
 export const GetDecisionNotesResponse = zod.array(GetDecisionNotesResponseItem)
 
@@ -212,7 +213,8 @@ export const UpdateDecisionNoteResponse = zod.object({
   "decisionId": zod.number(),
   "author": zod.string(),
   "body": zod.string(),
-  "createdAt": zod.string()
+  "createdAt": zod.string(),
+  "updatedAt": zod.string().nullish()
 })
 
 
@@ -462,7 +464,8 @@ export const GetBrandNotesResponseItem = zod.object({
   "brandCode": zod.string(),
   "author": zod.string(),
   "body": zod.string(),
-  "createdAt": zod.string()
+  "createdAt": zod.string(),
+  "updatedAt": zod.string().nullish()
 })
 export const GetBrandNotesResponse = zod.array(GetBrandNotesResponseItem)
 
@@ -504,7 +507,8 @@ export const UpdateBrandNoteResponse = zod.object({
   "brandCode": zod.string(),
   "author": zod.string(),
   "body": zod.string(),
-  "createdAt": zod.string()
+  "createdAt": zod.string(),
+  "updatedAt": zod.string().nullish()
 })
 
 
@@ -597,7 +601,8 @@ export const GetProjectNotesResponseItem = zod.object({
   "projectId": zod.number(),
   "author": zod.string(),
   "body": zod.string(),
-  "createdAt": zod.string()
+  "createdAt": zod.string(),
+  "updatedAt": zod.string().nullish()
 })
 export const GetProjectNotesResponse = zod.array(GetProjectNotesResponseItem)
 
@@ -639,7 +644,8 @@ export const UpdateProjectNoteResponse = zod.object({
   "projectId": zod.number(),
   "author": zod.string(),
   "body": zod.string(),
-  "createdAt": zod.string()
+  "createdAt": zod.string(),
+  "updatedAt": zod.string().nullish()
 })
 
 

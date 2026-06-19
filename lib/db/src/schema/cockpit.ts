@@ -55,6 +55,7 @@ export const decisionNotesTable = pgTable("decision_notes", {
   author: text("author").notNull(),
   body: text("body").notNull(),
   createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at"),
 });
 
 export const brandNotesTable = pgTable("brand_notes", {
@@ -63,6 +64,7 @@ export const brandNotesTable = pgTable("brand_notes", {
   author: text("author").notNull(),
   body: text("body").notNull(),
   createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at"),
 });
 
 export const projectNotesTable = pgTable("project_notes", {
@@ -71,6 +73,7 @@ export const projectNotesTable = pgTable("project_notes", {
   author: text("author").notNull(),
   body: text("body").notNull(),
   createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at"),
 });
 
 export const financialCommitmentsTable = pgTable("financial_commitments", {

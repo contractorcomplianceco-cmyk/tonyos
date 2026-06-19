@@ -155,7 +155,7 @@ router.patch("/decisions/:id/notes/:noteId", async (req, res) => {
 
   const [updated] = await db
     .update(decisionNotesTable)
-    .set({ body: trimmedBody })
+    .set({ body: trimmedBody, updatedAt: new Date().toISOString() })
     .where(
       and(
         eq(decisionNotesTable.id, noteId),
