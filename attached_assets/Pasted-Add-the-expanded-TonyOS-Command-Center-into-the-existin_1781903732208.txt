@@ -1,0 +1,181 @@
+Add the expanded TonyOS Command Center into the existing Rose OS / Command Center app.
+
+Use the attached TonyOS CAG Executive Intelligence mockup as the required design reference. This is not optional inspiration. The new TonyOS screen must match the visual direction, layout density, dark executive style, and parent-company oversight structure from the mockup.
+
+Product name:
+TonyOS Command Center
+
+Purpose:
+TonyOS is Tony Casella’s founder-level executive command center. It must provide high-level oversight from the Compliance Authority Group parent company down through subsidiaries, current brands, future brands, departments, systems, projects, financials, risks, major decisions, and predictive intelligence.
+
+This is not only a CCA dashboard. This is a CAG parent-company executive intelligence dashboard.
+
+Add TonyOS as a new leadership/private executive route inside the existing Command Center.
+
+Suggested route:
+`/tonyos`
+
+Suggested nav label:
+TonyOS
+
+Visibility:
+Only show TonyOS to approved private leadership / founder-level strategic oversight roles. Do not expose it to normal team users.
+
+Design requirements:
+- Match the attached TonyOS mockup.
+- Dark navy / graphite executive command-center shell.
+- Main panels should be dark executive modules, not white admin cards.
+- Use electric blue for command accents, chart highlights, active states, and drill-down signals.
+- Use silver/steel for borders, dividers, labels, and secondary information.
+- Use restrained green, amber, and red only for status/risk chips.
+- No pink, purple, lavender, magenta, rose gradients, yellow-heavy branding, gold, orange, beige, pastel SaaS themes, decorative orbs, bokeh, cartoon graphics, or generic admin styling.
+- Do not turn this into a light dashboard with a dark sidebar.
+
+Required top-level modules:
+1. Parent Company Overview
+   - CAG portfolio health
+   - Parent-level company pulse
+   - Current priority signals
+   - Strategic opportunity signals
+
+2. Brand Portfolio
+   Show parent-to-subsidiary / brand structure:
+   - Compliance Authority Group
+   - Contractor Compliance Authority as first active operating brand
+   - Provider Compliance Authority
+   - Qualifier Compliance Authority
+   - Cannabis Compliance Authority
+   - Global Compliance Authority
+   - Future approved brands
+
+   Each brand card should show:
+   - Status
+   - Health
+   - Revenue stage
+   - Operating maturity
+   - Risk level
+   - Current blocker
+   - Next strategic move
+   - Drill-down action
+
+3. CCA Operating Pulse
+   Include operating areas:
+   - Sales
+   - Fulfillment
+   - Client intake
+   - Application Processing
+   - Document Collection
+   - Audit Risk System
+   - Business Services Hub
+   - Communication Command Center
+   - Marketing Command Center
+   - Zoho / CRM
+   - WorkDrive / Document Systems
+
+4. Predictive Intelligence Radar
+   Include predictor categories:
+   - Revenue forecast
+   - Collected retained revenue
+   - Operating reserve runway
+   - Cash timing
+   - Sales pipeline conversion
+   - Client risk
+   - Fulfillment capacity
+   - Application delay risk
+   - Document collection risk
+   - Decision delay
+   - Major decision threshold alerts
+   - Technology / AI ROI
+   - Brand launch readiness
+   - Team workload
+   - Knowledge gaps
+   - Duplicate work risk
+   - Legal / CLP separation risk
+   - Strategic opportunities
+
+5. Financial Intelligence
+   Show:
+   - Collected retained revenue
+   - Revenue trigger progress
+   - Reserve runway
+   - Reserve target
+   - Payroll coverage
+   - Debt exposure
+   - Accounts receivable
+   - Cash timing
+   - Monthly founder financial review signals
+
+6. Major Decision Control
+   Show items requiring review or approval by:
+   - Rose
+   - Tony
+   - Carmen
+   - Both founders
+   - Written approval
+
+   Include chips:
+   - View Only
+   - Review
+   - Recommend
+   - Rose Final
+   - Carmen Systems Review
+   - Tony Founder Review
+   - Both Founder Approval
+   - Written Approval Required
+
+7. Governance Guardrails
+   Tony has founder-level visibility and strategic participation, but does not automatically have:
+   - Day-to-day operational control
+   - Bank signing authority
+   - Unilateral spending authority
+   - Hiring/firing authority
+   - Payroll authority
+   - Debt authority
+   - Authority to bind the company
+
+8. Company Brain / Source Records
+   Include source-record links and drill-downs so Tony can understand where each insight comes from.
+
+9. CLP Separation Guardrail
+   Add a visible but understated alert:
+   “CLP separation guardrail: approved company systems and cleared source records only.”
+
+Drill-down hierarchy:
+CAG Parent Company
+→ Brand / Subsidiary
+→ Department / System
+→ Project / Workflow
+→ Record / Decision / Requirement
+→ Owner / Blocker / Next Action
+→ Source Record
+
+Functional requirements:
+- Add TonyOS route without breaking existing Command Center routes.
+- Add navigation entry only for approved leadership/private roles.
+- Use existing Company Pulse / project / decision / build / requirement / Company Brain data where available.
+- If real data does not exist yet, use realistic mock data in a separate mock data file.
+- Do not hardcode everything directly inside the component.
+- Every KPI tile and major module should have a clear drill-down affordance.
+- Buttons may use placeholder handlers, but they must not appear dead.
+- Preserve recommend-only behavior for Rose OS / Company Brain updates.
+- Do not add live write actions, Zoho writes, bank actions, approval commits, or destructive actions.
+
+Design success test:
+After implementation, take a screenshot and compare it to the attached TonyOS mockup.
+
+The build fails if:
+- The page looks like a generic light admin dashboard.
+- The main modules are large white cards.
+- The design is mostly white with only a dark sidebar.
+- The page uses pink, purple, magenta, lavender, yellow-heavy, gold, orange, beige, or pastel styling.
+- TonyOS looks like a task board instead of an executive intelligence command center.
+- The parent-company CAG-to-brand hierarchy is missing.
+- Predictive intelligence is missing.
+- Governance/authority guardrails are missing.
+
+The build passes only if:
+- TonyOS feels like a dark premium executive command center.
+- It clearly shows CAG parent-company oversight.
+- It shows CCA and future brands underneath CAG.
+- It gives high-level executive data first, with drill-down ability.
+- It includes predictors, financial intelligence, major decisions, risk radar, and source-record integrity.
