@@ -15,6 +15,7 @@ import {
   ExternalLink
 } from "lucide-react";
 import crest from "@assets/cca-crest-inset_1781490765434.png";
+import { ReviewerIdentity } from "@/context/Reviewer";
 
 type NavItem = {
   href: string;
@@ -92,10 +93,7 @@ export function Shell({ children }: { children: ReactNode }) {
           <div className="text-xs font-medium text-sidebar-foreground/70 flex items-center gap-2">
             Rose OS <span className="text-sidebar-border">/</span> <span className="text-sidebar-foreground/70">Compliance Authority Group</span> <span className="text-sidebar-border">/</span> <span className="text-sidebar-foreground">TonyOS Command Center</span>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-sm bg-primary/10 border border-primary/20 shadow-[0_0_18px_-6px_hsl(var(--primary)/0.7)]">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="text-[11px] font-mono tracking-wide text-sidebar-foreground">Tony Casella &bull; Founder-Level Strategic Oversight</span>
-          </div>
+          <ReviewerIdentity />
         </header>
 
         <main className="flex-1 p-4 md:p-8">

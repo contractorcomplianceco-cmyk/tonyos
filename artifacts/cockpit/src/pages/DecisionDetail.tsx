@@ -104,8 +104,8 @@ export default function DecisionDetail() {
               invalidateKey={getGetDecisionNotesQueryKey(id)}
               isUpdating={updateNote.isPending}
               isDeleting={deleteNote.isPending}
-              onSubmit={(body, callbacks) =>
-                createNote.mutate({ id, data: { body } }, callbacks)
+              onSubmit={(body, author, callbacks) =>
+                createNote.mutate({ id, data: { body, author } }, callbacks)
               }
               onUpdate={(noteId, body, callbacks) =>
                 updateNote.mutate({ id, noteId, data: { body } }, callbacks)

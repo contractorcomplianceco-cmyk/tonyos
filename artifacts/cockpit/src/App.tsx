@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { Shell } from "@/components/layout/Shell";
 import { AuthorityModeProvider } from "@/context/AuthorityMode";
+import { ReviewerProvider } from "@/context/Reviewer";
 
 // Pages
 import Home from "@/pages/Home";
@@ -60,9 +61,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthorityModeProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-            <Router />
-          </WouterRouter>
+          <ReviewerProvider>
+            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+              <Router />
+            </WouterRouter>
+          </ReviewerProvider>
         </AuthorityModeProvider>
         <Toaster />
       </TooltipProvider>

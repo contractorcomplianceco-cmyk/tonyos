@@ -149,8 +149,8 @@ function ProjectPulseRow({ project }: { project: Project }) {
             invalidateKey={getGetProjectNotesQueryKey(project.id)}
             isUpdating={updateNote.isPending}
             isDeleting={deleteNote.isPending}
-            onSubmit={(body, callbacks) =>
-              createNote.mutate({ id: project.id, data: { body } }, callbacks)
+            onSubmit={(body, author, callbacks) =>
+              createNote.mutate({ id: project.id, data: { body, author } }, callbacks)
             }
             onUpdate={(noteId, body, callbacks) =>
               updateNote.mutate({ id: project.id, noteId, data: { body } }, callbacks)

@@ -155,8 +155,8 @@ export default function BrandDetail() {
           invalidateKey={getGetBrandNotesQueryKey(code)}
           isUpdating={updateNote.isPending}
           isDeleting={deleteNote.isPending}
-          onSubmit={(body, callbacks) =>
-            createNote.mutate({ code, data: { body } }, callbacks)
+          onSubmit={(body, author, callbacks) =>
+            createNote.mutate({ code, data: { body, author } }, callbacks)
           }
           onUpdate={(noteId, body, callbacks) =>
             updateNote.mutate({ code, noteId, data: { body } }, callbacks)

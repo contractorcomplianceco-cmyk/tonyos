@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { useReviewer } from "@/context/Reviewer";
 
 type Note = {
   id: number;
@@ -28,7 +29,7 @@ export function ParticipationNotes({
   notes: Note[] | undefined;
   isLoading: boolean;
   isPending: boolean;
-  onSubmit: (body: string, callbacks: { onSuccess: () => void; onError: () => void }) => void;
+  onSubmit: (body: string, author: string, callbacks: { onSuccess: () => void; onError: () => void }) => void;
   onUpdate?: (noteId: number, body: string, callbacks: { onSuccess: () => void; onError: () => void }) => void;
   onDelete?: (noteId: number, callbacks: { onSuccess: () => void; onError: () => void }) => void;
   isUpdating?: boolean;
@@ -37,6 +38,7 @@ export function ParticipationNotes({
   invalidateKey?: QueryKey;
 }) {
   const { toast } = useToast();
+  const { reviewer } = useReviewer();
   const internalQueryClient = useQueryClient();
   const queryClient = externalQueryClient ?? internalQueryClient;
   const [noteBody, setNoteBody] = useState("");
@@ -51,7 +53,7 @@ export function ParticipationNotes({
   const handleAddNote = () => {
     const trimmed = noteBody.trim();
     if (!trimmed) return;
-    onSubmit(trimmed, {
+    onSubmit(trimmed, reviewer, {
       onSuccess: () => {
         setNoteBody("");
         toast({ title: "Note added successfully" });
