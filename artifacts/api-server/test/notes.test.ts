@@ -3,6 +3,9 @@ import request from "supertest";
 import { eq, inArray } from "drizzle-orm";
 import {
   db,
+  decisionsTable,
+  brandsTable,
+  projectsTable,
   decisionNotesTable,
   brandNotesTable,
   projectNotesTable,
@@ -17,9 +20,24 @@ const PARENT_B = 990000002;
 const BRAND_A = "ZZTESTA";
 const BRAND_B = "ZZTESTB";
 
+// Parent identifiers used by the create (POST) tests. The POST routes verify the
+// parent exists before inserting, so these need a real row in their table (the
+// id-based ones are created in beforeAll and captured below).
+const NEW_BRAND = "ZZTESTCREATE";
+const MISSING_DECISION = 990000091;
+const MISSING_BRAND = "ZZTESTMISSING";
+const MISSING_PROJECT = 990000092;
+
 const createdDecisionNoteIds: number[] = [];
 const createdBrandNoteIds: number[] = [];
 const createdProjectNoteIds: number[] = [];
+
+const createdDecisionParentIds: number[] = [];
+const createdBrandParentCodes: string[] = [];
+const createdProjectParentIds: number[] = [];
+
+let createDecisionParentId = 0;
+let createProjectParentId = 0;
 
 async function insertDecisionNote(decisionId: number) {
   const [row] = await db
@@ -63,6 +81,43 @@ async function insertProjectNote(projectId: number) {
   return row;
 }
 
+beforeAll(async () => {
+  const [decision] = await db
+    .insert(decisionsTable)
+    .values({
+      title: "ZZ Test Decision",
+      category: "test",
+      approvalType: "strategic",
+      dueDate: "2099-01-01",
+    })
+    .returning();
+  createDecisionParentId = decision.id;
+  createdDecisionParentIds.push(decision.id);
+
+  const [brand] = await db
+    .insert(brandsTable)
+    .values({
+      code: NEW_BRAND,
+      name: "ZZ Test Brand",
+      fullName: "ZZ Test Brand Full",
+      kind: "brand",
+      stage: "candidate",
+    })
+    .returning();
+  createdBrandParentCodes.push(brand.code);
+
+  const [project] = await db
+    .insert(projectsTable)
+    .values({
+      brandCode: NEW_BRAND,
+      name: "ZZ Test Project",
+      status: "on_track",
+    })
+    .returning();
+  createProjectParentId = project.id;
+  createdProjectParentIds.push(project.id);
+});
+
 afterAll(async () => {
   if (createdDecisionNoteIds.length) {
     await db
@@ -79,6 +134,111 @@ afterAll(async () => {
       .delete(projectNotesTable)
       .where(inArray(projectNotesTable.id, createdProjectNoteIds));
   }
+  if (createdDecisionParentIds.length) {
+    await db
+      .delete(decisionsTable)
+      .where(inArray(decisionsTable.id, createdDecisionParentIds));
+  }
+  if (createdProjectParentIds.length) {
+    await db
+      .delete(projectsTable)
+      .where(inArray(projectsTable.id, createdProjectParentIds));
+  }
+  if (createdBrandParentCodes.length) {
+    await db
+      .delete(brandsTable)
+      .where(inArray(brandsTable.code, createdBrandParentCodes));
+  }
+});
+
+describe("Decision notes — create (POST)", () => {
+  it("creates a note (201) defaulting the author to Tony Casella", async () => {
+    const res = await request(app)
+      .post(`/api/decisions/${createDecisionParentId}/notes`)
+      .send({ body: "new decision note" });
+
+    expect(res.status).toBe(201);
+    expect(res.body.decisionId).toBe(createDecisionParentId);
+    expect(res.body.body).toBe("new decision note");
+    expect(res.body.author).toBe("Tony Casella");
+    if (res.body.id) createdDecisionNoteIds.push(res.body.id);
+  });
+
+  it("rejects an empty (whitespace-only) body with 400", async () => {
+    const res = await request(app)
+      .post(`/api/decisions/${createDecisionParentId}/notes`)
+      .send({ body: "   " });
+
+    expect(res.status).toBe(400);
+  });
+
+  it("returns 404 when the decision does not exist", async () => {
+    const res = await request(app)
+      .post(`/api/decisions/${MISSING_DECISION}/notes`)
+      .send({ body: "note for missing decision" });
+
+    expect(res.status).toBe(404);
+  });
+});
+
+describe("Brand notes — create (POST)", () => {
+  it("creates a note (201) defaulting the author to Tony Casella", async () => {
+    const res = await request(app)
+      .post(`/api/brands/${NEW_BRAND}/notes`)
+      .send({ body: "new brand note" });
+
+    expect(res.status).toBe(201);
+    expect(res.body.brandCode).toBe(NEW_BRAND);
+    expect(res.body.body).toBe("new brand note");
+    expect(res.body.author).toBe("Tony Casella");
+    if (res.body.id) createdBrandNoteIds.push(res.body.id);
+  });
+
+  it("rejects an empty (whitespace-only) body with 400", async () => {
+    const res = await request(app)
+      .post(`/api/brands/${NEW_BRAND}/notes`)
+      .send({ body: "   " });
+
+    expect(res.status).toBe(400);
+  });
+
+  it("returns 404 when the brand does not exist", async () => {
+    const res = await request(app)
+      .post(`/api/brands/${MISSING_BRAND}/notes`)
+      .send({ body: "note for missing brand" });
+
+    expect(res.status).toBe(404);
+  });
+});
+
+describe("Project notes — create (POST)", () => {
+  it("creates a note (201) defaulting the author to Tony Casella", async () => {
+    const res = await request(app)
+      .post(`/api/projects/${createProjectParentId}/notes`)
+      .send({ body: "new project note" });
+
+    expect(res.status).toBe(201);
+    expect(res.body.projectId).toBe(createProjectParentId);
+    expect(res.body.body).toBe("new project note");
+    expect(res.body.author).toBe("Tony Casella");
+    if (res.body.id) createdProjectNoteIds.push(res.body.id);
+  });
+
+  it("rejects an empty (whitespace-only) body with 400", async () => {
+    const res = await request(app)
+      .post(`/api/projects/${createProjectParentId}/notes`)
+      .send({ body: "   " });
+
+    expect(res.status).toBe(400);
+  });
+
+  it("returns 404 when the project does not exist", async () => {
+    const res = await request(app)
+      .post(`/api/projects/${MISSING_PROJECT}/notes`)
+      .send({ body: "note for missing project" });
+
+    expect(res.status).toBe(404);
+  });
 });
 
 describe("Decision notes — edit (PATCH)", () => {
