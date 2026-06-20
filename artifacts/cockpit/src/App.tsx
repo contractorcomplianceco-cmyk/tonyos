@@ -6,9 +6,11 @@ import NotFound from "@/pages/not-found";
 import { Shell } from "@/components/layout/Shell";
 import { AuthorityModeProvider } from "@/context/AuthorityMode";
 import { ReviewerProvider } from "@/context/Reviewer";
+import { AccessProvider } from "@/context/Access";
 
 // Pages
 import Home from "@/pages/Home";
+import TonyOS from "@/pages/TonyOS";
 import Brands from "@/pages/Brands";
 import BrandDetail from "@/pages/BrandDetail";
 import Operating from "@/pages/Operating";
@@ -37,6 +39,7 @@ function Router() {
     <Shell>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/tonyos" component={TonyOS} />
         <Route path="/brands" component={Brands} />
         <Route path="/brands/:code" component={BrandDetail} />
         <Route path="/operating" component={Operating} />
@@ -60,13 +63,15 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <AuthorityModeProvider>
-          <ReviewerProvider>
-            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-              <Router />
-            </WouterRouter>
-          </ReviewerProvider>
-        </AuthorityModeProvider>
+        <AccessProvider>
+          <AuthorityModeProvider>
+            <ReviewerProvider>
+              <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+                <Router />
+              </WouterRouter>
+            </ReviewerProvider>
+          </AuthorityModeProvider>
+        </AccessProvider>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

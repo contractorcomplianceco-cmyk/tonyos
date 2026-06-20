@@ -12,19 +12,23 @@ import {
   Menu,
   X,
   Lock,
-  ExternalLink
+  ExternalLink,
+  ShieldCheck,
 } from "lucide-react";
 import crest from "@assets/cca-crest-inset_1781490765434.png";
 import { ReviewerIdentity } from "@/context/Reviewer";
+import { useAccess, AccessRoleControl } from "@/context/Access";
 
 type NavItem = {
   href: string;
   label: string;
   icon: any;
+  leadershipOnly?: boolean;
 };
 
 const NAV: NavItem[] = [
   { href: "/", label: "Parent Overview", icon: LayoutDashboard },
+  { href: "/tonyos", label: "TonyOS", icon: ShieldCheck, leadershipOnly: true },
   { href: "/brands", label: "Brand Portfolio", icon: Network },
   { href: "/operating", label: "CCA Operating Pulse", icon: Activity },
   { href: "/predictors", label: "Predictive Intelligence", icon: RadarIcon },
@@ -42,6 +46,7 @@ function isActive(current: string, href: string): boolean {
 export function Shell({ children }: { children: ReactNode }) {
   const [location] = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { isLeadership } = useAccess();
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col md:flex-row">
@@ -67,7 +72,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
       {/* Sidebar Desktop */}
       <aside className="hidden md:flex fixed inset-y-0 left-0 z-30 w-64 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
-        <SidebarContent location={location} />
+        <SidebarContent location={location} isLeadership={isLeadership} />
       </aside>
 
       {/* Sidebar Mobile */}
@@ -80,6 +85,7 @@ export function Shell({ children }: { children: ReactNode }) {
           <aside className="relative z-50 w-64 flex flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground animate-in slide-in-from-left duration-200">
             <SidebarContent
               location={location}
+              isLeadership={isLeadership}
               onNavigate={() => setMobileOpen(false)}
             />
           </aside>
@@ -93,7 +99,10 @@ export function Shell({ children }: { children: ReactNode }) {
           <div className="text-xs font-medium text-sidebar-foreground/70 flex items-center gap-2">
             Rose OS <span className="text-sidebar-border">/</span> <span className="text-sidebar-foreground/70">Compliance Authority Group</span> <span className="text-sidebar-border">/</span> <span className="text-sidebar-foreground">TonyOS Command Center</span>
           </div>
-          <ReviewerIdentity />
+          <div className="flex items-center gap-2">
+            <AccessRoleControl />
+            <ReviewerIdentity />
+          </div>
         </header>
 
         <main className="flex-1 p-4 md:p-8">
@@ -108,9 +117,11 @@ export function Shell({ children }: { children: ReactNode }) {
 
 function SidebarContent({
   location,
+  isLeadership,
   onNavigate,
 }: {
   location: string;
+  isLeadership: boolean;
   onNavigate?: () => void;
 }) {
   return (
@@ -141,7 +152,7 @@ function SidebarContent({
       </div>
 
       <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-1">
-        {NAV.map((item) => {
+        {NAV.filter((item) => !item.leadershipOnly || isLeadership).map((item) => {
           const active = isActive(location, item.href);
           const Icon = item.icon;
           return (

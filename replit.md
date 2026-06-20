@@ -42,7 +42,10 @@ This is the **CAG (Compliance Authority Group) parent-company command center**. 
 - `/operating` CCA Operating Pulse — composite health, departments-on-track, open blockers, Department Health table, Active Projects. Carries the Founder Authority Mode toggle (lens filters projects by authority label).
 - `/predictors` Predictive Intelligence — 18 forward-looking modules (radar + category-filterable cards).
 - `/decisions` Major Decisions (+ `/decisions/:id`) — decision queue with authority labels + brand codes, authority-mode lens, status filter.
+- `/tonyos` TonyOS Executive Intelligence — leadership-only consolidated overview that aggregates all 9 modules (Parent Overview KPIs, Brand Portfolio, CCA Operating Pulse, Predictive Intelligence radar, Financial Intelligence, Major Decision Control, Governance Guardrails, Company Brain source records, CLP strip) into one dense screen with drill-downs to the existing detail pages. Carries the Founder Authority Mode toggle.
 - `/financial` Financial Review, `/risk` Risk Platform, `/brain` Company Brain — retained from the prior product (visibility only).
+
+Access roles: `context/Access.tsx` holds a localStorage-backed role (`tonyos.role`, default `leadership`) exposing `useAccess()` ({role, isLeadership, setRole}) and `AccessRoleControl` (header popover to switch leadership/team). The `/tonyos` route and its sidebar nav entry are leadership-only. Gating is client-side only (like the Reviewer/AuthorityMode lenses) — `TonyOS` renders a Restricted Access screen for non-leadership and only mounts the inner `TonyOSExecutive` (which runs the privileged data hooks) when leadership, so no executive queries fire for team roles. This is a UI lens, not server-enforced authorization.
 
 Founder Authority Mode (VIEW / REVIEW / RECOMMEND / WRITTEN APPROVAL) is a lens that filters authority-gated action items (decisions, projects) by their `authorityLabel` via `matchesMode`. It deliberately does NOT hide org-structure/health entities (brands, departments, predictors) — those stay fully visible at all times. The lens lives in `context/AuthorityMode.tsx`; tone mapping in `lib/authority.ts`.
 
