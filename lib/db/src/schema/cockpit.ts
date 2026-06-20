@@ -85,6 +85,12 @@ export const projectNotesTable = pgTable("project_notes", {
   revisions: jsonb("revisions").$type<NoteRevision[]>().notNull().default([]),
 });
 
+export const reviewersTable = pgTable("reviewers", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  sort: integer("sort").notNull().default(0),
+});
+
 export const financialCommitmentsTable = pgTable("financial_commitments", {
   id: serial("id").primaryKey(),
   label: text("label").notNull(),

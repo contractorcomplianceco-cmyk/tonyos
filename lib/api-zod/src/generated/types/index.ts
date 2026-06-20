@@ -36,6 +36,8 @@ export * from './partnership';
 export * from './predictor';
 export * from './project';
 export * from './projectNote';
+export * from './reviewer';
+export * from './reviewerInput';
 export * from './riskItem';
 export * from './roadmapPhase';
 export * from './sourceRecord';

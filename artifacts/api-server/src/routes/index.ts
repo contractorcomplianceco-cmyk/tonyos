@@ -10,6 +10,7 @@ import brandsRouter from "./brands";
 import departmentsRouter from "./departments";
 import projectsRouter from "./projects";
 import predictorsRouter from "./predictors";
+import reviewersRouter from "./reviewers";
 
 const router: IRouter = Router();
 
@@ -24,5 +25,6 @@ router.use(brandsRouter);
 router.use(departmentsRouter);
 router.use(projectsRouter);
 router.use(predictorsRouter);
+router.use(reviewersRouter);
 
 export default router;

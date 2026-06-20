@@ -236,6 +236,32 @@ export const DeleteDecisionNoteParams = zod.object({
 
 
 /**
+ * @summary Known reviewer roster for note attribution
+ */
+export const GetReviewersResponseItem = zod.object({
+  "id": zod.number(),
+  "name": zod.string()
+})
+export const GetReviewersResponse = zod.array(GetReviewersResponseItem)
+
+
+/**
+ * @summary Add a reviewer to the roster
+ */
+
+
+
+export const CreateReviewerBody = zod.object({
+  "name": zod.string().min(1)
+})
+
+export const CreateReviewerResponse = zod.object({
+  "id": zod.number(),
+  "name": zod.string()
+})
+
+
+/**
  * @summary Financial visibility overview (visibility only)
  */
 export const GetFinancialOverviewResponse = zod.object({

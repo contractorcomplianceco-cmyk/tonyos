@@ -124,6 +124,16 @@ export interface DecisionNoteInput {
   body: string;
 }
 
+export interface Reviewer {
+  id: number;
+  name: string;
+}
+
+export interface ReviewerInput {
+  /** @minLength 1 */
+  name: string;
+}
+
 export interface BrandNote {
   id: number;
   brandCode: string;

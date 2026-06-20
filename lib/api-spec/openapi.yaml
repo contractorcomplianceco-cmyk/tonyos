@@ -40,6 +40,8 @@ tags:
     description: Brand and department projects
   - name: predictors
     description: Predictive intelligence modules
+  - name: reviewers
+    description: Known reviewer roster for note attribution
 paths:
   /healthz:
     get:
@@ -263,6 +265,50 @@ paths:
           description: Note deleted
         "404":
           description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /reviewers:
+    get:
+      operationId: getReviewers
+      tags: [reviewers]
+      summary: Known reviewer roster for note attribution
+      responses:
+        "200":
+          description: Reviewers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Reviewer"
+    post:
+      operationId: createReviewer
+      tags: [reviewers]
+      summary: Add a reviewer to the roster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewerInput"
+      responses:
+        "201":
+          description: Created reviewer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reviewer"
+        "200":
+          description: Existing reviewer with the same name
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reviewer"
+        "400":
+          description: Invalid input
           content:
             application/json:
               schema:
@@ -985,6 +1031,23 @@ components:
         author:
           type: string
         body:
+          type: string
+          minLength: 1
+
+    Reviewer:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    ReviewerInput:
+      type: object
+      required: [name]
+      properties:
+        name:
           type: string
           minLength: 1
 

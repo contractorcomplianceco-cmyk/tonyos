@@ -8,6 +8,7 @@ import {
   decisionsTable,
   decisionNotesTable,
   executiveSummaryTable,
+  reviewersTable,
 } from "@workspace/db";
 
 // Idempotent seed for the CAG parent-company expansion. Re-running fully
@@ -742,6 +743,12 @@ const executiveSummary = {
   pulseTrend: [78, 80, 79, 82, 81, 83, 84, 86],
 };
 
+const reviewers = [
+  { name: "Tony Casella", sort: 0 },
+  { name: "Carmen Vega", sort: 1 },
+  { name: "Rose Delacroix", sort: 2 },
+];
+
 async function seed() {
   await db.transaction(async (tx) => {
     await tx.delete(brandsTable);
@@ -751,6 +758,7 @@ async function seed() {
     await tx.delete(decisionNotesTable);
     await tx.delete(decisionsTable);
     await tx.delete(executiveSummaryTable);
+    await tx.delete(reviewersTable);
 
     await tx.insert(brandsTable).values(brands);
     await tx.insert(departmentsTable).values(departments);
@@ -758,6 +766,7 @@ async function seed() {
     await tx.insert(predictorsTable).values(predictors);
     await tx.insert(decisionsTable).values(decisions);
     await tx.insert(executiveSummaryTable).values(executiveSummary);
+    await tx.insert(reviewersTable).values(reviewers);
   });
 
   console.log("Seeded CAG cockpit data:");
@@ -767,6 +776,7 @@ async function seed() {
   console.log(`  predictors: ${predictors.length}`);
   console.log(`  decisions: ${decisions.length}`);
   console.log(`  executive summary: 1`);
+  console.log(`  reviewers: ${reviewers.length}`);
 }
 
 seed()
