@@ -103,6 +103,11 @@ export interface DecisionSummary {
   byApprovalType: CountByLabel[];
 }
 
+export interface NoteRevision {
+  body: string;
+  replacedAt: string;
+}
+
 export interface DecisionNote {
   id: number;
   decisionId: number;
@@ -110,6 +115,7 @@ export interface DecisionNote {
   body: string;
   createdAt: string;
   updatedAt?: string | null;
+  revisions: NoteRevision[];
 }
 
 export interface DecisionNoteInput {
@@ -125,6 +131,7 @@ export interface BrandNote {
   body: string;
   createdAt: string;
   updatedAt?: string | null;
+  revisions: NoteRevision[];
 }
 
 export interface ProjectNote {
@@ -134,6 +141,7 @@ export interface ProjectNote {
   body: string;
   createdAt: string;
   updatedAt?: string | null;
+  revisions: NoteRevision[];
 }
 
 export interface NoteInput {

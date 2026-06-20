@@ -49,6 +49,12 @@ export const decisionsTable = pgTable("decisions", {
   sort: integer("sort").notNull().default(0),
 });
 
+// A prior wording of a note body, preserved when the note is edited.
+type NoteRevision = {
+  body: string;
+  replacedAt: string;
+};
+
 export const decisionNotesTable = pgTable("decision_notes", {
   id: serial("id").primaryKey(),
   decisionId: integer("decision_id").notNull(),
@@ -56,6 +62,7 @@ export const decisionNotesTable = pgTable("decision_notes", {
   body: text("body").notNull(),
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at"),
+  revisions: jsonb("revisions").$type<NoteRevision[]>().notNull().default([]),
 });
 
 export const brandNotesTable = pgTable("brand_notes", {
@@ -65,6 +72,7 @@ export const brandNotesTable = pgTable("brand_notes", {
   body: text("body").notNull(),
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at"),
+  revisions: jsonb("revisions").$type<NoteRevision[]>().notNull().default([]),
 });
 
 export const projectNotesTable = pgTable("project_notes", {
@@ -74,6 +82,7 @@ export const projectNotesTable = pgTable("project_notes", {
   body: text("body").notNull(),
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at"),
+  revisions: jsonb("revisions").$type<NoteRevision[]>().notNull().default([]),
 });
 
 export const financialCommitmentsTable = pgTable("financial_commitments", {

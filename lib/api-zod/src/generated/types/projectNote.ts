@@ -5,6 +5,7 @@
  * Executive Strategy Cockpit API for Rose OS / Command Center
  * OpenAPI spec version: 0.1.0
  */
+import type { NoteRevision } from './noteRevision';
 
 export interface ProjectNote {
   id: number;
@@ -13,4 +14,5 @@ export interface ProjectNote {
   body: string;
   createdAt: string;
   updatedAt?: string | null;
+  revisions: NoteRevision[];
 }

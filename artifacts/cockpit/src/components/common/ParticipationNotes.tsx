@@ -7,12 +7,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useReviewer } from "@/context/Reviewer";
 
+type NoteRevision = {
+  body: string;
+  replacedAt: string;
+};
+
 type Note = {
   id: number;
   author: string;
   body: string;
   createdAt: string;
   updatedAt?: string | null;
+  revisions?: NoteRevision[];
 };
 
 export function ParticipationNotes({
@@ -46,6 +52,7 @@ export function ParticipationNotes({
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editBody, setEditBody] = useState("");
   const [confirmingDeleteId, setConfirmingDeleteId] = useState<number | null>(null);
+  const [expandedHistoryId, setExpandedHistoryId] = useState<number | null>(null);
 
   const invalidate = () => {
     if (invalidateKey) queryClient.invalidateQueries({ queryKey: invalidateKey });
@@ -159,6 +166,38 @@ export function ParticipationNotes({
               ) : (
                 <>
                   <p className="text-sm text-card-foreground/80 whitespace-pre-wrap">{note.body}</p>
+                  {note.revisions && note.revisions.length > 0 && (
+                    <div className="pt-1">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setExpandedHistoryId((prev) => (prev === note.id ? null : note.id))
+                        }
+                        className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {expandedHistoryId === note.id
+                          ? "Hide history"
+                          : `View history (${note.revisions.length})`}
+                      </button>
+                      {expandedHistoryId === note.id && (
+                        <ol className="mt-3 space-y-3 border-l border-border pl-4">
+                          {[...note.revisions]
+                            .slice()
+                            .reverse()
+                            .map((rev, idx) => (
+                              <li key={`${note.id}-rev-${idx}`} className="space-y-1">
+                                <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/70">
+                                  Replaced {format(new Date(rev.replacedAt), "MMM d, yyyy h:mm a")}
+                                </div>
+                                <p className="text-sm text-muted-foreground line-through whitespace-pre-wrap">
+                                  {rev.body}
+                                </p>
+                              </li>
+                            ))}
+                        </ol>
+                      )}
+                    </div>
+                  )}
                   {(onUpdate || onDelete) && (
                     <div className="flex justify-end gap-2 pt-1">
                       {confirmingDeleteId === note.id ? (

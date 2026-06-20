@@ -947,9 +947,18 @@ components:
         count:
           type: integer
 
+    NoteRevision:
+      type: object
+      required: [body, replacedAt]
+      properties:
+        body:
+          type: string
+        replacedAt:
+          type: string
+
     DecisionNote:
       type: object
-      required: [id, decisionId, author, body, createdAt]
+      required: [id, decisionId, author, body, createdAt, revisions]
       properties:
         id:
           type: integer
@@ -964,6 +973,10 @@ components:
         updatedAt:
           type: string
           nullable: true
+        revisions:
+          type: array
+          items:
+            $ref: "#/components/schemas/NoteRevision"
 
     DecisionNoteInput:
       type: object
@@ -977,7 +990,7 @@ components:
 
     BrandNote:
       type: object
-      required: [id, brandCode, author, body, createdAt]
+      required: [id, brandCode, author, body, createdAt, revisions]
       properties:
         id:
           type: integer
@@ -992,10 +1005,14 @@ components:
         updatedAt:
           type: string
           nullable: true
+        revisions:
+          type: array
+          items:
+            $ref: "#/components/schemas/NoteRevision"
 
     ProjectNote:
       type: object
-      required: [id, projectId, author, body, createdAt]
+      required: [id, projectId, author, body, createdAt, revisions]
       properties:
         id:
           type: integer
@@ -1010,6 +1027,10 @@ components:
         updatedAt:
           type: string
           nullable: true
+        revisions:
+          type: array
+          items:
+            $ref: "#/components/schemas/NoteRevision"
 
     NoteInput:
       type: object

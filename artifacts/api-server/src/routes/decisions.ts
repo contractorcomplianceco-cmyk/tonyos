@@ -153,9 +153,32 @@ router.patch("/decisions/:id/notes/:noteId", async (req, res) => {
     return;
   }
 
+  const [existing] = await db
+    .select()
+    .from(decisionNotesTable)
+    .where(
+      and(
+        eq(decisionNotesTable.id, noteId),
+        eq(decisionNotesTable.decisionId, id),
+      ),
+    )
+    .limit(1);
+
+  if (!existing) {
+    res.status(404).json({ error: "Note not found" });
+    return;
+  }
+
+  const now = new Date().toISOString();
+  // Preserve the prior wording as a revision only when the body actually changes.
+  const revisions =
+    existing.body === trimmedBody
+      ? existing.revisions
+      : [...existing.revisions, { body: existing.body, replacedAt: now }];
+
   const [updated] = await db
     .update(decisionNotesTable)
-    .set({ body: trimmedBody, updatedAt: new Date().toISOString() })
+    .set({ body: trimmedBody, updatedAt: now, revisions })
     .where(
       and(
         eq(decisionNotesTable.id, noteId),
@@ -163,11 +186,6 @@ router.patch("/decisions/:id/notes/:noteId", async (req, res) => {
       ),
     )
     .returning();
-
-  if (!updated) {
-    res.status(404).json({ error: "Note not found" });
-    return;
-  }
 
   res.json(updated);
 });

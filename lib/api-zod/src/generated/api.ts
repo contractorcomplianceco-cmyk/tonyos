@@ -171,7 +171,11 @@ export const GetDecisionNotesResponseItem = zod.object({
   "author": zod.string(),
   "body": zod.string(),
   "createdAt": zod.string(),
-  "updatedAt": zod.string().nullish()
+  "updatedAt": zod.string().nullish(),
+  "revisions": zod.array(zod.object({
+  "body": zod.string(),
+  "replacedAt": zod.string()
+}))
 })
 export const GetDecisionNotesResponse = zod.array(GetDecisionNotesResponseItem)
 
@@ -214,7 +218,11 @@ export const UpdateDecisionNoteResponse = zod.object({
   "author": zod.string(),
   "body": zod.string(),
   "createdAt": zod.string(),
-  "updatedAt": zod.string().nullish()
+  "updatedAt": zod.string().nullish(),
+  "revisions": zod.array(zod.object({
+  "body": zod.string(),
+  "replacedAt": zod.string()
+}))
 })
 
 
@@ -465,7 +473,11 @@ export const GetBrandNotesResponseItem = zod.object({
   "author": zod.string(),
   "body": zod.string(),
   "createdAt": zod.string(),
-  "updatedAt": zod.string().nullish()
+  "updatedAt": zod.string().nullish(),
+  "revisions": zod.array(zod.object({
+  "body": zod.string(),
+  "replacedAt": zod.string()
+}))
 })
 export const GetBrandNotesResponse = zod.array(GetBrandNotesResponseItem)
 
@@ -508,7 +520,11 @@ export const UpdateBrandNoteResponse = zod.object({
   "author": zod.string(),
   "body": zod.string(),
   "createdAt": zod.string(),
-  "updatedAt": zod.string().nullish()
+  "updatedAt": zod.string().nullish(),
+  "revisions": zod.array(zod.object({
+  "body": zod.string(),
+  "replacedAt": zod.string()
+}))
 })
 
 
@@ -602,7 +618,11 @@ export const GetProjectNotesResponseItem = zod.object({
   "author": zod.string(),
   "body": zod.string(),
   "createdAt": zod.string(),
-  "updatedAt": zod.string().nullish()
+  "updatedAt": zod.string().nullish(),
+  "revisions": zod.array(zod.object({
+  "body": zod.string(),
+  "replacedAt": zod.string()
+}))
 })
 export const GetProjectNotesResponse = zod.array(GetProjectNotesResponseItem)
 
@@ -645,7 +665,11 @@ export const UpdateProjectNoteResponse = zod.object({
   "author": zod.string(),
   "body": zod.string(),
   "createdAt": zod.string(),
-  "updatedAt": zod.string().nullish()
+  "updatedAt": zod.string().nullish(),
+  "revisions": zod.array(zod.object({
+  "body": zod.string(),
+  "replacedAt": zod.string()
+}))
 })
 
 

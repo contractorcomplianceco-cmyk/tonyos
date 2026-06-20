@@ -31,6 +31,7 @@ export * from './milestone';
 export * from './monthlyFinancialPoint';
 export * from './monthlyReview';
 export * from './noteInput';
+export * from './noteRevision';
 export * from './partnership';
 export * from './predictor';
 export * from './project';

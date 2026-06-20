@@ -94,9 +94,32 @@ router.patch("/brands/:code/notes/:noteId", async (req, res) => {
     return;
   }
 
+  const [existing] = await db
+    .select()
+    .from(brandNotesTable)
+    .where(
+      and(
+        eq(brandNotesTable.id, noteId),
+        eq(brandNotesTable.brandCode, code),
+      ),
+    )
+    .limit(1);
+
+  if (!existing) {
+    res.status(404).json({ error: "Note not found" });
+    return;
+  }
+
+  const now = new Date().toISOString();
+  // Preserve the prior wording as a revision only when the body actually changes.
+  const revisions =
+    existing.body === trimmedBody
+      ? existing.revisions
+      : [...existing.revisions, { body: existing.body, replacedAt: now }];
+
   const [updated] = await db
     .update(brandNotesTable)
-    .set({ body: trimmedBody, updatedAt: new Date().toISOString() })
+    .set({ body: trimmedBody, updatedAt: now, revisions })
     .where(
       and(
         eq(brandNotesTable.id, noteId),
@@ -104,11 +127,6 @@ router.patch("/brands/:code/notes/:noteId", async (req, res) => {
       ),
     )
     .returning();
-
-  if (!updated) {
-    res.status(404).json({ error: "Note not found" });
-    return;
-  }
 
   res.json(updated);
 });
