@@ -69,59 +69,60 @@
 }
 
 :root {
-  /* Deep ocean / navy-black graphite executive shell */
-  --background: 202 30% 7%;
-  --foreground: 0 0% 100%;
+  /* Bright coastal executive workspace */
+  --background: 200 33% 97%;
+  --foreground: 210 33% 11%;
 
-  /* Silver / steel engineering line */
-  --border: 205 12% 26%;
+  /* Soft steel engineering line */
+  --border: 200 27% 87%;
 
-  /* Charcoal / storm-gray command panels elevated above the shell */
-  --card: 205 14% 12%;
-  --card-foreground: 200 22% 96%;
-  --card-border: 205 12% 26%;
+  /* Pearl / near-white command panels */
+  --card: 195 40% 99%;
+  --card-foreground: 210 33% 11%;
+  --card-border: 200 27% 87%;
 
-  --sidebar: 205 28% 5%;
-  --sidebar-foreground: 200 22% 96%;
-  --sidebar-border: 205 12% 18%;
-  --sidebar-primary: 200 22% 96%;
-  --sidebar-primary-foreground: 202 30% 9%;
-  --sidebar-accent: 205 14% 14%;
-  --sidebar-accent-foreground: 200 22% 96%;
-  --sidebar-ring: 186 60% 42%;
+  /* Dark graphite / navy sidebar + command frame */
+  --sidebar: 214 38% 9%;
+  --sidebar-foreground: 200 25% 92%;
+  --sidebar-border: 213 22% 20%;
+  --sidebar-primary: 200 25% 95%;
+  --sidebar-primary-foreground: 214 38% 9%;
+  --sidebar-accent: 214 26% 16%;
+  --sidebar-accent-foreground: 200 25% 95%;
+  --sidebar-ring: 177 59% 41%;
 
-  --popover: 205 14% 12%;
-  --popover-foreground: 200 22% 96%;
-  --popover-border: 205 12% 26%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 210 33% 11%;
+  --popover-border: 200 27% 87%;
 
-  /* Ocean teal / sea-glass — dominant accent */
-  --primary: 186 70% 47%;
-  --primary-foreground: 202 40% 8%;
+  /* Ocean teal — dominant accent */
+  --primary: 177 59% 41%;
+  --primary-foreground: 0 0% 100%;
 
-  /* Electric blue — reserved for important command actions only */
-  --command: 217 91% 60%;
+  /* Command blue — used sparingly for command actions only */
+  --command: 214 84% 56%;
   --command-foreground: 0 0% 100%;
 
-  --secondary: 205 14% 17%; /* Storm-gray inner surface */
-  --secondary-foreground: 200 22% 94%;
+  --secondary: 192 31% 94%; /* sea-glass / mist inner surface */
+  --secondary-foreground: 210 28% 24%;
 
-  --muted: 205 14% 17%;
-  --muted-foreground: 205 12% 64%; /* Graphite */
+  --muted: 192 31% 94%;
+  --muted-foreground: 210 12% 42%; /* graphite */
 
-  --accent: 205 14% 20%;
-  --accent-foreground: 200 22% 96%;
+  --accent: 192 33% 92%;
+  --accent-foreground: 210 28% 24%;
 
-  --destructive: 0 80% 60%;
-  --destructive-foreground: 200 22% 98%;
+  --destructive: 0 72% 50%;
+  --destructive-foreground: 0 0% 100%;
 
-  --input: 205 12% 26%;
-  --ring: 186 70% 47%;
+  --input: 200 27% 87%;
+  --ring: 177 59% 41%;
 
-  --chart-1: 186 70% 47%; /* ocean teal */
-  --chart-2: 205 16% 60%; /* steel */
-  --chart-3: 142 58% 46%; /* green */
-  --chart-4: 38 80% 52%;  /* amber (status only) */
-  --chart-5: 0 74% 60%;   /* red */
+  --chart-1: 177 59% 41%; /* ocean teal */
+  --chart-2: 205 16% 55%; /* steel */
+  --chart-3: 142 58% 42%; /* green */
+  --chart-4: 38 80% 48%;  /* amber (status only) */
+  --chart-5: 0 74% 55%;   /* red */
 
   --app-font-sans: 'Geist', sans-serif;
   --app-font-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -138,42 +139,42 @@
 }
 
 .dark {
-  --background: 202 30% 7%;
-  --foreground: 0 0% 100%;
-  --border: 205 12% 26%;
-  --card: 205 14% 12%;
-  --card-foreground: 200 22% 96%;
-  --card-border: 205 12% 26%;
-  --sidebar: 205 28% 5%;
-  --sidebar-foreground: 200 22% 96%;
-  --sidebar-border: 205 12% 18%;
-  --sidebar-primary: 200 22% 96%;
-  --sidebar-primary-foreground: 202 30% 9%;
-  --sidebar-accent: 205 14% 14%;
-  --sidebar-accent-foreground: 200 22% 96%;
-  --sidebar-ring: 186 60% 42%;
-  --popover: 205 14% 12%;
-  --popover-foreground: 200 22% 96%;
-  --popover-border: 205 12% 26%;
-  --primary: 186 70% 47%;
-  --primary-foreground: 202 40% 8%;
-  --command: 217 91% 60%;
+  --background: 200 33% 97%;
+  --foreground: 210 33% 11%;
+  --border: 200 27% 87%;
+  --card: 195 40% 99%;
+  --card-foreground: 210 33% 11%;
+  --card-border: 200 27% 87%;
+  --sidebar: 214 38% 9%;
+  --sidebar-foreground: 200 25% 92%;
+  --sidebar-border: 213 22% 20%;
+  --sidebar-primary: 200 25% 95%;
+  --sidebar-primary-foreground: 214 38% 9%;
+  --sidebar-accent: 214 26% 16%;
+  --sidebar-accent-foreground: 200 25% 95%;
+  --sidebar-ring: 177 59% 41%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 210 33% 11%;
+  --popover-border: 200 27% 87%;
+  --primary: 177 59% 41%;
+  --primary-foreground: 0 0% 100%;
+  --command: 214 84% 56%;
   --command-foreground: 0 0% 100%;
-  --secondary: 205 14% 17%;
-  --secondary-foreground: 200 22% 94%;
-  --muted: 205 14% 17%;
-  --muted-foreground: 205 12% 64%;
-  --accent: 205 14% 20%;
-  --accent-foreground: 200 22% 96%;
-  --destructive: 0 80% 60%;
-  --destructive-foreground: 200 22% 98%;
-  --input: 205 12% 26%;
-  --ring: 186 70% 47%;
-  --chart-1: 186 70% 47%;
-  --chart-2: 205 16% 60%;
-  --chart-3: 142 58% 46%;
-  --chart-4: 38 80% 52%;
-  --chart-5: 0 74% 60%;
+  --secondary: 192 31% 94%;
+  --secondary-foreground: 210 28% 24%;
+  --muted: 192 31% 94%;
+  --muted-foreground: 210 12% 42%;
+  --accent: 192 33% 92%;
+  --accent-foreground: 210 28% 24%;
+  --destructive: 0 72% 50%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 200 27% 87%;
+  --ring: 177 59% 41%;
+  --chart-1: 177 59% 41%;
+  --chart-2: 205 16% 55%;
+  --chart-3: 142 58% 42%;
+  --chart-4: 38 80% 48%;
+  --chart-5: 0 74% 55%;
 }
 
 @layer base {
@@ -183,10 +184,10 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
-    /* Subtle blueprint / engineering grid — no decorative gradients or orbs */
+    /* Subtle blueprint / engineering grid — restrained steel lines on the light workspace */
     background-image:
-      linear-gradient(hsl(195 24% 58% / 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(195 24% 58% / 0.035) 1px, transparent 1px);
+      linear-gradient(hsl(205 28% 48% / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(205 28% 48% / 0.05) 1px, transparent 1px);
     background-size: 44px 44px;
     background-position: -1px -1px;
     background-attachment: fixed;

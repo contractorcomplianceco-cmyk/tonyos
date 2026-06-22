@@ -216,7 +216,7 @@ export function ParticipationNotes({
                             onClick={() => handleDelete(note.id)}
                             disabled={isDeleting}
                             variant="ghost"
-                            className="text-[10px] font-mono uppercase tracking-widest h-7 px-3 rounded-sm text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                            className="text-[10px] font-mono uppercase tracking-widest h-7 px-3 rounded-sm text-red-600 hover:text-red-700 hover:bg-red-500/10"
                           >
                             {isDeleting ? "Removing..." : "Confirm"}
                           </Button>
@@ -239,7 +239,7 @@ export function ParticipationNotes({
                                 setConfirmingDeleteId(note.id);
                               }}
                               variant="ghost"
-                              className="text-[10px] font-mono uppercase tracking-widest h-7 px-3 rounded-sm text-muted-foreground hover:text-red-400"
+                              className="text-[10px] font-mono uppercase tracking-widest h-7 px-3 rounded-sm text-muted-foreground hover:text-red-600"
                             >
                               Delete
                             </Button>

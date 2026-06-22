@@ -60,7 +60,7 @@ export default function DepartmentDetail() {
         <Panel icon={Layers} title="Department Status" className="lg:col-span-2">
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <StatusBadge status={dept.status} size="md" />
-            <span className={`text-sm font-mono tabular-nums ${dept.blockers > 0 ? "text-red-300" : "text-card-foreground/60"}`}>
+            <span className={`text-sm font-mono tabular-nums ${dept.blockers > 0 ? "text-red-600" : "text-card-foreground/60"}`}>
               {dept.blockers} open blocker{dept.blockers === 1 ? "" : "s"}
             </span>
           </div>

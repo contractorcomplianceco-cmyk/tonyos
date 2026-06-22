@@ -64,8 +64,8 @@ export function AccessRoleControl() {
           aria-label="Set the active access role"
         >
           <Icon className="h-3.5 w-3.5 text-primary" />
-          <span className="text-[11px] font-mono tracking-wide text-sidebar-foreground">{meta.label} Access</span>
-          <ChevronDown className="h-3 w-3 text-sidebar-foreground/40 group-hover:text-sidebar-foreground/70 transition-colors" />
+          <span className="text-[11px] font-mono tracking-wide text-foreground">{meta.label} Access</span>
+          <ChevronDown className="h-3 w-3 text-muted-foreground group-hover:text-foreground transition-colors" />
         </button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-72 bg-card border-card-border rounded-sm shadow-lg">

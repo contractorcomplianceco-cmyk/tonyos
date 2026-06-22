@@ -143,7 +143,7 @@ function TonyOSExecutive() {
       />
 
       {/* CLP Separation Guardrail */}
-      <div className="bg-background border border-sidebar-border rounded px-4 py-2.5 flex flex-wrap gap-3 justify-between items-center text-sm shadow-sm">
+      <div className="bg-background border border-border rounded px-4 py-2.5 flex flex-wrap gap-3 justify-between items-center text-sm shadow-sm">
         <div className="flex items-center gap-3">
           <Shield className="h-4 w-4 text-primary" />
           <span className="font-semibold text-foreground tracking-tight">CLP Separation Guardrail:</span>
@@ -282,7 +282,7 @@ function TonyOSExecutive() {
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-bold text-card-foreground tabular-nums">{metric.value}{metric.unit ?? ""}</span>
                       {metric.change && (
-                        <span className={`inline-flex items-center gap-0.5 text-[10px] font-bold tabular-nums ${metric.trend === "up" ? "text-emerald-400" : metric.trend === "down" ? "text-amber-400" : "text-muted-foreground"}`}>
+                        <span className={`inline-flex items-center gap-0.5 text-[10px] font-bold tabular-nums ${metric.trend === "up" ? "text-emerald-600" : metric.trend === "down" ? "text-amber-600" : "text-muted-foreground"}`}>
                           {metric.trend === "up" ? <ArrowUpRight className="h-3 w-3" /> : metric.trend === "down" ? <ArrowDownRight className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
                           {metric.change}
                         </span>
@@ -324,33 +324,33 @@ function TonyOSExecutive() {
       {/* 7 + 8. Governance Guardrails + Company Brain */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Governance Guardrails */}
-        <div className="border border-sidebar-border bg-sidebar rounded shadow-sm overflow-hidden text-sidebar-foreground">
-          <div className="px-6 py-4 border-b border-sidebar-border flex items-center justify-between gap-3">
+        <div className="border border-card-border bg-card rounded shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-card-border flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <Lock className="h-5 w-5 text-primary" />
-              <h2 className="text-base font-bold tracking-tight">Governance Guardrails</h2>
+              <h2 className="text-base font-bold tracking-tight text-card-foreground">Governance Guardrails</h2>
             </div>
             {viewLink("/brain", "View All")}
           </div>
           <div className="p-6 space-y-3">
             {loadingGuardrails ? (
-              <Skeleton className="h-48 rounded bg-sidebar-border" />
+              <Skeleton className="h-48 rounded" />
             ) : guardrailsError ? (
-              <div className="flex items-center gap-2 text-xs text-sidebar-foreground/70">
-                <AlertTriangle className="h-4 w-4 text-red-400 shrink-0" /> Unable to load guardrails.
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <AlertTriangle className="h-4 w-4 text-red-600 shrink-0" /> Unable to load guardrails.
               </div>
             ) : activeGuardrails.length === 0 ? (
               <EmptyState icon={Lock} title="No guardrails" description="No authority guardrails have been configured." />
             ) : activeGuardrails.map((g) => (
-              <div key={g.id} className="border border-sidebar-border rounded p-4 bg-sidebar-accent/30 shadow-sm">
+              <div key={g.id} className="border border-card-border rounded p-4 bg-secondary/50 shadow-sm">
                 <div className="flex justify-between items-start gap-3">
                   <div className="flex items-center gap-3">
-                    {g.status.toLowerCase() === "active" || g.status.toLowerCase() === "enforced" ? <Lock className="h-4 w-4 text-primary" /> : <ShieldAlert className="h-4 w-4 text-amber-500" />}
-                    <h3 className="text-sm font-bold tracking-tight">{g.title}</h3>
+                    {g.status.toLowerCase() === "active" || g.status.toLowerCase() === "enforced" ? <Lock className="h-4 w-4 text-primary" /> : <ShieldAlert className="h-4 w-4 text-amber-600" />}
+                    <h3 className="text-sm font-bold tracking-tight text-card-foreground">{g.title}</h3>
                   </div>
-                  <span className="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-[2px] border font-bold bg-primary/20 text-primary border-primary/30">{g.status}</span>
+                  <span className="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-[2px] border font-bold bg-primary/10 text-primary border-primary/30">{g.status}</span>
                 </div>
-                {g.description && <p className="text-xs text-sidebar-foreground/70 mt-2.5 leading-relaxed ml-7 font-medium">{g.description}</p>}
+                {g.description && <p className="text-xs text-muted-foreground mt-2.5 leading-relaxed ml-7 font-medium">{g.description}</p>}
               </div>
             ))}
           </div>
@@ -375,7 +375,7 @@ function TonyOSExecutive() {
                   <div className="flex items-center gap-2 mb-1.5">
                     <h3 className="text-sm font-semibold text-card-foreground truncate">{rec.title}</h3>
                     {rec.clpCleared && (
-                      <span className="bg-emerald-500/15 text-emerald-300 px-1.5 py-0.5 rounded-[2px] text-[9px] font-mono uppercase tracking-widest border border-emerald-500/30 font-bold shrink-0">Cleared</span>
+                      <span className="bg-emerald-500/10 text-emerald-700 px-1.5 py-0.5 rounded-[2px] text-[9px] font-mono uppercase tracking-widest border border-emerald-600/30 font-bold shrink-0">Cleared</span>
                     )}
                   </div>
                   <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground flex gap-2">

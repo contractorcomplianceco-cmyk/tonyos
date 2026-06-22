@@ -3,9 +3,9 @@ import { authorityTone, type AuthorityTone } from "@/lib/authority";
 
 const TONE_CLASS: Record<AuthorityTone, string> = {
   neutral: "bg-secondary text-secondary-foreground border-border",
-  blue: "bg-primary/15 text-primary border-primary/30",
-  amber: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-  red: "bg-red-500/15 text-red-300 border-red-500/30",
+  blue: "bg-primary/10 text-primary border-primary/30",
+  amber: "bg-amber-500/10 text-amber-700 border-amber-600/30",
+  red: "bg-red-500/10 text-red-700 border-red-600/30",
 };
 
 function iconFor(label: string) {

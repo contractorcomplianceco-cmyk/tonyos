@@ -1,1 +1,2 @@
 - [Seed date filters](seed-date-filters.md) — cockpit seed decisions have fixed future dueDates; relative "this week" filters need a fallback or panels render empty.
+- [Cockpit theme (bright coastal)](cockpit-theme.md) — single light theme w/ dark sidebar frame; main content must use card/border tokens, never sidebar-* (they break on light canvas).

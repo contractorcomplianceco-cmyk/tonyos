@@ -32,7 +32,7 @@ export function DepartmentTable({ departments }: { departments: Department[] }) 
               <td className="px-4 py-3"><StatusBadge status={d.status} /></td>
               <td className="px-4 py-3"><HealthBar value={d.health} /></td>
               <td className="px-4 py-3 text-center">
-                <span className={`font-mono tabular-nums text-sm ${d.blockers > 0 ? "text-red-300" : "text-card-foreground/50"}`}>
+                <span className={`font-mono tabular-nums text-sm ${d.blockers > 0 ? "text-red-600" : "text-card-foreground/50"}`}>
                   {d.blockers}
                 </span>
               </td>

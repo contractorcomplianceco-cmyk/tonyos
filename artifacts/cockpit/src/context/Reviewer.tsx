@@ -113,10 +113,10 @@ export function ReviewerIdentity() {
           aria-label="Select the active reviewer identity"
         >
           <UserCircle2 className="h-3.5 w-3.5 text-primary" />
-          <span className="text-[11px] font-mono tracking-wide text-sidebar-foreground">
+          <span className="text-[11px] font-mono tracking-wide text-foreground">
             {reviewer} &bull; Active Reviewer
           </span>
-          <ChevronsUpDown className="h-3 w-3 text-sidebar-foreground/40 group-hover:text-sidebar-foreground/70 transition-colors" />
+          <ChevronsUpDown className="h-3 w-3 text-muted-foreground group-hover:text-foreground transition-colors" />
         </button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-72 bg-card border-card-border rounded-sm shadow-lg p-0">

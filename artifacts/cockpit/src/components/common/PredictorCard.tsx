@@ -4,9 +4,9 @@ import { AuthorityBadge } from "@/components/common/AuthorityBadge";
 import { levelTone, type LevelTone } from "@/lib/authority";
 
 const LEVEL_CLASS: Record<LevelTone, { chip: string; bar: string }> = {
-  green: { chip: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30", bar: "bg-emerald-500" },
-  amber: { chip: "bg-amber-500/15 text-amber-300 border-amber-500/30", bar: "bg-amber-500" },
-  red: { chip: "bg-red-500/15 text-red-300 border-red-500/30", bar: "bg-red-500" },
+  green: { chip: "bg-emerald-500/10 text-emerald-700 border-emerald-600/30", bar: "bg-emerald-500" },
+  amber: { chip: "bg-amber-500/10 text-amber-700 border-amber-600/30", bar: "bg-amber-500" },
+  red: { chip: "bg-red-500/10 text-red-700 border-red-600/30", bar: "bg-red-500" },
   neutral: { chip: "bg-secondary text-secondary-foreground border-border", bar: "bg-primary" },
 };
 

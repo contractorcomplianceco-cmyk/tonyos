@@ -3,10 +3,10 @@ import { ResponsiveContainer, AreaChart, Area } from "recharts";
 import { StatusBadge } from "@/components/common/StatusBadge";
 
 const KPI_TONE: Record<string, { bar: string; chip: string; border: string; spark: string; delta: string }> = {
-  green: { bar: "bg-emerald-500", chip: "bg-emerald-500/15 text-emerald-300 ring-emerald-500/30", border: "hover:border-emerald-500/50", spark: "hsl(142 71% 45%)", delta: "text-emerald-400" },
-  amber: { bar: "bg-amber-500", chip: "bg-amber-500/15 text-amber-300 ring-amber-500/30", border: "hover:border-amber-500/50", spark: "hsl(38 92% 50%)", delta: "text-amber-400" },
-  red: { bar: "bg-red-500", chip: "bg-red-500/15 text-red-300 ring-red-500/30", border: "hover:border-red-500/50", spark: "hsl(0 84% 60%)", delta: "text-red-400" },
-  blue: { bar: "bg-primary", chip: "bg-primary/15 text-primary ring-primary/30", border: "hover:border-primary/50", spark: "hsl(217 91% 60%)", delta: "text-primary" },
+  green: { bar: "bg-emerald-500", chip: "bg-emerald-500/10 text-emerald-700 ring-emerald-600/30", border: "hover:border-emerald-500/50", spark: "hsl(142 58% 42%)", delta: "text-emerald-600" },
+  amber: { bar: "bg-amber-500", chip: "bg-amber-500/10 text-amber-700 ring-amber-600/30", border: "hover:border-amber-500/50", spark: "hsl(38 80% 48%)", delta: "text-amber-600" },
+  red: { bar: "bg-red-500", chip: "bg-red-500/10 text-red-700 ring-red-600/30", border: "hover:border-red-500/50", spark: "hsl(0 74% 55%)", delta: "text-red-600" },
+  blue: { bar: "bg-primary", chip: "bg-primary/10 text-primary ring-primary/30", border: "hover:border-primary/50", spark: "hsl(177 59% 41%)", delta: "text-primary" },
 };
 
 export function KpiCard({

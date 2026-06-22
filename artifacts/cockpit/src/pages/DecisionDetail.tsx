@@ -134,8 +134,8 @@ export default function DecisionDetail() {
             </div>
           </div>
           
-          <div className="bg-sidebar rounded p-5 border border-sidebar-border text-xs text-sidebar-foreground/70 leading-relaxed shadow-sm">
-            <span className="font-semibold text-sidebar-foreground block mb-2 tracking-tight text-sm flex items-center gap-2">
+          <div className="bg-secondary/60 rounded p-5 border border-card-border text-xs text-muted-foreground leading-relaxed shadow-sm">
+            <span className="font-semibold text-card-foreground block mb-2 tracking-tight text-sm flex items-center gap-2">
               <Shield className="h-4 w-4 text-primary" /> Guardrail Enforcement
             </span>
             Decisions falling under the founder threshold require explicit written authorization via an approved channel. System recommendations are advisory only.

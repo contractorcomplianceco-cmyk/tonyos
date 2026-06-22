@@ -95,9 +95,9 @@ export default function Operating() {
 }
 
 const TONE_CLASS: Record<string, { bar: string; chip: string }> = {
-  green: { bar: "bg-emerald-500", chip: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30" },
-  amber: { bar: "bg-amber-500", chip: "bg-amber-500/15 text-amber-300 border-amber-500/30" },
-  red: { bar: "bg-red-500", chip: "bg-red-500/15 text-red-300 border-red-500/30" },
+  green: { bar: "bg-emerald-500", chip: "bg-emerald-500/10 text-emerald-700 border-emerald-600/30" },
+  amber: { bar: "bg-amber-500", chip: "bg-amber-500/10 text-amber-700 border-amber-600/30" },
+  red: { bar: "bg-red-500", chip: "bg-red-500/10 text-red-700 border-red-600/30" },
   blue: { bar: "bg-primary", chip: "bg-primary/15 text-primary border-primary/30" },
   neutral: { bar: "bg-card-border", chip: "bg-secondary text-secondary-foreground border-border" },
 };

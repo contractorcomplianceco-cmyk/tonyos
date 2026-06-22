@@ -43,7 +43,7 @@ export default function Financial() {
                   {overview.reserveMonths} <span className="text-sm text-muted-foreground font-semibold tracking-normal">months</span>
                 </div>
                 <div className="flex items-center gap-3 mt-3">
-                  <div className="text-[9px] font-mono uppercase tracking-widest bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-1.5 py-0.5 rounded-[2px]">Target: {overview.reserveTarget}mo</div>
+                  <div className="text-[9px] font-mono uppercase tracking-widest bg-emerald-500/10 text-emerald-700 border border-emerald-600/30 px-1.5 py-0.5 rounded-[2px]">Target: {overview.reserveTarget}mo</div>
                   <div className="text-[10px] uppercase font-mono text-muted-foreground flex items-center gap-1"><ShieldAlert className="h-3 w-3" /> Guardrail active</div>
                 </div>
               </div>
@@ -65,8 +65,8 @@ export default function Financial() {
               <div className="text-3xl font-sans font-bold text-card-foreground tracking-tighter tabular-nums">{metric.value}</div>
               {metric.change && (
                 <div className="flex items-center gap-1.5 mt-3 text-xs font-semibold text-muted-foreground">
-                  {metric.trend === 'up' ? <ArrowUpRight className="h-3.5 w-3.5 text-emerald-400" /> :
-                   metric.trend === 'down' ? <ArrowDownRight className="h-3.5 w-3.5 text-red-400" /> :
+                  {metric.trend === 'up' ? <ArrowUpRight className="h-3.5 w-3.5 text-emerald-600" /> :
+                   metric.trend === 'down' ? <ArrowDownRight className="h-3.5 w-3.5 text-red-600" /> :
                    <Minus className="h-3.5 w-3.5" />}
                   {metric.change}
                 </div>

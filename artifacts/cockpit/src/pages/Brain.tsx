@@ -38,8 +38,8 @@ export default function Brain() {
         {/* Source Records */}
         <div className="space-y-6">
           <Panel icon={Database} title="Source Records" bodyClassName="p-6 space-y-4">
-            <div className="bg-emerald-500/10 text-emerald-200 border border-emerald-500/30 rounded p-4 mb-2 text-sm flex gap-3 shadow-sm">
-              <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0 text-emerald-400" />
+            <div className="bg-emerald-500/10 text-emerald-800 border border-emerald-600/30 rounded p-4 mb-2 text-sm flex gap-3 shadow-sm">
+              <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0 text-emerald-600" />
               <p className="font-medium leading-relaxed">CLP Separation Guardrail: All listed systems are cleared. Non-cleared systems are firewalled.</p>
             </div>
 
@@ -61,7 +61,7 @@ export default function Brain() {
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-sm font-semibold text-card-foreground">{rec.title}</h3>
                     {rec.clpCleared && (
-                      <span className="bg-emerald-500/15 text-emerald-300 px-1.5 py-0.5 rounded-[2px] text-[9px] font-mono uppercase tracking-widest border border-emerald-500/30 font-bold">
+                      <span className="bg-emerald-500/10 text-emerald-700 px-1.5 py-0.5 rounded-[2px] text-[9px] font-mono uppercase tracking-widest border border-emerald-600/30 font-bold">
                         Cleared
                       </span>
                     )}
@@ -86,32 +86,32 @@ export default function Brain() {
 
         {/* Guardrails */}
         <div className="space-y-6">
-          <div className="border border-sidebar-border bg-sidebar rounded shadow-sm overflow-hidden text-sidebar-foreground">
-            <div className="px-6 py-4 border-b border-sidebar-border flex items-center gap-3">
+          <div className="border border-card-border bg-card rounded shadow-sm overflow-hidden">
+            <div className="px-6 py-4 border-b border-card-border flex items-center gap-3">
               <Lock className="h-5 w-5 text-primary" />
-              <h2 className="text-base font-bold tracking-tight">Authority Guardrails</h2>
+              <h2 className="text-base font-bold tracking-tight text-card-foreground">Authority Guardrails</h2>
             </div>
             <div className="p-6 space-y-4">
               {loadingGuardrails ? (
-                <Skeleton className="h-64 rounded bg-sidebar-border" />
+                <Skeleton className="h-64 rounded" />
               ) : guardrailsError ? (
                 <ErrorState onRetry={() => refetchGuardrails()} />
               ) : guardrails?.length === 0 ? (
                 <EmptyState icon={Lock} title="No guardrails" description="No authority guardrails have been configured." />
               ) : guardrails?.map((g) => (
-                <div key={g.id} className="border border-sidebar-border rounded p-5 bg-sidebar-accent/30 shadow-sm">
+                <div key={g.id} className="border border-card-border rounded p-5 bg-secondary/50 shadow-sm">
                   <div className="flex justify-between items-start mb-2">
                     <div className="flex items-center gap-3">
-                      {g.status.toLowerCase() === 'active' || g.status.toLowerCase() === 'enforced' ? <Lock className="h-4 w-4 text-primary" /> : <ShieldAlert className="h-4 w-4 text-amber-500" />}
-                      <h3 className="text-sm font-bold tracking-tight">{g.title}</h3>
+                      {g.status.toLowerCase() === 'active' || g.status.toLowerCase() === 'enforced' ? <Lock className="h-4 w-4 text-primary" /> : <ShieldAlert className="h-4 w-4 text-amber-600" />}
+                      <h3 className="text-sm font-bold tracking-tight text-card-foreground">{g.title}</h3>
                     </div>
                     <span className={`text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-[2px] border font-bold ${
-                      g.status.toLowerCase() === 'active' || g.status.toLowerCase() === 'enforced' ? 'bg-primary/20 text-primary border-primary/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'
+                      g.status.toLowerCase() === 'active' || g.status.toLowerCase() === 'enforced' ? 'bg-primary/10 text-primary border-primary/30' : 'bg-amber-500/10 text-amber-700 border-amber-600/30'
                     }`}>
                       {g.status}
                     </span>
                   </div>
-                  <p className="text-xs text-sidebar-foreground/70 mt-3 leading-relaxed ml-7 font-medium">{g.description}</p>
+                  <p className="text-xs text-muted-foreground mt-3 leading-relaxed ml-7 font-medium">{g.description}</p>
                 </div>
               ))}
             </div>

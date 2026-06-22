@@ -30,7 +30,7 @@ export function useAuthorityMode(): Ctx {
 export function AuthorityModeToggle() {
   const { mode, setMode } = useAuthorityMode();
   return (
-    <div className="inline-flex items-center rounded-sm border border-sidebar-border bg-sidebar p-0.5">
+    <div className="inline-flex items-center rounded-sm border border-border bg-secondary/60 p-0.5">
       {AUTHORITY_MODES.map((m) => {
         const active = mode === m.id;
         return (
@@ -40,7 +40,7 @@ export function AuthorityModeToggle() {
             className={`px-2.5 py-1 rounded-[3px] text-[10px] font-mono uppercase tracking-wider transition-colors ${
               active
                 ? "bg-primary/15 text-primary"
-                : "text-sidebar-foreground/60 hover:text-sidebar-foreground"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             {m.label}

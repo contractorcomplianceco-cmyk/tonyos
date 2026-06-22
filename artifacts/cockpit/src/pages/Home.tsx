@@ -73,7 +73,7 @@ export default function Home() {
       />
 
       {/* CLP Strip */}
-      <div className="bg-background border border-sidebar-border rounded px-4 py-2.5 flex flex-wrap gap-3 justify-between items-center text-sm shadow-sm">
+      <div className="bg-background border border-border rounded px-4 py-2.5 flex flex-wrap gap-3 justify-between items-center text-sm shadow-sm">
         <div className="flex items-center gap-3">
           <Shield className="h-4 w-4 text-primary" />
           <span className="font-semibold text-foreground tracking-tight">CLP Separation Guardrail:</span>
@@ -192,7 +192,7 @@ export default function Home() {
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-bold text-card-foreground tabular-nums">{metric.value}{metric.unit ?? ""}</span>
                       {metric.change && (
-                        <span className={`inline-flex items-center gap-0.5 text-[10px] font-bold tabular-nums ${metric.trend === "up" ? "text-emerald-400" : metric.trend === "down" ? "text-amber-400" : "text-muted-foreground"}`}>
+                        <span className={`inline-flex items-center gap-0.5 text-[10px] font-bold tabular-nums ${metric.trend === "up" ? "text-emerald-600" : metric.trend === "down" ? "text-amber-600" : "text-muted-foreground"}`}>
                           {metric.trend === "up" ? <ArrowUpRight className="h-3 w-3" /> : metric.trend === "down" ? <ArrowDownRight className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
                           {metric.change}
                         </span>
@@ -227,19 +227,19 @@ export default function Home() {
       </div>
 
       {/* Guardrails */}
-      <div className="border border-sidebar-border bg-sidebar rounded-md shadow-sm overflow-hidden text-sidebar-foreground">
-        <div className="px-5 py-3 border-b border-sidebar-border flex items-center gap-2">
+      <div className="border border-card-border bg-card rounded-md shadow-sm overflow-hidden">
+        <div className="px-5 py-3 border-b border-card-border flex items-center gap-2">
           <Lock className="h-4 w-4 text-primary" />
-          <h2 className="text-sm font-bold tracking-tight">Governance Guardrails</h2>
+          <h2 className="text-sm font-bold tracking-tight text-card-foreground">Governance Guardrails</h2>
         </div>
         <div className="p-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {loadingGuardrails ? <Skeleton className="h-16 col-span-2 bg-sidebar-border" /> : guardrailsError ? (
-              <div className="col-span-2 flex items-center gap-2 text-xs text-sidebar-foreground/70">
-                <AlertTriangle className="h-4 w-4 text-red-400 shrink-0" /> Unable to load guardrails.
+            {loadingGuardrails ? <Skeleton className="h-16 col-span-2" /> : guardrailsError ? (
+              <div className="col-span-2 flex items-center gap-2 text-xs text-muted-foreground">
+                <AlertTriangle className="h-4 w-4 text-red-600 shrink-0" /> Unable to load guardrails.
               </div>
             ) : guardrails?.filter((g) => ["active", "enforced"].includes(g.status.toLowerCase())).slice(0, 4).map((g) => (
-              <div key={g.id} className="bg-sidebar-accent border border-sidebar-border rounded p-2 text-[11px] font-semibold flex items-center gap-2">
+              <div key={g.id} className="bg-secondary/60 border border-card-border rounded p-2 text-[11px] font-semibold text-card-foreground flex items-center gap-2">
                 <Lock className="h-3 w-3 text-primary shrink-0" />
                 <span className="truncate">{g.title}</span>
               </div>

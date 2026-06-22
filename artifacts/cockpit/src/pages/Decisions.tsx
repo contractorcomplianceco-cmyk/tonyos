@@ -48,10 +48,10 @@ export default function Decisions() {
         }
       />
 
-      <div className="bg-sidebar border border-sidebar-border rounded px-5 py-4 flex gap-3 items-start text-sm shadow-sm text-sidebar-foreground">
+      <div className="bg-card border border-card-border rounded px-5 py-4 flex gap-3 items-start text-sm shadow-sm text-card-foreground">
         <Lock className="h-5 w-5 text-primary shrink-0" />
         <p className="font-semibold tracking-tight">
-          Authority Guardrail: <span className="font-medium text-sidebar-foreground/70">No commitment or action is taken until explicit written approval is provided. Review recommendations carefully.</span>
+          Authority Guardrail: <span className="font-medium text-muted-foreground">No commitment or action is taken until explicit written approval is provided. Review recommendations carefully.</span>
         </p>
       </div>
 

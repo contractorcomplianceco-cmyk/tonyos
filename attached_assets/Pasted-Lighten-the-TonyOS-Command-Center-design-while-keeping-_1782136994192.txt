@@ -1,0 +1,63 @@
+Lighten the TonyOS Command Center design while keeping it executive, premium, and personalized to Tony.
+
+Do not return to a generic white admin dashboard. This should feel like a bright coastal executive command center, not a dark finance terminal.
+
+Updated visual direction:
+- Lighter main workspace
+- Dark graphite/navy sidebar and top command frame
+- Pearl, mist, soft steel, and sea-glass panel surfaces
+- Ocean teal and muted blue accents
+- Silver/graphite text and borders
+- Dark text on light panels where needed
+- Keep subtle compass, ocean-depth, engineering-line details
+- Keep the design clean, high-end, and founder-level
+
+Palette:
+- Main shell: #0A101A or #101820
+- Main workspace: #F4F8FA or #EEF4F7
+- Panel surface: #FFFFFF / #F8FBFC
+- Secondary panel: #EAF2F4
+- Border: #D5E0E6
+- Primary text: #101820
+- Secondary text: #5E6B78
+- Accent: ocean teal #2BA7A0
+- Command blue: #2F80ED used sparingly
+- Graphite: #1B2533
+- Status green/amber/red restrained
+
+Keep:
+- TonyOS Command Center
+- Strategic Compass
+- Expansion Map
+- Game Plan
+- Founder Financials
+- Risk Tide
+- Forward Signals
+- On Deck
+- Tony Mode
+- CLP separation guardrail
+- CAG parent-company oversight and drill-down structure
+
+Make these changes:
+- Main content area should be light, spacious, and clean.
+- Sidebar should remain dark and premium.
+- Header can stay dark or use a soft light command bar with dark text.
+- KPI cards should be light pearl/white with thin steel borders and ocean teal accents.
+- Charts should use light plotting areas with teal/blue data lines.
+- Strategic Compass and Expansion Map should feel airy and executive, not heavy.
+- Risk Tide can use light cards with restrained warning chips.
+- Game Plan should feel like an executive review module, not a sports board.
+- Tony Mode should stay subtle and small.
+
+Avoid:
+- Heavy blue
+- All-dark screen
+- Generic admin dashboard
+- Plain white unstyled cards
+- Pink/purple/gold/orange/beige
+- Cartoon fishing/football/gym/travel graphics
+- Decorative blobs/orbs
+
+Success test:
+If it feels like a generic SaaS admin page, it failed.
+If it feels like a bright coastal executive strategy cockpit personalized to Tony, it passed.

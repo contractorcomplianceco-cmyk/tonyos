@@ -95,9 +95,9 @@ export function Shell({ children }: { children: ReactNode }) {
       {/* Main Content Area */}
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
         {/* Top Breadcrumb Bar */}
-        <header className="hidden md:flex sticky top-0 z-20 items-center justify-between px-8 py-3 border-b border-sidebar-border bg-background/80 backdrop-blur-md">
-          <div className="text-xs font-medium text-sidebar-foreground/70 flex items-center gap-2">
-            Rose OS <span className="text-sidebar-border">/</span> <span className="text-sidebar-foreground/70">Compliance Authority Group</span> <span className="text-sidebar-border">/</span> <span className="text-sidebar-foreground">TonyOS Command Center</span>
+        <header className="hidden md:flex sticky top-0 z-20 items-center justify-between px-8 py-3 border-b border-border bg-card/80 backdrop-blur-md">
+          <div className="text-xs font-medium text-muted-foreground flex items-center gap-2">
+            Rose OS <span className="text-border">/</span> <span className="text-muted-foreground">Compliance Authority Group</span> <span className="text-border">/</span> <span className="text-foreground font-semibold">TonyOS Command Center</span>
           </div>
           <div className="flex items-center gap-2">
             <AccessRoleControl />
