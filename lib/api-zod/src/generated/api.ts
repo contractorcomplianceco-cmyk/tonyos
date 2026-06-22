@@ -586,6 +586,27 @@ export const GetDepartmentsResponse = zod.array(GetDepartmentsResponseItem)
 
 
 /**
+ * @summary Single department detail
+ */
+export const GetDepartmentParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetDepartmentResponse = zod.object({
+  "id": zod.number(),
+  "brandCode": zod.string(),
+  "name": zod.string(),
+  "status": zod.string(),
+  "health": zod.number(),
+  "blockers": zod.number(),
+  "nextAction": zod.string().nullish(),
+  "owner": zod.string().nullish(),
+  "summary": zod.string().nullish(),
+  "authorityLabel": zod.string().nullish()
+})
+
+
+/**
  * @summary Brand and department projects
  */
 export const GetProjectsQueryParams = zod.object({

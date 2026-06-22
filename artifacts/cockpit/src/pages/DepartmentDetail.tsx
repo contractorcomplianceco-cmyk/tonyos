@@ -1,5 +1,5 @@
 import { useParams, Link } from "wouter";
-import { useGetDepartments, useGetProjects } from "@workspace/api-client-react";
+import { useGetDepartment, useGetProjects } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Layers, GanttChartSquare, ChevronRight } from "lucide-react";
 import { PageHeader } from "@/components/common/PageHeader";
@@ -14,8 +14,7 @@ import { GuardrailNote } from "@/components/common/GuardrailNote";
 export default function DepartmentDetail() {
   const params = useParams();
   const id = Number(params.id);
-  const { data: departments, isLoading, isError, refetch } = useGetDepartments();
-  const dept = (departments ?? []).find((d) => d.id === id);
+  const { data: dept, isLoading, isError, refetch } = useGetDepartment(id);
   const { data: projects } = useGetProjects(dept ? { brand: dept.brandCode } : undefined);
 
   const deptProjects = (projects ?? []).filter((p) => p.department === dept?.name);

@@ -10,6 +10,13 @@ function stageTone(stage: string) {
   return "neutral" as const;
 }
 
+function riskClass(risk: string) {
+  const r = risk.toLowerCase();
+  if (r === "high") return "text-red-600 font-semibold";
+  if (r === "medium" || r === "moderate" || r === "elevated") return "text-amber-700 font-semibold";
+  return "text-emerald-700 font-semibold";
+}
+
 export function OrgTree({ brands }: { brands: Brand[] }) {
   const parent = brands.find((b) => b.kind === "parent");
   const children = brands.filter((b) => b.kind !== "parent");
@@ -52,6 +59,13 @@ export function OrgTree({ brands }: { brands: Brand[] }) {
                     <div className="text-[9px] text-muted-foreground mt-0.5 leading-tight line-clamp-2">{b.fullName}</div>
                     <div className="mt-2 flex justify-center">
                       <StatusBadge tone={stageTone(b.stage)} label={b.stage} />
+                    </div>
+                    <div className="mt-2 flex items-center justify-center gap-3 text-[9px] font-mono uppercase tracking-widest">
+                      <span className="text-muted-foreground">
+                        Health <span className="tabular-nums font-semibold text-card-foreground">{b.health}</span>
+                      </span>
+                      <span className="text-card-border">|</span>
+                      <span className={riskClass(b.risk)}>Risk {b.risk}</span>
                     </div>
                   </div>
                 </Link>
