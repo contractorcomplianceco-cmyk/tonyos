@@ -2,12 +2,12 @@ import { useState, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import {
   LayoutDashboard,
-  Network,
-  Activity,
+  Map,
+  Compass,
   Radar as RadarIcon,
   Wallet,
-  GanttChartSquare,
-  ShieldAlert,
+  Target,
+  Waves,
   Database,
   Menu,
   X,
@@ -27,15 +27,15 @@ type NavItem = {
 };
 
 const NAV: NavItem[] = [
-  { href: "/", label: "Parent Overview", icon: LayoutDashboard },
-  { href: "/tonyos", label: "TonyOS", icon: ShieldCheck, leadershipOnly: true },
-  { href: "/brands", label: "Brand Portfolio", icon: Network },
-  { href: "/operating", label: "CCA Operating Pulse", icon: Activity },
-  { href: "/predictors", label: "Predictive Intelligence", icon: RadarIcon },
-  { href: "/decisions", label: "Major Decisions", icon: GanttChartSquare },
-  { href: "/financial", label: "Financial Review", icon: Wallet },
-  { href: "/risk", label: "Risk Platform", icon: ShieldAlert },
-  { href: "/brain", label: "Company Brain", icon: Database },
+  { href: "/", label: "TonyOS Home", icon: LayoutDashboard },
+  { href: "/tonyos", label: "Command Center", icon: ShieldCheck, leadershipOnly: true },
+  { href: "/brands", label: "Expansion Map", icon: Map },
+  { href: "/operating", label: "Strategic Compass", icon: Compass },
+  { href: "/predictors", label: "Forward Signals", icon: RadarIcon },
+  { href: "/decisions", label: "Game Plan", icon: Target },
+  { href: "/financial", label: "Founder Financials", icon: Wallet },
+  { href: "/risk", label: "Risk Tide", icon: Waves },
+  { href: "/brain", label: "Company Intelligence", icon: Database },
 ];
 
 function isActive(current: string, href: string): boolean {

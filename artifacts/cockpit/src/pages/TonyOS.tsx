@@ -22,13 +22,22 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Minus,
-  Network,
+  Map as MapIcon,
   Radar as RadarIcon,
   Layers,
   Wallet,
   Database,
   ShieldAlert,
   ShieldCheck,
+  Compass,
+  Target,
+  Waves,
+  Plane,
+  Trophy,
+  Dumbbell,
+  NotebookPen,
+  Anchor,
+  Network,
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageHeader } from "@/components/common/PageHeader";
@@ -102,17 +111,25 @@ function TonyOSExecutive() {
   const predictorsToShow = topPredictors.length > 0 ? topPredictors : (predictors ?? []).slice(0, 3);
 
   const filteredDecisions = (decisionsPending ?? []).filter((d) => matchesMode(mode, d.authorityLabel));
+  const sortedPending = [...filteredDecisions].sort(
+    (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime(),
+  );
+  const weekHorizon = Date.now() + 7 * 24 * 60 * 60 * 1000;
+  const dueThisWeek = sortedPending.filter((d) => new Date(d.dueDate).getTime() <= weekHorizon);
+  // Prefer items due this week; fall back to the soonest upcoming so the panel is never uselessly empty.
+  const onDeck = (dueThisWeek.length > 0 ? dueThisWeek : sortedPending).slice(0, 4);
+  const onDeckThisWeek = dueThisWeek.length > 0;
   const activeGuardrails = (guardrails ?? []).filter((g) => ["active", "enforced"].includes(g.status.toLowerCase()));
 
   return (
     <div className="space-y-8 pb-12">
       <PageHeader
-        title="TonyOS Executive Intelligence"
-        subtitle="Compliance Authority Group — founder-level strategic oversight across parent company, brands, operations, financials, risk, and predictive intelligence. Visibility & recommendation only."
+        title="TonyOS Command Center"
+        subtitle="CAG oversight, founder strategy, and forward signals — strategic visibility and recommendation only, never automatic operational control."
         actions={
           <div className="flex flex-col items-end gap-1.5">
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-sm bg-primary/10 border border-primary/20 px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest text-primary">
+              <span className="inline-flex items-center gap-1.5 rounded-sm bg-command/10 border border-command/30 px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest text-command">
                 <ShieldCheck className="h-3 w-3" /> Founder-Level Oversight
               </span>
             </div>
@@ -135,9 +152,47 @@ function TonyOSExecutive() {
         {viewLink("/brain", "Source Records")}
       </div>
 
-      {/* 1. Parent Company Overview */}
+      {/* On Deck — top items that need Tony's review this week */}
+      <Panel icon={Anchor} title="On Deck" action={viewLink("/decisions", "Open Game Plan")} bodyClassName="p-0">
+        {loadingDecisions ? (
+          <div className="p-5"><Skeleton className="h-28" /></div>
+        ) : onDeck.length === 0 ? (
+          <div className="p-5"><EmptyState icon={CheckCircle2} title="Nothing on deck" description={`No items need review in the ${mode} authority lens.`} /></div>
+        ) : (
+          <>
+          <div className="px-5 py-2.5 border-b border-card-border text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+            {onDeckThisWeek ? "Needs Tony's review this week" : "No items due this week — next up for founder review"}
+          </div>
+          <ul className="divide-y divide-card-border">
+            {onDeck.map((d) => (
+              <li key={d.id}>
+                <Link href={`/decisions/${d.id}`} className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-secondary/40 transition-colors group">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="inline-flex h-7 w-7 items-center justify-center rounded bg-primary/10 text-primary ring-1 ring-primary/15 shrink-0">
+                      <Target className="h-3.5 w-3.5" />
+                    </span>
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-card-foreground truncate">{d.title}</div>
+                      <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground flex flex-wrap gap-x-2 mt-0.5">
+                        {d.authorityLabel && <span className="text-primary">{d.authorityLabel}</span>}
+                        {d.estimatedImpact && <><span className="text-card-border">&bull;</span><span>{d.estimatedImpact}</span></>}
+                        <span className="text-card-border">&bull;</span>
+                        <span>Due {format(new Date(d.dueDate), "MMM d")}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+          </>
+        )}
+      </Panel>
+
+      {/* 1. Strategic Compass — parent-company direction */}
       <section className="space-y-4">
-        <SectionLabel icon={Activity} title="Parent Company Overview" href="/" cta="Full Dashboard" />
+        <SectionLabel icon={Compass} title="Strategic Compass" href="/" cta="Full Dashboard" />
         {loadingSummary ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
             {[1, 2, 3, 4, 5].map((i) => <Skeleton key={i} className="h-32 w-full rounded border-border" />)}
@@ -157,8 +212,8 @@ function TonyOSExecutive() {
         ) : null}
       </section>
 
-      {/* 2. Brand Portfolio */}
-      <Panel icon={Network} title="Brand Portfolio" action={viewLink("/brands", "View Portfolio")}>
+      {/* 2. Expansion Map */}
+      <Panel icon={MapIcon} title="Expansion Map" action={viewLink("/brands", "View Expansion Map")}>
         {loadingBrands ? <Skeleton className="h-48" /> : brandsError ? (
           <ErrorState onRetry={() => refetchBrands()} />
         ) : brands && brands.length > 0 ? (
@@ -174,7 +229,7 @@ function TonyOSExecutive() {
       </Panel>
 
       {/* 3. CCA Operating Pulse */}
-      <Panel icon={Layers} title="CCA Operating Pulse" action={viewLink("/operating", "Open Operating Pulse")} bodyClassName="p-0">
+      <Panel icon={Layers} title="CCA Operating Pulse" action={viewLink("/operating", "Open Strategic Compass")} bodyClassName="p-0">
         {loadingCcaDept ? <div className="p-6"><Skeleton className="h-40" /></div> : ccaDeptError ? (
           <div className="p-6"><ErrorState onRetry={() => refetchCcaDept()} /></div>
         ) : ccaDepartments && ccaDepartments.length > 0 ? (
@@ -184,9 +239,9 @@ function TonyOSExecutive() {
         )}
       </Panel>
 
-      {/* 4 + 5. Predictive Intelligence + Financial Intelligence */}
+      {/* 4 + 5. Forward Signals + Founder Financials */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Panel icon={RadarIcon} title="Predictive Intelligence Radar" action={viewLink("/predictors", "All 18 Modules")}>
+        <Panel icon={RadarIcon} title="Forward Signals" action={viewLink("/predictors", "All 18 Modules")}>
           {loadingPredictors ? <Skeleton className="h-64" /> : predictorsError ? (
             <ErrorState onRetry={() => refetchPredictors()} />
           ) : radarData.length > 0 ? (
@@ -201,7 +256,7 @@ function TonyOSExecutive() {
           )}
         </Panel>
 
-        <Panel icon={Wallet} title="Financial Intelligence" action={viewLink("/financial", "Financial Review")}>
+        <Panel icon={Wallet} title="Founder Financials" action={viewLink("/financial", "Founder Financials")}>
           {loadingFinancial ? <Skeleton className="h-64" /> : financialError ? (
             <ErrorState onRetry={() => refetchFinancial()} />
           ) : financial ? (
@@ -243,8 +298,8 @@ function TonyOSExecutive() {
         </Panel>
       </div>
 
-      {/* 6. Major Decision Control */}
-      <Panel icon={Lock} title="Major Decision Control" action={viewLink("/decisions", "View All")} bodyClassName="p-0">
+      {/* 6. Game Plan */}
+      <Panel icon={Target} title="Game Plan" action={viewLink("/decisions", "View All")} bodyClassName="p-0">
         {decisionSummary && (
           <div className="grid grid-cols-2 divide-x divide-card-border border-b border-card-border bg-secondary/40">
             <div className="px-5 py-3">
@@ -301,8 +356,8 @@ function TonyOSExecutive() {
           </div>
         </div>
 
-        {/* Company Brain / Source Records */}
-        <Panel icon={Database} title="Company Brain / Source Records" action={viewLink("/brain", "Open Company Brain")} bodyClassName="p-6 space-y-3">
+        {/* Company Intelligence / Source Records */}
+        <Panel icon={Database} title="Company Intelligence" action={viewLink("/brain", "Open Company Intelligence")} bodyClassName="p-6 space-y-3">
           {loadingRecords ? (
             <Skeleton className="h-48 rounded border-border" />
           ) : recordsError ? (
@@ -341,9 +396,76 @@ function TonyOSExecutive() {
           ))}
         </Panel>
       </div>
+
+      {/* Deep Dive — drill-down access across the command center */}
+      <section className="space-y-4">
+        <SectionLabel icon={Network} title="Deep Dive" href="/brain" cta="Company Intelligence" />
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+          {deepDiveLinks.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="group flex flex-col gap-3 rounded border border-card-border bg-card p-4 hover:border-primary/50 transition-colors"
+            >
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded bg-primary/10 text-primary ring-1 ring-primary/15">
+                <l.icon className="h-4 w-4" />
+              </span>
+              <div>
+                <div className="text-sm font-semibold text-card-foreground">{l.title}</div>
+                <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mt-0.5 flex items-center gap-1 group-hover:text-primary transition-colors">
+                  Drill in <ChevronRight className="h-3 w-3" />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Tony Mode — founder's personal lens */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between gap-3 border-b border-card-border pb-2">
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex h-7 w-7 items-center justify-center rounded bg-primary/10 text-primary ring-1 ring-primary/15 shrink-0">
+              <Anchor className="h-3.5 w-3.5" />
+            </span>
+            <h2 className="text-base font-bold tracking-tight text-foreground">Tony Mode</h2>
+          </div>
+          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">Founder's Personal Lens</span>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3">
+          {tonyMode.map((t) => (
+            <div key={t.title} className="rounded border border-card-border bg-card p-4">
+              <div className="flex items-center gap-2.5">
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded bg-secondary text-primary ring-1 ring-card-border shrink-0">
+                  <t.icon className="h-3.5 w-3.5" />
+                </span>
+                <span className="text-sm font-semibold text-card-foreground">{t.title}</span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2.5 leading-relaxed">{t.note}</p>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
+
+const deepDiveLinks: { href: string; title: string; icon: any }[] = [
+  { href: "/operating", title: "CCA Operations", icon: Layers },
+  { href: "/brands", title: "Expansion Map", icon: MapIcon },
+  { href: "/decisions", title: "Game Plan", icon: Target },
+  { href: "/predictors", title: "Forward Signals", icon: RadarIcon },
+  { href: "/financial", title: "Founder Financials", icon: Wallet },
+  { href: "/brain", title: "Company Intelligence", icon: Database },
+];
+
+const tonyMode: { title: string; icon: any; note: string }[] = [
+  { title: "Ocean", icon: Waves, note: "Time on the water keeps the long view. Protected, off the operating clock." },
+  { title: "Travel", icon: Plane, note: "Scouting trips and expansion travel logged against the brand map." },
+  { title: "Game Day", icon: Trophy, note: "Founder rhythm — competitive cadence carried into the week ahead." },
+  { title: "Strength", icon: Dumbbell, note: "Training discipline. Energy budget that funds the executive load." },
+  { title: "Field Notes", icon: NotebookPen, note: "Off-the-record observations to revisit before the next major call." },
+];
 
 function SectionLabel({ icon: Icon, title, href, cta }: { icon: any; title: string; href: string; cta: string }) {
   return (

@@ -1,0 +1,107 @@
+Redesign TonyOS Command Center to feel personalized to Tony Casella while staying executive, premium, and founder-level.
+
+TonyOS should not feel like a generic dark dashboard. It should feel like Tony’s private executive command center.
+
+Tony is:
+- Founder-level strategic partner
+- Contractor
+- Engineer
+- Practical and smart
+- Genuinely good person
+- Fun and personable
+- Likes fishing
+- Likes football
+- Likes travel
+- Likes working out / gym
+- Likes the ocean
+
+Do not make this cheesy or themed like a hobby app. Do not add cartoon fish, football wallpaper, gym graphics, or travel clipart.
+
+Use Tony’s personality as subtle design language:
+- Ocean depth
+- Compass/navigation
+- Field strategy
+- Engineering precision
+- Contractor practicality
+- Strength/capacity
+- Travel/expansion map
+- Warm leadership tone
+
+Visual direction:
+- Dark graphite executive shell
+- Charcoal and storm-gray panels
+- Deep ocean/navy-black background
+- Ocean teal and sea-glass accents
+- Electric blue only for important command actions
+- Silver/steel borders and engineering lines
+- Subtle blueprint grid or technical-line details
+- Premium boardroom intelligence console
+- Clean, strong, grounded, not overly blue
+
+Avoid:
+- Heavy blue dashboard
+- White admin cards
+- Pink
+- Purple
+- Gold
+- Orange
+- Beige
+- Fishing/football/gym/travel gimmicks
+- Cartoon graphics
+- Decorative blobs or orbs
+- Generic SaaS look
+
+Rename some sections to feel more Tony-specific:
+- Executive Home -> TonyOS Home
+- Strategic Pulse -> Strategic Compass
+- Financial Review -> Founder Financials
+- Major Decisions -> Game Plan
+- Risk Platform -> Risk Tide
+- Predictors -> Forward Signals
+- Brand Portfolio -> Expansion Map
+- Company Brain -> Company Intelligence
+
+Dashboard modules:
+1. TonyOS Command Center
+   Subtitle: CAG oversight, founder strategy, and forward signals.
+
+2. Strategic Compass
+   Parent-company direction, growth path, brand priorities, expansion signals.
+
+3. Expansion Map
+   CAG parent company down to CCA and future brands.
+
+4. Game Plan
+   Major decisions, founder approvals, high-priority strategic moves.
+
+5. Founder Financials
+   Revenue, reserve runway, cash timing, debt exposure, payroll coverage.
+
+6. Risk Tide
+   Client risk, fulfillment risk, legal/CLP risk, system risk, brand risk.
+
+7. Forward Signals
+   Predictors for revenue, client risk, capacity, knowledge gaps, duplicate work, and strategic opportunities.
+
+8. On Deck
+   Top items that need Tony’s review this week.
+
+9. Deep Dive
+   Drill-down area for CCA, subsidiaries, projects, decisions, and source records.
+
+10. Tony Mode
+   A small personal panel with subtle icons or labels:
+   - Ocean
+   - Travel
+   - Game Day
+   - Strength
+   - Field Notes
+
+Keep Tony Mode small and tasteful. It should make the dashboard feel personal without weakening the executive feel.
+
+Authority guardrails:
+Tony has founder-level visibility and strategic participation, but the system must not imply automatic day-to-day operational control, bank signing authority, unilateral spending authority, payroll authority, hiring/firing authority, debt authority, or authority to bind the company.
+
+Success test:
+If the page feels like a generic dark dashboard, it failed.
+If it feels like a polished executive command center that only Tony would have, it passed.
