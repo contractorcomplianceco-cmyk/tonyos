@@ -25,7 +25,22 @@ app.use(
     },
   }),
 );
-app.use(cors());
+// CORS: when CORS_ORIGIN is set (comma-separated origins) the API is
+// restricted to that allowlist. When unset it allows all origins, which is
+// only acceptable in development. Production deployments MUST set CORS_ORIGIN.
+const corsOrigin = process.env.CORS_ORIGIN;
+app.use(
+  cors(
+    corsOrigin
+      ? {
+          origin: corsOrigin
+            .split(",")
+            .map((o) => o.trim())
+            .filter(Boolean),
+        }
+      : undefined,
+  ),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

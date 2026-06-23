@@ -1,0 +1,86 @@
+We are preparing this Replit project for GitHub, Cursor, and cloud-server migration.
+
+IMPORTANT:
+Do not redesign the app.
+Do not add new features.
+Do not delete artifacts until you have identified which folder is canonical and which folders are unused.
+Do not provision a new Replit database.
+Do not use Replit-managed database as the long-term production source of truth.
+Do not commit secrets, .env files, tokens, refresh tokens, database URLs, API keys, or private credentials.
+
+Project to package:
+[TONYOS COMMAND CENTER or TARAOS COMMAND CENTER]
+
+Migration goal:
+Make the current app portable and safe to open in Cursor on our AWS dev server. GitHub will become the source of truth. Replit should remain prototype/build history, not the permanent production host unless Rose/Carmen approve an exception.
+
+First, perform an inventory before changing code:
+1. Identify all app/artifact folders.
+2. Identify the actual active app folder.
+3. Identify whether there is an API server.
+4. Identify whether the app uses npm, pnpm, yarn, or plain static files.
+5. Identify dev/build/typecheck commands.
+6. Identify whether there are Replit-only paths, Replit integrations, Replit secrets, Replit Postgres, or Replit AI endpoints.
+7. Identify whether the app uses localStorage, static demo data, real database data, or API data.
+8. Identify any seed scripts and whether they are destructive.
+9. Identify any unauthenticated API routes, open CORS, or AI endpoints that could spend quota or expose data if public.
+10. Identify whether production would require auth, Supabase, database, nginx, PM2, TLS, DNS, Vercel config, or API hosting.
+
+Then prepare the migration safely:
+1. Add or update README.md with:
+   - project name
+   - canonical app folder
+   - package manager
+   - install command
+   - dev command
+   - build command
+   - typecheck command if available
+   - environment variables required
+   - which env vars are secrets
+   - which env vars are frontend-safe
+   - known blockers
+   - AWS/Cursor setup commands
+2. Add or update .env.example with placeholders only.
+3. Confirm .gitignore excludes:
+   - .env
+   - .env.*
+   - node_modules
+   - dist/build output
+   - logs
+   - temporary files
+   - Replit cache/runtime files
+4. Run the correct install command.
+5. Run typecheck/build if available.
+6. Do not commit lockfile changes unless they are intentional and necessary.
+7. If install creates a huge unrelated lockfile diff, report it and do not commit it.
+8. Do not run database migrations or seed scripts unless explicitly approved.
+9. If sample/demo fallbacks exist, document them and make sure they cannot silently masquerade as production data.
+10. If an API exists, ensure production CORS can be restricted by env var.
+11. If an AI endpoint exists, protect it or document that it must be disabled before public deployment.
+12. Prepare GitHub push only after the safety checks pass.
+
+GitHub repo target:
+[contractorcomplianceco-cmyk/tonyos-command-center]
+or
+[contractorcomplianceco-cmyk/taraos-command-center]
+
+Final report required:
+- Canonical app folder
+- Package manager
+- Install command
+- Dev command
+- Build command
+- Typecheck command
+- API server folder, if any
+- Whether localStorage/demo data/API/database is used
+- Whether any Replit-only services are used
+- Whether any AI endpoint exists
+- Whether auth exists
+- Whether CORS is open or restricted
+- Whether any secrets were found in tracked files
+- Whether any lockfile changed
+- Whether any seed script exists and whether it is destructive
+- GitHub repo URL
+- Exact AWS/Cursor commands to clone and run
+- Blockers before production
+- Confirmation that no secrets were committed

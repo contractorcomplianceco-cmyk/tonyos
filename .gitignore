@@ -27,6 +27,11 @@ node_modules
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Environment / secrets — never commit real values
+.env
+.env.*
+!.env.example
+
 # misc
 /.sass-cache
 /connect.lock
@@ -35,6 +40,8 @@ node_modules
 npm-debug.log
 yarn-error.log
 testem.log
+*.log
+logs
 /typings
 
 # System Files
