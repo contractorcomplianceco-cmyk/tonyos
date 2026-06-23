@@ -85,7 +85,7 @@ pnpm run typecheck
 | `lib/api-spec` | OpenAPI contract — source of truth (build-time) |
 | `lib/api-zod` | Generated Zod validators (build-time) |
 | `lib/api-client-react` | Generated React Query hooks + fetch client (build-time) |
-| `scripts` | Utility scripts incl. the destructive DB seed (tooling) |
+| `scripts` | Utility scripts: destructive `seed`, safe `staging-starter` (tooling) |
 
 ## 10. Folders To Avoid / Do Not Touch
 
@@ -100,14 +100,16 @@ pnpm run typecheck
 ## 11. Data Reality
 
 - **Static / sample data:** None masquerading as production. UI data is fetched from
-  the API/DB. Reference data is loaded via the seed script (see below).
+  the API/DB. Reference data is loaded via `staging-starter` on staging or the
+  destructive `seed` for dev resets (see Section 14).
 - **localStorage:** Used ONLY for two client-side UI lenses — the Reviewer identity
   and the Access role (leadership/team). These are presentation filters, **not**
   security and **not** persisted server-side.
 - **API data:** All screens read through generated React Query hooks hitting `/api/*`.
   Frontend uses relative URLs, so the web origin must route `/api` to the API server.
-- **Database:** PostgreSQL via Drizzle ORM (`lib/db`). In Replit this is the
-  Replit-managed Postgres. There is **no** production database provisioned yet.
+- **Database:** PostgreSQL via Drizzle ORM (`lib/db`). Staging uses a dedicated TonyOS
+  Supabase project. Load reference data with `staging-starter` on empty DBs only; the
+  destructive `seed` is for dev resets, not staging.
 - **Live integrations:** **None.** No Zoho, no WorkDrive, no Supabase, no Stripe,
   no AI providers, no third-party APIs are connected anywhere in the code.
 
@@ -156,8 +158,14 @@ Be honest — this is a prototype:
 - **"Tony Mode" personal lens** (Ocean / Travel / Game Day / Strength / Field Notes)
   is intentionally **non-interactive / visual-only**.
 - **Open CORS by default** until `CORS_ORIGIN` is set (see Security Notes).
-- **Destructive seed script** — `scripts/src/seed-cockpit.ts` deletes ALL tables then
-  re-inserts. It is a reset tool, not a safe production migration.
+- **Destructive seed script** — `scripts/src/seed-cockpit.ts` deletes **8 tables**
+  (`brands`, `departments`, `projects`, `predictors`, `decision_notes`, `decisions`,
+  `executive_summary`, `reviewers`) then re-inserts reference data into 7 of them. It is
+  a reset tool, not a safe staging load. The other 14 schema tables are untouched.
+- **Safe staging loader** — `scripts/src/load-staging-starter.ts` (`pnpm --filter
+  @workspace/scripts run staging-starter`) is insert-only, aborts if any target table
+  already has rows, and must run only against an empty TonyOS staging database. Use
+  this instead of `seed` on staging.
 - No empty/dead `onClick` handlers were found, and no fake/demo data masquerading as
   real data was found. A full manual click-through of every interactive element was
   **not** performed — Cursor should smoke-test interactive flows after wiring a DB.
@@ -169,7 +177,8 @@ Be honest — this is a prototype:
 2. Set `CORS_ORIGIN` to a restricted allowlist.
 3. Provision a managed Postgres (AWS RDS / Supabase) and set `DATABASE_URL`. Do not use
    the Replit-managed DB as the long-term source of truth.
-4. Keep the destructive seed out of any production runbook.
+4. Keep the destructive seed out of any production or staging runbook; use
+   `staging-starter` for empty TonyOS staging databases only.
 5. Stand up hosting: serve `artifacts/cockpit/dist/public` via nginx and reverse-proxy
    `/api` to the Node API (PM2/systemd), plus TLS + DNS.
 6. Exclude `artifacts/mockup-sandbox` from production deploys.
@@ -231,13 +240,14 @@ Explicitly did **NOT**:
 
 ### Needs Carmen / Rose approval
 5. Design and implement real server-side auth + authorization (the core gap).
-6. Provision a managed Postgres (RDS/Supabase); run `db push`; decide on a non-destructive
-   data-load path instead of the destructive seed.
+6. Provision a managed Postgres (RDS/Supabase); run `db push`; load staging data with
+   `staging-starter` (not the destructive `seed`).
 7. Set `CORS_ORIGIN`, configure nginx (static + `/api` proxy), TLS, and DNS for a staging deploy.
 8. Decide whether `artifacts/mockup-sandbox` is dropped from the deploy build.
 
 ### Do not do yet
-9. Do NOT run the seed script against any DB with real data (it wipes all tables).
+9. Do NOT run the destructive `seed` script on staging or any DB with real data (it wipes
+   8 tables). Use `staging-starter` only on an empty TonyOS staging database.
 10. Do NOT deploy publicly until auth exists and `CORS_ORIGIN` is restricted.
 11. Do NOT add any operational/financial/company-binding write actions — this product is
     visibility / recommend-only by contract.
@@ -266,7 +276,12 @@ PORT=5173 BASE_PATH=/ pnpm --filter @workspace/cockpit run build
 # Root `pnpm run build` fails on AWS because mockup-sandbox requires PORT — expected.
 
 # (Only with approval) push schema to your DB
-pnpm --filter @workspace/db run push
+DATABASE_URL="$(node --env-file=.env -p 'process.env.DATABASE_URL')" \
+  pnpm --filter @workspace/db run push
+
+# (Only with approval) load starter data into an EMPTY staging DB — not seed
+DATABASE_URL="$(node --env-file=.env -p 'process.env.DATABASE_URL')" \
+  pnpm --filter @workspace/scripts run staging-starter
 
 # Run the API (use PM2/systemd in real deploys)
 PORT=8080 NODE_ENV=production CORS_ORIGIN=https://your-domain \

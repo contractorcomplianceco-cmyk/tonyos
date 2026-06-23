@@ -23,7 +23,7 @@ the source of truth and the app can be opened in Cursor and run on an AWS dev se
 | `lib/api-spec` | OpenAPI spec (contract source of truth) | Build-time |
 | `lib/api-zod` | Generated Zod validators | Build-time |
 | `lib/api-client-react` | Generated React Query hooks + fetch client | Build-time |
-| `scripts` | Utility scripts incl. **destructive** DB seed | Tooling only |
+| `scripts` | Utility scripts: **destructive** `seed`, safe **`staging-starter`** | Tooling only |
 | `artifacts/mockup-sandbox` | Replit-only design/canvas dev tool | **No — exclude from prod** |
 
 **Canonical app folder:** `artifacts/cockpit` (frontend) backed by `artifacts/api-server`
@@ -84,12 +84,20 @@ PORT=5173 BASE_PATH=/ pnpm --filter @workspace/cockpit run dev
 ### Database (guarded — do not run without approval)
 
 ```bash
-# Push schema to the DB in DATABASE_URL (dev only)
-pnpm --filter @workspace/db run push
+# Push schema to the DB in DATABASE_URL (requires DATABASE_URL in env)
+DATABASE_URL="$(node --env-file=.env -p 'process.env.DATABASE_URL')" \
+  pnpm --filter @workspace/db run push
 
-# DESTRUCTIVE seed — wipes ALL tables then re-inserts reference data.
-# NEVER run against a database holding real data.
-pnpm --filter @workspace/scripts run seed
+# Safe staging starter data — insert-only; aborts if target tables are not empty.
+# Approved path for empty TonyOS staging databases only.
+DATABASE_URL="$(node --env-file=.env -p 'process.env.DATABASE_URL')" \
+  pnpm --filter @workspace/scripts run staging-starter
+
+# DESTRUCTIVE seed — deletes 8 tables (brands, departments, projects, predictors,
+# decision_notes, decisions, executive_summary, reviewers) then re-inserts into 7.
+# Do NOT use on staging. NEVER run against a database holding real data.
+DATABASE_URL="$(node --env-file=.env -p 'process.env.DATABASE_URL')" \
+  pnpm --filter @workspace/scripts run seed
 ```
 
 ## Environment variables
@@ -133,7 +141,8 @@ the code** — do not carry it over.
 2. Set `CORS_ORIGIN` to a restricted allowlist.
 3. Provision a managed Postgres (AWS RDS / Supabase). Do **not** use the Replit-managed DB
    as the long-term production source of truth.
-4. The seed script is destructive — keep it out of any production runbook.
+4. The destructive `seed` script wipes 8 tables — keep it out of staging and production
+   runbooks. Use `staging-starter` on empty TonyOS staging databases only.
 5. Stand up hosting: serve the cockpit static build via nginx and reverse-proxy `/api` to
    the Node API (e.g. PM2), plus TLS + DNS.
 6. Exclude `artifacts/mockup-sandbox` from production deploys.
