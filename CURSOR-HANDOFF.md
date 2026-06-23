@@ -53,11 +53,21 @@ PORT=5173 BASE_PATH=/ pnpm --filter @workspace/cockpit run dev
 
 ## 7. Build Command
 
+**AWS / staging verification — build the canonical TonyOS artifacts only** (do not
+build `artifacts/mockup-sandbox`; it is Replit-only and excluded from production/staging):
+
 ```bash
-pnpm run build
+pnpm run typecheck
+
+PORT=8080 pnpm --filter @workspace/api-server run build
+PORT=5173 BASE_PATH=/ pnpm --filter @workspace/cockpit run build
 #  API bundle -> artifacts/api-server/dist/index.mjs
 #  Web static -> artifacts/cockpit/dist/public  (SPA; rewrite /* -> /index.html)
 ```
+
+Root `pnpm run build` typechecks first, then builds **all** workspace packages — including
+`artifacts/mockup-sandbox`, which requires `PORT` and is not part of TonyOS staging/prod.
+On AWS, expect root `pnpm run build` to fail for that reason; use the filtered commands above.
 
 ## 8. Typecheck Command
 
@@ -180,6 +190,11 @@ Four files only — no redesign, no feature changes, no artifacts deleted:
 
 - `pnpm run typecheck` passes across all packages (libs + artifacts).
 - `pnpm install --frozen-lockfile` succeeds and leaves the committed lockfile unchanged.
+- Canonical TonyOS builds pass on AWS (filtered commands; `mockup-sandbox` excluded):
+  `PORT=8080 pnpm --filter @workspace/api-server run build` and
+  `PORT=5173 BASE_PATH=/ pnpm --filter @workspace/cockpit run build`.
+- Root `pnpm run build` fails on AWS only because `artifacts/mockup-sandbox` requires `PORT`
+  — expected; that folder is Replit-only and not staged/deployed.
 - API `/api/healthz` returns `{"status":"ok"}`.
 - CORS default header is `*` when `CORS_ORIGIN` is unset (non-breaking change confirmed).
 - Secret scan of tracked files is clean; `.env` is not tracked.
@@ -207,7 +222,9 @@ Explicitly did **NOT**:
 
 ### Safe first tasks (no approval needed)
 1. Clone the repo in Cursor; run `pnpm install --frozen-lockfile`, `pnpm run typecheck`,
-   and `pnpm run build` to confirm a clean baseline off-Replit.
+   and the canonical filtered builds (Section 7) to confirm a clean baseline off-Replit.
+   Do not use root `pnpm run build` for AWS/staging verification — it pulls in
+   `artifacts/mockup-sandbox`, which requires `PORT` and is Replit-only.
 2. Copy `.env.example` → `.env` and point `DATABASE_URL` at a local/dev Postgres.
 3. Read `lib/api-spec/openapi.yaml` (the contract) and `replit.md` to learn the domain.
 4. Add a `.nvmrc` / engines pin for Node 24 and document local Postgres setup.
@@ -242,9 +259,11 @@ pnpm install --frozen-lockfile
 cp .env.example .env
 # edit .env: set DATABASE_URL (managed Postgres); set CORS_ORIGIN for prod
 
-# Verify + build
+# Verify + build (canonical TonyOS only — skip mockup-sandbox)
 pnpm run typecheck
-pnpm run build
+PORT=8080 pnpm --filter @workspace/api-server run build
+PORT=5173 BASE_PATH=/ pnpm --filter @workspace/cockpit run build
+# Root `pnpm run build` fails on AWS because mockup-sandbox requires PORT — expected.
 
 # (Only with approval) push schema to your DB
 pnpm --filter @workspace/db run push

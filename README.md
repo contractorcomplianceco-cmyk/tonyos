@@ -52,8 +52,17 @@ pnpm install --frozen-lockfile
 # Typecheck everything (libs + artifacts)
 pnpm run typecheck
 
-# Build everything (typecheck + per-package build)
+# Build canonical TonyOS artifacts (AWS / staging verification)
+PORT=8080 pnpm --filter @workspace/api-server run build
+PORT=5173 BASE_PATH=/ pnpm --filter @workspace/cockpit run build
+#   - API bundle:   artifacts/api-server/dist/index.mjs
+#   - Web static:   artifacts/cockpit/dist/public  (SPA, rewrite /* -> /index.html)
+
+# Root build (Replit / full workspace — includes mockup-sandbox)
 pnpm run build
+# On AWS, root `pnpm run build` fails because artifacts/mockup-sandbox requires PORT.
+# That folder is Replit-only and excluded from production/staging — use the filtered
+# commands above for AWS/staging verification instead.
 
 # Regenerate API hooks + Zod schemas from the OpenAPI spec
 pnpm --filter @workspace/api-spec run codegen
@@ -146,19 +155,19 @@ pnpm install --frozen-lockfile
 cp .env.example .env
 # edit .env — set DATABASE_URL (managed Postgres), and CORS_ORIGIN for prod
 
-# 5. Verify
+# 5. Verify + build (canonical TonyOS only — skip mockup-sandbox)
 pnpm run typecheck
-
-# 6. Build
-pnpm run build
+PORT=8080 pnpm --filter @workspace/api-server run build
+PORT=5173 BASE_PATH=/ pnpm --filter @workspace/cockpit run build
+# Root `pnpm run build` fails on AWS because mockup-sandbox requires PORT — expected.
 #   - API bundle:   artifacts/api-server/dist/index.mjs
 #   - Web static:   artifacts/cockpit/dist/public  (SPA, rewrite /* -> /index.html)
 
-# 7. Run the API (example; use PM2/systemd in real deploys)
+# 6. Run the API (example; use PM2/systemd in real deploys)
 PORT=8080 NODE_ENV=production CORS_ORIGIN=https://your-domain \
   node --enable-source-maps artifacts/api-server/dist/index.mjs
 
-# 8. Serve artifacts/cockpit/dist/public via nginx and proxy /api -> 127.0.0.1:8080
+# 7. Serve artifacts/cockpit/dist/public via nginx and proxy /api -> 127.0.0.1:8080
 ```
 
 The frontend calls the API with relative `/api/...` paths, so the web origin must route
