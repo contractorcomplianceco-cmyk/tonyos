@@ -5,6 +5,10 @@ Founder-level strategic oversight command center for the Compliance Authority Gr
 explicit written human approval. This repository is being prepared so GitHub can become
 the source of truth and the app can be opened in Cursor and run on an AWS dev server.
 
+> **Start here:** open [`CURSOR-HANDOFF.md`](./CURSOR-HANDOFF.md) first — it is the
+> canonical migration handoff (status, data reality, security notes, known broken items,
+> blockers, next Cursor tasks, and exact AWS commands). This README is the deeper reference.
+
 > **Naming note:** the codebase, artifact titles, and product copy are all **TonyOS**.
 > "TARAOS" appears only as an alternate working name in migration notes — the canonical
 > product here is **TonyOS Command Center**.

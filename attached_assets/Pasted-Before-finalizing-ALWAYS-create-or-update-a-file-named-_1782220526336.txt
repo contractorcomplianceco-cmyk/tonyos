@@ -1,0 +1,85 @@
+Before finalizing, ALWAYS create or update a file named:
+
+CURSOR-HANDOFF.md
+
+Put it at the repo root.
+
+This file must travel with the project into GitHub and Cursor so we can repeat the same process for every Replit project.
+
+CURSOR-HANDOFF.md must include:
+
+1. Project Name
+2. Current Migration Status
+3. Canonical App Folder
+4. Package Manager
+5. Install Command
+6. Dev Command
+7. Build Command
+8. Typecheck Command
+9. Active App Folders
+10. Folders To Avoid / Do Not Touch
+11. Data Reality
+   - static sample data
+   - localStorage
+   - API data
+   - database
+   - live integrations
+12. Environment Variables
+   - required
+   - optional
+   - secret vs non-secret
+13. Security Notes
+   - auth status
+   - CORS status
+   - secrets status
+   - public exposure risk
+14. Known Broken / Not Working Items
+   - buttons that do nothing
+   - fake/demo data
+   - disconnected API routes
+   - missing env vars
+   - broken build/deploy items
+   - placeholder UI
+15. Production Blockers
+16. What Was Changed In Replit For Migration
+17. What Was Verified
+18. What Was NOT Done
+19. Suggested Next Cursor Tasks
+20. Exact AWS/Cursor Commands
+21. Final Safety Checklist
+
+Be honest. Do not make the app sound more finished than it is.
+
+For “Suggested Next Cursor Tasks,” list the first 5-10 practical tasks Cursor should do next, in order. Separate them into:
+- Safe first tasks
+- Needs Carmen/Rose approval
+- Do not do yet
+
+For “Known Broken / Not Working Items,” include anything that is visual-only, placeholder-only, disconnected, missing data, missing auth, missing persistence, missing production config, or risky.
+
+For “What Was NOT Done,” explicitly say if you did not:
+- push to GitHub
+- deploy
+- add auth
+- connect a database
+- connect Zoho
+- connect WorkDrive
+- connect Supabase
+- run migrations
+- run seed scripts
+- configure nginx
+- configure TLS
+- configure DNS
+- remove old artifacts
+
+Also update README.md, but CURSOR-HANDOFF.md is required and should be the main file Carmen opens first in Cursor.
+
+Before commit/push, confirm:
+- CURSOR-HANDOFF.md exists at repo root
+- README.md exists
+- .env.example exists
+- .gitignore excludes secrets and build output
+- no .env or secrets are tracked
+- package manager and commands were verified
+- known broken items are documented
+- next Cursor tasks are documented
