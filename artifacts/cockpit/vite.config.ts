@@ -28,6 +28,12 @@ if (!basePath) {
 
 export default defineConfig({
   base: basePath,
+  define: {
+    "import.meta.env.CCA_REVIEW_MODE": JSON.stringify(process.env.CCA_REVIEW_MODE ?? ""),
+    "import.meta.env.CCA_REVIEW_MODE_EXPIRES_AT": JSON.stringify(
+      process.env.CCA_REVIEW_MODE_EXPIRES_AT ?? "",
+    ),
+  },
   plugins: [
     react(),
     tailwindcss(),

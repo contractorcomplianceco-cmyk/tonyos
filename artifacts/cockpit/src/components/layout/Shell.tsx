@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
+
 import {
   LayoutDashboard,
   Map,
@@ -18,6 +19,7 @@ import {
 import crest from "@assets/cca-crest-inset_1781490765434.png";
 import { ReviewerIdentity } from "@/context/Reviewer";
 import { useAccess, AccessRoleControl } from "@/context/Access";
+import { RoseReviewModeBanner } from "@/components/RoseReviewModeBanner";
 
 type NavItem = {
   href: string;
@@ -50,6 +52,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col md:flex-row">
+      <RoseReviewModeBanner />
       {/* Top Bar for Mobile */}
       <header className="md:hidden sticky top-0 z-20 flex items-center justify-between border-b border-sidebar-border bg-sidebar px-4 py-3 text-sidebar-foreground shadow-sm">
         <div className="flex items-center gap-2">

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ShieldCheck, ChevronDown, Lock, Users } from "lucide-react";
+import { isRoseReviewModeEnabled } from "@/lib/rose-review-mode";
 
 const STORAGE_KEY = "tonyos.role";
 
@@ -17,6 +18,9 @@ const AccessContext = createContext<Ctx | null>(null);
 
 export function AccessProvider({ children }: { children: ReactNode }) {
   const [role, setRoleState] = useState<AccessRole>(() => {
+    // TODO: Temporary Rose Review Mode — force leadership for viewing.
+    // Remove/disable after Command Center role-based auth is finalized.
+    if (isRoseReviewModeEnabled()) return "leadership";
     if (typeof window === "undefined") return DEFAULT_ROLE;
     const stored = window.localStorage.getItem(STORAGE_KEY);
     return stored === "team" || stored === "leadership" ? stored : DEFAULT_ROLE;
